@@ -1,0 +1,1 @@
+@extends('buku-panduan.app')

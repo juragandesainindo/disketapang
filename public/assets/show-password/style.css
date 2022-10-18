@@ -1,0 +1,40 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+ 
+body{
+	font-family: 'Open Sans', sans-serif;
+	background: #f2f5f7;
+}
+
+h1{
+	font-weight: bold;
+	color: 
+}
+ 
+.kotak{
+	background: #1BBC9D;
+	width: 500px;
+	padding:60px 40px;
+	color: #fff;
+	margin:10px auto;
+	box-shadow: 2px 2px 4px 0 #ccc;
+}
+ 
+.form-password{
+	width: 100%;
+	padding: 10px 15px;
+	font-size: 12pt;
+	border: 1px solid #2D3E50;
+	color: #2D3E50;
+}
+
+.email{
+	font-size: 12pt;
+}
+ 
+.form-submit{
+	padding: 10px 15px;
+	background: transparent;
+	border: 2px solid #fff;
+	color: #fff;
+	font-size: 12pt;	
+}
