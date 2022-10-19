@@ -1,21 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Login Page in HTML with CSS Code Example</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="{{ asset('adminKit') }}/img/icons/icon-48x48.png" />
 
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('adminKit/auth') }}/style.css">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <title>{{ config('app.name') }} | Login Page</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+
+    <link href="{{ asset('adminKit') }}/css/app.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("{{ asset('assets/bg-login.jpg') }}");
+            overflow: hidden;
+        }
+
+        .login-page {
+            background: white;
+            width: 930px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            /* overflow-y: hidden; */
+        }
+
+        .flyer {
+            width: 439px;
+            height: 549px;
+            object-fit: cover;
+        }
+
+        .logo-sitangan {
+            width: 80%;
+            text-align: center;
+            display: block;
+            margin: 0 auto 30px auto;
+
+        }
+
+        .license {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            font-size: 10px;
+        }
+
+        @media (max-width: 991.98px) {
+            body {
+                overflow: auto;
+            }
+
+            .login-page {
+                margin-top: 80px;
+                width: 500px;
+                /* padding: 100px 0; */
+            }
+
+            .flyer {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            body {
+                overflow: auto;
+            }
+
+            .login-page {
+                margin-top: 40px;
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <!-- partial:index.partial.html -->
-    <div class="box-form">
+    {{-- <div class="box-form">
         <div class="left">
             <img src="{{ asset('assets/login-flyer.jpg') }}" alt="">
 
@@ -24,7 +101,6 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="right">
-                {{-- <h5>Login</h5> --}}
                 <img src="{{ asset('assets/logo-sitangan.png') }}" width="100%" alt="">
                 <div class="inputs">
                     <input id="email" type="email" class="form-control email @error('email') is-invalid @enderror"
@@ -52,9 +128,102 @@
                 <button type="submit">Login</button>
             </div>
         </form>
-    </div>
+    </div> --}}
     <!-- partial -->
 
+    <div class="login">
+        <div class="container">
+            <div class="login-page">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-6 col-sm-12">
+                        <img src="{{ asset('assets/login-flyer.jpg') }}" class="flyer">
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <img src="{{ asset('assets/logo-sitangan.png') }}" class="logo-sitangan">
+
+                                @if (count($errors) > 0)
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Whoops!</strong> Sepertinya ada masalah.<br> Silahkan Cek Kembali Email dan
+                                    Password Anda
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                                @endif
+                                <form action="{{ route('login') }}" method="POST">
+                                    @csrf
+                                    <div class="form-group mb-3">
+                                        <label for="">Email</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                            name="email" value="{{ old('email') }}">
+                                        @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="">Password</label>
+                                        <input type="password" name="password"
+                                            class="form-control form-password @error('password') is-invalid @enderror"
+                                            autocomplete="current-password">
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+
+                                    </div>
+                                    <div class="checkbox mb-5 d-flex justify-content-between">
+                                        <label>
+                                            <input type="checkbox" class="form-checkbox"> Show Password
+                                        </label>
+                                        <label class="pull-right">
+                                            <input type="checkbox" id="remember" name="remember"> Remember Me
+                                        </label>
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-primary px-5"><i
+                                            data-feather="log-in"></i>&nbsp;
+                                        Login</button>
+                                </form>
+                            </div>
+                        </div>
+                        <a href="https://www.vecteezy.com/free-vector/login-background" target="_blank" class="license">
+                            Background Vectors by
+                            Vecteezy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{{ asset('adminKit') }}/vendor/jquery/jquery.mask.min.js"></script>
+    <script src="{{ asset('adminKit') }}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('adminKit') }}/js/app.js"></script>
+
+    <script src="{{ asset('assets/show-password/jquery-3.6.0.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){       
+                        $('.form-checkbox').click(function(){
+                            if($(this).is(':checked')){
+                                $('.form-password').attr('type','text');
+                            }else{
+                                $('.form-password').attr('type','password');
+                            }
+                        });
+                    });
+    </script>
 </body>
 
 </html>

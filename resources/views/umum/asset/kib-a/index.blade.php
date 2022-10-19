@@ -3,6 +3,8 @@
 
 @section('content')
 
+
+
 <!-- Modal -->
 <div class="modal fade" id="search" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -25,6 +27,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 <main class="content">

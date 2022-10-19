@@ -2,6 +2,47 @@
 @section('title','Dashboard')
 
 @section('content')
+<style>
+    #popup {
+        background: blue;
+        width: 450px;
+        height: 30px 40px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        z-index: 1000;
+        font-family: "Poppins", sans-serif;
+        display: none;
+    }
+
+    #popup button {
+        display: block;
+        margin: 0 0 20px auto;
+        background: transparent;
+        font-size: 30px;
+        color: #c5c5c5;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    #popup p {
+        font-size: 14px;
+        text-align: justify;
+    }
+</style>
+
+<div id="popup">
+    <h1>This is pop up</h1>
+    <button id="close">&times;</button>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed repellendus impedit illum debitis eaque, recusandae
+        officiis totam aliquam aut autem beatae numquam explicabo, hic molestiae eos quas fuga, repellat esse.
+        Mollitia odio aliquid similique necessitatibus ullam ea molestiae modi suscipit officia harum deserunt, quos
+        voluptatum optio veniam numquam nisi placeat quia nihil voluptas inventore, explicabo sit at. Debitis,
+        necessitatibus alias?</p>
+    <a href="#">link</a>
+</div>
 
 <main class="content">
     <div class="container-fluid p-0">
@@ -185,6 +226,20 @@
 @endsection
 
 @push('js')
+<script type="text/javascript">
+    window.addEventListener("load", function(){
+        setTimeout(
+            function open(event) {
+            document.querySelector("#popup").style.display = "block";
+        }, 1000);
+    });
+
+    // button close
+    document.querySelector("#close").addEventListener("click",function(){
+        document.querySelector('#popup').style.display = "none";
+    });
+</script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 			var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
