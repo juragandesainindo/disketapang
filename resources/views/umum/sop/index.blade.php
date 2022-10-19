@@ -18,13 +18,6 @@
             </div>
         </div>
 
-        @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Success!</strong>&nbsp; {{ session()->get('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-
         <div class="row">
             @forelse ($sop as $key => $item)
             <div class="col-12 col-md-4">
@@ -59,3 +52,38 @@
 </main>
 
 @endsection
+
+@push('js')
+<script type="text/javascript">
+    $(document).ready(function (e) {
+            $('#preview-sop').hide();
+    
+            $('#sop').change(function(){
+                    
+                let reader = new FileReader();
+            
+                reader.onload = (e) => { 
+                    $('#preview-sop').show();
+                    $('#preview-sop').attr('src', e.target.result); 
+                }
+                
+                reader.readAsDataURL(this.files[0]); 
+            
+            });
+
+            $('#sop-edit').change(function(){
+                    
+                let reader = new FileReader();
+            
+                reader.onload = (e) => { 
+                    $('#img').hide();
+                    $('#preview-sop-edit').show();
+                    $('#preview-sop-edit').attr('src', e.target.result); 
+                }
+                
+                reader.readAsDataURL(this.files[0]); 
+            
+            });
+        });
+</script>
+@endpush

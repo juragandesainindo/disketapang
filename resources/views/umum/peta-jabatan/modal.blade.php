@@ -26,7 +26,11 @@
                                 <strong>File</strong>
                             </div>
                             <div class="col-lg-9">
-                                <input type="file" name="file" value="{{ old('file') }}" class="form-control" required>
+                                <input type="file" name="file" id="peta" value="{{ old('file') }}" class="form-control"
+                                    required>
+                                <div class="mt-2">
+                                    <img id="preview-peta" class="img-preview" width="100">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -70,9 +74,15 @@
                                 <strong>File</strong>
                             </div>
                             <div class="col-lg-9">
-                                <input type="file" name="file" value="{{ $item->file }}" class="form-control">
+                                <input type="file" name="file" id="peta-edit" value="{{ $item->file }}"
+                                    class="form-control">
+                                @if ($item->file > 0)
                                 <embed src="{{ asset('umum/peta-jabatan/'.$item->file) }}" width="50" height="50"
-                                    class="mt-3" type="">
+                                    class="mt-3" id="img">
+                                @endif
+                                <div class="mt-2">
+                                    <img id="preview-peta-edit" class="img-preview-edit" width="100">
+                                </div>
                             </div>
                         </div>
                     </div>

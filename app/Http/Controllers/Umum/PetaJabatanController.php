@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PetaJabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PetaJabatanController extends Controller
 {
@@ -52,7 +53,8 @@ class PetaJabatanController extends Controller
 
             $kendaraan->save();
         }
-        return redirect()->route('peta-jabatan.index')->with('success', 'Create peta jabatan successfully');
+        Alert::success('Success', 'Create peta jabatan successfully');
+        return redirect()->route('peta-jabatan.index');
     }
 
     /**
@@ -101,8 +103,9 @@ class PetaJabatanController extends Controller
             'title'       => $request->title,
             'file'        => $peta->file
         ]);
+        Alert::success('Success', 'Update peta jabatan successfully');
 
-        return redirect()->route('peta-jabatan.index')->with('success', 'Edit peta jabatan successfully.');
+        return redirect()->route('peta-jabatan.index');
     }
 
     /**
@@ -120,7 +123,8 @@ class PetaJabatanController extends Controller
         }
 
         PetaJabatan::find($id)->delete();
+        Alert::error('Delete', 'Delete peta jabatan successfully');
 
-        return redirect()->route('peta-jabatan.index')->with('success', 'Delete peta jabatan successfully.');
+        return redirect()->route('peta-jabatan.index');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Sop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SopController extends Controller
 {
@@ -52,7 +53,9 @@ class SopController extends Controller
 
             $sop->save();
         }
-        return redirect()->route('sop.index')->with('success', 'Create SOP successfully');
+
+        Alert::success('Success', 'Create SOP successfully');
+        return redirect()->route('sop.index');
     }
 
     /**
@@ -101,8 +104,9 @@ class SopController extends Controller
             'title'       => $request->title,
             'file'        => $sop->file
         ]);
+        Alert::success('Success', 'Update SOP successfully');
 
-        return redirect()->route('sop.index')->with('success', 'Edit SOP successfully.');
+        return redirect()->route('sop.index');
     }
 
     /**
@@ -120,7 +124,8 @@ class SopController extends Controller
         }
 
         Sop::find($id)->delete();
+        Alert::error('Delete', 'Delete SOP successfully');
 
-        return redirect()->route('sop.index')->with('success', 'Delete SOP successfully.');
+        return redirect()->route('sop.index');
     }
 }

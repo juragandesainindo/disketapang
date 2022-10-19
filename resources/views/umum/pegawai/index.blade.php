@@ -2,31 +2,6 @@
 @section('title','Daftar Pegawai')
 
 @section('content')
-
-<!-- Modal -->
-<div class="modal fade" id="search" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form action="" method="GET">
-                    <div class="input-group">
-                        <select name="search" class="form-control form-select" required>
-                            <option value="">Pilih Penanggung Jawab</option>
-                            <option value="Kadis">Kadis</option>
-                            <option value="Sekretariat">Sekretariat</option>
-                            <option value="Ketersediaan & Kerawanan">Ketersediaan & Kerawanan</option>
-                            <option value="Distribusi & Cadangan">Distribusi & Cadangan</option>
-                            <option value="Keamanan & Konsumsi">Keamanan & Konsumsi</option>
-                        </select>
-                        <button type="submit" class="btn btn-primary">Pilih</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <main class="content">
     <div class="container-fluid p-0">
 
@@ -44,10 +19,6 @@
                     <i data-feather="download-cloud"></i>&nbsp;
                     Export DUK Excel
                 </a>
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#search">
-                    <i data-feather="search"></i>&nbsp;
-                    search
-                </button>
 
                 <a href="{{ route('pegawais.create') }}" class="btn btn-primary">
                     <i data-feather="folder-plus"></i>&nbsp;

@@ -33,7 +33,7 @@
     }
 </style>
 
-<div id="popup">
+{{-- <div id="popup">
     <h1>This is pop up</h1>
     <button id="close">&times;</button>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed repellendus impedit illum debitis eaque, recusandae
@@ -42,7 +42,7 @@
         voluptatum optio veniam numquam nisi placeat quia nihil voluptas inventore, explicabo sit at. Debitis,
         necessitatibus alias?</p>
     <a href="#">link</a>
-</div>
+</div> --}}
 
 <main class="content">
     <div class="container-fluid p-0">

@@ -26,7 +26,11 @@
                                 <strong>File</strong>
                             </div>
                             <div class="col-lg-9">
-                                <input type="file" name="file" value="{{ old('file') }}" class="form-control" required>
+                                <input type="file" name="file" id="sop" value="{{ old('file') }}" class="form-control"
+                                    required>
+                                <div class="mt-2">
+                                    <img id="preview-sop" class="img-preview" width="100">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -70,9 +74,15 @@
                                 <strong>File</strong>
                             </div>
                             <div class="col-lg-9">
-                                <input type="file" name="file" value="{{ $item->file }}" class="form-control">
-                                <embed src="{{ asset('umum/sop/'.$item->file) }}" width="50" height="50" class="mt-3"
-                                    type="">
+                                <input type="file" name="file" id="sop-edit" value="{{ $item->file }}"
+                                    class="form-control">
+                                @if ($item->file > 0)
+                                <embed src="{{ asset('umum/sop/'.$item->file) }}" id="img" width="50" height="50"
+                                    class="mt-3" type="">
+                                @endif
+                                <div class="mt-2">
+                                    <img id="preview-sop-edit" class="img-preview" width="100">
+                                </div>
                             </div>
                         </div>
                     </div>
