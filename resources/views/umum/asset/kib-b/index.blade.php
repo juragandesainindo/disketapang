@@ -60,6 +60,7 @@
                                 <th>Keterangan</th>
                                 <th>Img</th>
                                 <th>Penanggung Jawab</th>
+                                <th>Pengguna</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -88,6 +89,7 @@
                                         {{ $kib->penanggung_jawab }}
                                     </span>
                                 </td>
+                                <td>{{ $kib->pemakai }}</td>
                                 <td>
                                     <a class="btn btn-warning btn-sm" href="{{ route('kib-b.edit',$kib->id) }}">
                                         <i data-feather="edit"></i>

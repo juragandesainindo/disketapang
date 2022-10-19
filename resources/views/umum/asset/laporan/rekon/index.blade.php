@@ -88,11 +88,6 @@
                                         <i data-feather="file-text"></i>
                                         Rekon
                                     </a>
-                                    <a class="btn btn-info btn-sm mb-1"
-                                        href="{{ route('laporan-rekon-export-pernyataan',$item->id) }}">
-                                        <i data-feather="file-text"></i>
-                                        Pernyataan
-                                    </a>
                                 </td>
                             </tr>
                             @endforeach

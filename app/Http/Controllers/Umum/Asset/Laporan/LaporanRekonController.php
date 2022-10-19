@@ -32,13 +32,13 @@ class LaporanRekonController extends Controller
     public function create()
     {
         $AWAL = 'LR';
-        $monthnow = date('m', time());
+        // $monthnow = date('m', time());
         $yearnow = date('Y', time());
         // dd($monthnow);
         // karna array dimulai dari 0 maka kita tambah di awal data kosong
         // bisa juga mulai dari "1"=>"I"
         $bulanRomawi = array("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
-        $noUrutAkhir = LaporanRekon::whereMonth('created_at', '=', $monthnow)->whereYear('created_at', '=', $yearnow)->max('no_surat');
+        $noUrutAkhir = LaporanRekon::whereYear('created_at', '=', $yearnow)->max('no_surat');
         // $noUrutAkhir = LaporanRekon::max('no_surat');
         // dd($noUrutAkhir);
         $no = 1;
@@ -205,57 +205,5 @@ class LaporanRekonController extends Controller
         $fileName = $laporan->pegawai->nama;
         $templateProcessor->saveAs('Laporan Rekon ' . $fileName . '.docx');
         return response()->download('Laporan Rekon ' . $fileName . '.docx')->deleteFileAfterSend(true);
-    }
-
-    public function exportPernyataan($id)
-    {
-        $laporan = LaporanRekon::findOrFail($id);
-
-        $noSurat = $laporan->kode_surat;
-        // dd($noSurat);
-
-        $hari = Carbon::parse(now())->isoFormat('dddd');
-        $tgl = Carbon::parse(now())->isoFormat('DD');
-        $bulan = Carbon::parse(now())->isoFormat('MMMM');
-        $tahun = Carbon::parse(now())->isoFormat('Y');
-
-        // Pangkat
-        if ($laporan->pegawai->pangkat->count() > 0) {
-            foreach ($laporan->pegawai->pangkat->sortByDesc('tgl_sk')->take(1) as  $item) {
-                $pangkat = $item->nama_pangkat;
-            }
-        } else {
-            $pangkat = '-';
-        }
-
-        // Jabatan
-        if ($laporan->pegawai->jabatan->count() > 0) {
-            foreach ($laporan->pegawai->jabatan->sortByDesc('tmt_jabatan')->take(1) as  $j) {
-                $jabatan = $j->nama_jabatan;
-            }
-        } else {
-            $jabatan = '-';
-        }
-
-
-        $templateProcessor = new TemplateProcessor('word-template/laporan-pernyataan.docx');
-        $templateProcessor->setValue('noSurat', $noSurat);
-        $templateProcessor->setValue('hari', $hari);
-        $templateProcessor->setValue('tgl', $tgl);
-        $templateProcessor->setValue('bulan', $bulan);
-        $templateProcessor->setValue('tahun', $tahun);
-        $templateProcessor->setValue('nama', $laporan->pegawai->nama);
-        $templateProcessor->setValue('nip', $laporan->pegawai->nip);
-        $templateProcessor->setValue('pangkat', $pangkat);
-        $templateProcessor->setValue('jabatan', $jabatan);
-        $templateProcessor->setValue('idBrg', $laporan->assetUmum->id_brg);
-        $templateProcessor->setValue('kodeBrg', $laporan->assetUmum->kode_brg);
-        $templateProcessor->setValue('namaBrg', $laporan->assetUmum->nama_brg);
-        $templateProcessor->setValue('keterangan', $laporan->assetUmum->keterangan);
-        $templateProcessor->setValue('tglPerolehan', $laporan->assetUmum->tgl_perolehan);
-        $templateProcessor->setValue('nilaiBrg', $laporan->assetUmum->nilai_brg);
-        $fileName = $laporan->pegawai->nama;
-        $templateProcessor->saveAs('Laporan Pernyataan ' . $fileName . '.docx');
-        return response()->download('Laporan Pernyataan ' . $fileName . '.docx')->deleteFileAfterSend(true);
     }
 }

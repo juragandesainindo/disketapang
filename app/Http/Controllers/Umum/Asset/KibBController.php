@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Umum\Asset;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\KibBRequest;
 use App\Models\AssetUmum;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -34,7 +35,8 @@ class KibBController extends Controller
      */
     public function create()
     {
-        return view('umum.asset.kib-b.create');
+        $pegawai = Pegawai::all();
+        return view('umum.asset.kib-b.create', compact('pegawai'));
     }
 
     /**

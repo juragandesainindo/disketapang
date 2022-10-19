@@ -105,7 +105,7 @@
                                         <label>Penanggung Jawab &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="custom-select2 form-control @error('penanggung_jawab') is-invalid @enderror"
+                                            class="js-example-basic-single form-control @error('penanggung_jawab') is-invalid @enderror"
                                             name="penanggung_jawab" style="width: 100%; height: 38px;">
                                             <option value="{{ old('penanggung_jawab') ?? '' }}">{{
                                                 old('penanggung_jawab') ?? 'Pilih penanggung jawab' }}
@@ -117,6 +117,23 @@
                                             <option value="Keamanan & Konsumsi">Keamanan & Konsumsi</option>
                                         </select>
                                         @error('penanggung_jawab')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label>Pengguna &nbsp;<sup class="text-danger">(wajib
+                                                diisi)</sup></label>
+                                        <select
+                                            class="js-example-basic-single form-control @error('pemakai') is-invalid @enderror"
+                                            name="pemakai" multiple style="width: 100%; height: 38px;">
+                                            <option value="{{ old('pemakai') ?? '' }}">{{
+                                                old('pemakai') ?? 'Pilih penanggung jawab' }}
+                                            </option>
+                                            @foreach ($pegawai as $item)
+                                            <option value="{{ $item->nama }}">{{ $item->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('pemakai')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

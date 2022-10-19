@@ -25,6 +25,7 @@ class KibBRequest extends FormRequest
     {
         return [
             'id_brg' => 'required',
+            'pemakai' => 'nullable',
             'kode_brg' => 'required',
             'nama_brg' => 'required',
             'tgl_perolehan' => 'required',

@@ -465,7 +465,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('get-pangkat', [LaporanRekonController::class, 'getPangkat'])->name('getPangkat');
     Route::get('get-jabatan', [LaporanRekonController::class, 'getJabatan'])->name('getJabatan');
     Route::get('laporan-rekon/export-rekon/{id}', [LaporanRekonController::class, 'exportRekon'])->name('laporan-rekon-export-rekon');
-    Route::get('laporan-rekon/export-pernyataan/{id}', [LaporanRekonController::class, 'exportPernyataan'])->name('laporan-rekon-export-pernyataan');
 
     // Route::get('dropdown-dependent', [DropdownDependentController::class, 'index'])->name('dropdown-dependent');
     // Route::get('get-pangkat', [DropdownDependentController::class, 'getPangkat'])->name('getPangkat');
