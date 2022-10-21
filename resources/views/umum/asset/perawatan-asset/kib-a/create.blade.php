@@ -31,7 +31,10 @@
                                                 old('asset_umum_id') ?? 'Pilih Perawatan Kib A' }}
                                             </option>
                                             @foreach ($kibs as $item)
-                                            <option value="{{ $item->id }}">{{ $item->id_brg }} - {{ $item->nama_brg }}
+                                            <option value="{{ $item->id }}">{{
+                                                $item->mappingAsset->kode_brg }} - {{
+                                                $item->mappingAsset->nama_brg
+                                                }}
                                             </option>
                                             @endforeach
                                         </select>
