@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Umum\Asset;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\KibBRequest;
 use App\Models\AssetUmum;
+use App\Models\MappingAsset;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -24,8 +25,12 @@ class KibBController extends Controller
                 ->orderByDesc('id')->get();
         } else {
             $kibs = AssetUmum::where('kategori', 'KibB')->orderByDesc('id')->get();
+            foreach ($kibs as $item) {
+                $pemakai = $item->pemakai;
+            }
+            dd(implode("<br />", $pemakai));
         }
-        return view('umum.asset.kib-b.index', compact('kibs'));
+        return view('umum.asset.kib-b.index', compact('kibs', 'pemakai'));
     }
 
     /**
@@ -36,7 +41,8 @@ class KibBController extends Controller
     public function create()
     {
         $pegawai = Pegawai::all();
-        return view('umum.asset.kib-b.create', compact('pegawai'));
+        $mapping = MappingAsset::where('kategori', 'KibB')->get();
+        return view('umum.asset.kib-b.create', compact('pegawai', 'mapping'));
     }
 
     /**
@@ -56,6 +62,9 @@ class KibBController extends Controller
             $input['foto'] = $imageName;
         }
 
+        $pemakai = $input['pemakai'];
+        $input['pemakai'] = implode(',\n', $pemakai);
+
         AssetUmum::create($input);
 
         Alert::success('Success', 'Create Kib B has been successfully.');
@@ -71,7 +80,10 @@ class KibBController extends Controller
      */
     public function show($id)
     {
-        //
+        $kib = AssetUmum::findOrFail($id);
+        dd($kib);
+
+        return view('umum.asset.kib-b.show', compact('kib'));
     }
 
     /**

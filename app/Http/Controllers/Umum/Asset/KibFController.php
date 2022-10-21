@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Umum\Asset;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\KibFRequest;
 use App\Models\AssetUmum;
+use App\Models\MappingAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -34,7 +35,8 @@ class KibFController extends Controller
      */
     public function create()
     {
-        return view('umum.asset.kib-f.create');
+        $mapping = MappingAsset::where('kategori', 'KibF')->get();
+        return view('umum.asset.kib-f.create', compact('mapping'));
     }
 
     /**
@@ -81,7 +83,8 @@ class KibFController extends Controller
     public function edit($id)
     {
         $kib = AssetUmum::findOrFail($id);
-        return view('umum.asset.kib-f.edit', compact('kib'));
+        $mapping = MappingAsset::where('kategori', 'KibF')->get();
+        return view('umum.asset.kib-f.edit', compact('kib', 'mapping'));
     }
 
     /**
@@ -94,6 +97,7 @@ class KibFController extends Controller
     public function update(KibFRequest $request, $id)
     {
         $kib = AssetUmum::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/kib-f/" . $kib->foto)) {
@@ -105,25 +109,8 @@ class KibFController extends Controller
             $request['foto'] = $kib->foto;
         }
 
-        $kib->update([
-            'id_brg' => $request->id_brg,
-            'kode_brg' => $request->kode_brg,
-            'nama_brg' => $request->nama_brg,
-            'tgl_perolehan' => $request->tgl_perolehan,
-            'nilai_brg' => $request->nilai_brg,
-            'nilai_perolehan' => $request->nilai_perolehan,
-            'nilai_surut' => $request->nilai_surut,
-            'penggunaan' => $request->penggunaan,
-            'keterangan' => $request->keterangan,
-            'penanggung_jawab' => $request->penanggung_jawab,
-            'kdp' => $request->kdp,
-            'dokumen' => $request->dokumen,
-            'tgl_dokumen' => $request->tgl_dokumen,
-            'pekerjaan' => $request->pekerjaan,
-            'alamat' => $request->alamat,
-            'kategori' => $request->kategori,
-            'foto' => $kib->foto,
-        ]);
+        $input['foto'] = $kib->foto;
+        $kib->update($input);
 
         Alert::success('Success', 'Update Kib F has been successfully.');
 

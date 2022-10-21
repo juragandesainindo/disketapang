@@ -23,27 +23,17 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
-                                        <label>ID Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="id_brg" value="{{ old('id_brg') ?? $atb->id_brg }}"
-                                            class="form-control @error('id_brg') is-invalid @enderror" type="number">
-                                        @error('id_brg')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>Kode Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="kode_brg" value="{{ old('kode_brg') ?? $atb->kode_brg }}"
-                                            class="form-control kode @error('kode_brg') is-invalid @enderror"
-                                            type="text">
-                                        @error('kode_brg')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>Nama Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="nama_brg" value="{{ old('nama_brg') ?? $atb->nama_brg }}"
-                                            class="form-control @error('nama_brg') is-invalid @enderror" type="text">
-                                        @error('nama_brg')
+                                        <label>Mapping Asset &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
+                                        <select name="mapping_asset_id" class="form-control js-example-basic-single"
+                                            width="100%" required>
+                                            <option value="{{ $atb->mappingAsset->id }}">{{ $atb->mappingAsset->kode_brg
+                                                }} - {{ $atb->mappingAsset->nama_brg }}</option>
+                                            @foreach ($mapping as $item)
+                                            <option value="{{ $item->id }}">{{ $item->kode_brg }} - {{ $item->nama_brg
+                                                }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('mapping_asset_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -66,8 +56,6 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
                                         <label>Nilai Perolehan (Total)</label>
                                         <input name="nilai_perolehan"
@@ -78,6 +66,8 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
                                         <label>Nilai Surut</label>
                                         <input name="nilai_surut" value="{{ old('nilai_surut') ?? $atb->nilai_surut }}"
@@ -107,7 +97,7 @@
                                         <label>Penanggung Jawab &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="custom-select2 form-control @error('penanggung_jawab') is-invalid @enderror"
+                                            class="js-example-basic-single form-control @error('penanggung_jawab') is-invalid @enderror"
                                             name="penanggung_jawab" style="width: 100%; height: 38px;">
                                             <option value="{{ old('penanggung_jawab') ?? $atb->penanggung_jawab }}">{{
                                                 old('penanggung_jawab') ?? $atb->penanggung_jawab }}

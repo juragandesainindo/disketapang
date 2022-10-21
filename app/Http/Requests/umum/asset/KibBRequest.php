@@ -24,10 +24,8 @@ class KibBRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_brg' => 'required',
+            'mapping_asset_id' => 'required',
             'pemakai' => 'nullable',
-            'kode_brg' => 'required',
-            'nama_brg' => 'required',
             'tgl_perolehan' => 'required',
             'nilai_brg' => 'required',
             'nilai_perolehan' => 'nullable',

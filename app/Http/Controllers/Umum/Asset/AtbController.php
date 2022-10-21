@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Umum\Asset;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\AtbRequest;
 use App\Models\AssetUmum;
+use App\Models\MappingAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -34,7 +35,8 @@ class AtbController extends Controller
      */
     public function create()
     {
-        return view('umum.asset.atb.create');
+        $mapping = MappingAsset::where('kategori', 'Atb')->get();
+        return view('umum.asset.atb.create', compact('mapping'));
     }
 
     /**
@@ -81,7 +83,8 @@ class AtbController extends Controller
     public function edit($id)
     {
         $atb = AssetUmum::findOrFail($id);
-        return view('umum.asset.atb.edit', compact('atb'));
+        $mapping = MappingAsset::where('kategori', 'Atb')->get();
+        return view('umum.asset.atb.edit', compact('atb', 'mapping'));
     }
 
     /**
@@ -94,6 +97,7 @@ class AtbController extends Controller
     public function update(AtbRequest $request, $id)
     {
         $atb = AssetUmum::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/atb/" . $atb->foto)) {
@@ -105,23 +109,8 @@ class AtbController extends Controller
             $request['foto'] = $atb->foto;
         }
 
-        $atb->update([
-            'id_brg' => $request->id_brg,
-            'kode_brg' => $request->kode_brg,
-            'nama_brg' => $request->nama_brg,
-            'tgl_perolehan' => $request->tgl_perolehan,
-            'nilai_brg' => $request->nilai_brg,
-            'nilai_perolehan' => $request->nilai_perolehan,
-            'nilai_surut' => $request->nilai_surut,
-            'penggunaan' => $request->penggunaan,
-            'keterangan' => $request->keterangan,
-            'penanggung_jawab' => $request->penanggung_jawab,
-            'instansi_developer' => $request->instansi_developer,
-            'nama_developer' => $request->nama_developer,
-            'kontak_developer' => $request->kontak_developer,
-            'kategori' => $request->kategori,
-            'foto' => $atb->foto,
-        ]);
+        $input['foto'] = $atb->foto;
+        $atb->update($input);
 
         Alert::success('Success', 'Update Asset tak berwujud has been successfully.');
 

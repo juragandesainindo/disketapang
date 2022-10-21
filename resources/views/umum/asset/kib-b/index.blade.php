@@ -51,9 +51,8 @@
                     <table id="example" class="table table-striped" style="width:100%;">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Kode</th>
-                                <th>Nama</th>
+                                <th>Barang</th>
                                 <th>Nilai</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
@@ -67,9 +66,8 @@
                         <tbody>
                             @foreach ($kibs as $kib)
                             <tr>
-                                <td class="text-center">{{ $kib->id_brg }}</td>
-                                <td>{{ $kib->kode_brg }}</td>
-                                <td>{{ $kib->nama_brg }}</td>
+                                <td class="text-center">{{ $kib->mappingAsset->kode_brg }}</td>
+                                <td>{{ $kib->mappingAsset->nama_brg }}</td>
                                 <td>{{ $kib->nilai_brg }}</td>
                                 <td>{{ $kib->tgl_perolehan }}</td>
                                 <td>{{ $kib->penggunaan }}</td>
@@ -89,7 +87,9 @@
                                         {{ $kib->penanggung_jawab }}
                                     </span>
                                 </td>
-                                <td>{{ $kib->pemakai }}</td>
+                                <td>
+                                    {{ $kib->pemakai->implode(',<br>') }}
+                                </td>
                                 <td>
                                     <a class="btn btn-warning btn-sm" href="{{ route('kib-b.edit',$kib->id) }}">
                                         <i data-feather="edit"></i>

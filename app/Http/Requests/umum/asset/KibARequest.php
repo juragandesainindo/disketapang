@@ -24,9 +24,7 @@ class KibARequest extends FormRequest
     public function rules()
     {
         return [
-            'id_brg' => 'required',
-            'kode_brg' => 'required',
-            'nama_brg' => 'required',
+            'mapping_asset_id' => 'required',
             'tgl_perolehan' => 'required',
             'nilai_brg' => 'required',
             'nilai_perolehan' => 'nullable',
@@ -36,7 +34,7 @@ class KibARequest extends FormRequest
             'sertifikat' => 'nullable',
             'jenis_sertifikat' => 'nullable',
             'luas' => 'nullable',
-            // 'alamat' => 'required',
+            'alamat' => 'nullable',
             'penanggung_jawab' => 'required',
             'foto' => 'nullable|image|mimes:png,jpg,jpeg|max:1000',
             'kategori' => 'required',

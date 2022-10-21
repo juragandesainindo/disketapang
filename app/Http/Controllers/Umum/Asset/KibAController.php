@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Umum\Asset;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\KibARequest;
 use App\Models\AssetUmum;
+use App\Models\MappingAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -26,7 +27,8 @@ class KibAController extends Controller
 
     public function create()
     {
-        return view('umum.asset.kib-a.create');
+        $mapping = MappingAsset::where('kategori', 'KibA')->get();
+        return view('umum.asset.kib-a.create', compact('mapping'));
     }
 
     public function store(KibARequest $request)
@@ -57,12 +59,14 @@ class KibAController extends Controller
     public function edit($id)
     {
         $kib = AssetUmum::findOrFail($id);
-        return view('umum.asset.kib-a.edit', compact('kib'));
+        $mapping = MappingAsset::where('kategori', 'KibA')->get();
+        return view('umum.asset.kib-a.edit', compact('kib', 'mapping'));
     }
 
     public function update(KibARequest $request, $id)
     {
         $kib = AssetUmum::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/kib-a/" . $kib->foto)) {
@@ -74,24 +78,8 @@ class KibAController extends Controller
             $request['foto'] = $kib->foto;
         }
 
-        $kib->update([
-            'id_brg' => $request->id_brg,
-            'kode_brg' => $request->kode_brg,
-            'nama_brg' => $request->nama_brg,
-            'tgl_perolehan' => $request->tgl_perolehan,
-            'nilai_brg' => $request->nilai_brg,
-            'nilai_perolehan' => $request->nilai_perolehan,
-            'nilai_surut' => $request->nilai_surut,
-            'penggunaan' => $request->penggunaan,
-            'keterangan' => $request->keterangan,
-            'sertifikat' => $request->sertifikat,
-            'jenis_sertifikat' => $request->jenis_sertifikat,
-            'luas' => $request->luas,
-            'alamat' => $request->alamat,
-            'penanggung_jawab' => $request->penanggung_jawab,
-            'foto' => $kib->foto,
-            'kategori' => $request->kategori,
-        ]);
+        $input['foto'] = $kib->foto;
+        $kib->update($input);
 
         Alert::success('Success', 'Update Kib A has been successfully');
 

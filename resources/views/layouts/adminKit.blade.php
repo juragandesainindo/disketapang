@@ -69,12 +69,18 @@
                                 class="align-middle">Kendaraan</span>
                         </a>
                     </li>
-
-                    Buat menu lagi (Mapping)
-
+                    <hr>
                     <li class="sidebar-header">
                         Kumpulan Asset
                     </li>
+
+                    <li class="sidebar-item {{ request()->is('mapping-asset*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ url('mapping-asset') }}">
+                            <i class="align-middle" data-feather="box"></i>
+                            <span class="align-middle">Mapping Asset</span>
+                        </a>
+                    </li>
+
                     <li
                         class="sidebar-item {{ request()->is(['kib-a*','kib-b*','kib-c*','kib-d*','kib-e*','kib-f*','asset-tak-berwujud*']) ? 'active' : '' }}">
                         <a data-bs-target="#kumpulan-asset" data-bs-toggle="collapse" class="sidebar-link">
@@ -134,10 +140,6 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
-
-                    <li class="sidebar-header">
-                        Perawatan Asset
                     </li>
                     <li
                         class="sidebar-item {{ request()->is(['perawatan-asset-kib-a*','perawatan-asset-kib-b*','perawatan-asset-kib-c*','perawatan-asset-kib-d*','perawatan-asset-kib-e*','perawatan-asset-kib-f*','perawatan-asset-tak-berwujud*']) ? 'active' : '' }}">
@@ -201,9 +203,6 @@
                         </ul>
                     </li>
 
-                    <li class="sidebar-header">
-                        Laporan
-                    </li>
                     <li class="sidebar-item {{ request()->is('laporan-rekon*') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ url('laporan-rekon') }}">
                             <i class="align-middle" data-feather="file"></i>

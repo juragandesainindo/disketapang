@@ -50,6 +50,7 @@ use App\Http\Controllers\Umum\Asset\KibEController;
 use App\Http\Controllers\Umum\Asset\KibFController;
 use App\Http\Controllers\Umum\Asset\Laporan\LaporanPernyataanController;
 use App\Http\Controllers\Umum\Asset\Laporan\LaporanRekonController;
+use App\Http\Controllers\Umum\Asset\MappingAssetController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanAtbController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibAController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibBController;
@@ -446,6 +447,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('kwt-monev', [BantuanKWTController::class, 'indexMonev']);
     Route::get('kwt-monev/{id}', [BantuanKWTController::class, 'excelMonev'])->name('kwt-monev.excel');
 
+
+    Route::get('mapping-asset', [MappingAssetController::class, 'index'])->name('mapping-asset.index');
+    Route::post('mapping-asset', [MappingAssetController::class, 'store'])->name('mapping-asset.store');
     Route::resource('kib-a', KibAController::class);
     Route::resource('kib-b', KibBController::class);
     Route::resource('kib-c', KibCController::class);

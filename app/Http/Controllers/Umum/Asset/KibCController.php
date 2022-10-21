@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Umum\Asset;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\KibCRequest;
 use App\Models\AssetUmum;
+use App\Models\MappingAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -34,7 +35,8 @@ class KibCController extends Controller
      */
     public function create()
     {
-        return view('umum.asset.kib-c.create');
+        $mapping = MappingAsset::where('kategori', 'KibC')->get();
+        return view('umum.asset.kib-c.create', compact('mapping'));
     }
 
     /**
@@ -82,7 +84,8 @@ class KibCController extends Controller
     public function edit($id)
     {
         $kib = AssetUmum::findOrFail($id);
-        return view('umum.asset.kib-c.edit', compact('kib'));
+        $mapping = MappingAsset::where('kategori', 'KibC')->get();
+        return view('umum.asset.kib-c.edit', compact('kib', 'mapping'));
     }
 
     /**
@@ -95,6 +98,7 @@ class KibCController extends Controller
     public function update(KibCRequest $request, $id)
     {
         $kib = AssetUmum::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/kib-c/" . $kib->foto)) {
@@ -106,29 +110,9 @@ class KibCController extends Controller
             $request['foto'] = $kib->foto;
         }
 
-        $kib->update([
-            'id_brg' => $request->id_brg,
-            'kode_brg' => $request->kode_brg,
-            'nama_brg' => $request->nama_brg,
-            'tgl_perolehan' => $request->tgl_perolehan,
-            'nilai_brg' => $request->nilai_brg,
-            'nilai_perolehan' => $request->nilai_perolehan,
-            'nilai_surut' => $request->nilai_surut,
-            'penggunaan' => $request->penggunaan,
-            'keterangan' => $request->keterangan,
-            'penanggung_jawab' => $request->penanggung_jawab,
-            'luas' => $request->luas,
-            'kontruksi' => $request->kontruksi,
-            'tingkat' => $request->tingkat,
-            'imb' => $request->imb,
-            'alamat' => $request->alamat,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'masa_manfaat' => $request->masa_manfaat,
-            'sisa_manfaat' => $request->sisa_manfaat,
-            'kategori' => $request->kategori,
-            'foto' => $kib->foto,
-        ]);
+        $input['foto'] = $kib->foto;
+
+        $kib->update($input);
 
         Alert::success('Success', 'Update Kib C has been successfully.');
 

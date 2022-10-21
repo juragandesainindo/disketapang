@@ -51,9 +51,8 @@
                     <table id="example" class="table table-striped" style="width:100%;">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Kode</th>
-                                <th>Nama</th>
+                                <th>Barang</th>
                                 <th>Nilai</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
@@ -66,9 +65,8 @@
                         <tbody>
                             @foreach ($atbs as $atb)
                             <tr>
-                                <td class="text-center">{{ $atb->id_brg }}</td>
-                                <td>{{ $atb->kode_brg }}</td>
-                                <td>{{ $atb->nama_brg }}</td>
+                                <td>{{ $atb->mappingAsset->kode_brg }}</td>
+                                <td>{{ $atb->mappingAsset->nama_brg }}</td>
                                 <td>{{ $atb->nilai_brg }}</td>
                                 <td>{{ $atb->tgl_perolehan }}</td>
                                 <td>{{ $atb->penggunaan }}</td>
@@ -124,9 +122,8 @@
                 <div class="modal-body">
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
-                        ID barang : <strong>{{ $item->id_brg }}</strong> <br>
-                        Kode barang : <strong>{{ $item->kode_brg }}</strong> <br>
-                        Nama Barang : <strong>{{ $item->nama_brg }}</strong> <br>
+                        Kode barang : <strong>{{ $item->mappingAsset->kode_brg }}</strong> <br>
+                        Nama Barang : <strong>{{ $item->mappingAsset->nama_brg }}</strong> <br>
                         Keterangan : <strong>{{ $item->keterangan }}</strong> <br>
                         Penanggung Jawab : <strong>{{ $item->penanggung_jawab }}</strong> <br>
                     </p>

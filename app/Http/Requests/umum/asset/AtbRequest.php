@@ -24,9 +24,7 @@ class AtbRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_brg' => 'required',
-            'kode_brg' => 'required',
-            'nama_brg' => 'required',
+            'mapping_asset_id' => 'required',
             'tgl_perolehan' => 'required',
             'nilai_brg' => 'required',
             'nilai_perolehan' => 'nullable',

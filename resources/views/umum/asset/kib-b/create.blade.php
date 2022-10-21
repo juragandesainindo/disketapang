@@ -22,28 +22,16 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
-                                        <label>ID Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="id_brg" value="{{ old('id_brg') }}"
-                                            class="form-control @error('id_brg') is-invalid @enderror" type="number"
-                                            autofocus>
-                                        @error('id_brg')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>Kode Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="kode_brg" value="{{ old('kode_brg') }}"
-                                            class="form-control kode @error('kode_brg') is-invalid @enderror"
-                                            type="text">
-                                        @error('kode_brg')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>Nama Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="nama_brg" value="{{ old('nama_brg') }}"
-                                            class="form-control @error('nama_brg') is-invalid @enderror" type="text">
-                                        @error('nama_brg')
+                                        <label>Mapping Asset &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
+                                        <select name="mapping_asset_id" class="form-control js-example-basic-single"
+                                            width="100%" required>
+                                            <option value="">Pilih Mapping Asset</option>
+                                            @foreach ($mapping as $item)
+                                            <option value="{{ $item->id }}">{{ $item->kode_brg }} - {{ $item->nama_brg
+                                                }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('mapping_asset_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -65,8 +53,6 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
                                         <label>Nilai Perolehan (Total)</label>
                                         <input name="nilai_perolehan" value="{{ old('nilai_perolehan') }}"
@@ -85,6 +71,8 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
                                         <label>Penggunaan &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
                                         <input name="penggunaan" value="{{ old('penggunaan') }}"
@@ -121,11 +109,11 @@
                                         @enderror
                                     </div>
                                     <div class="form-group mb-3">
-                                        <label>Pengguna &nbsp;<sup class="text-danger">(wajib
+                                        <label>Pemakai &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
                                             class="js-example-basic-single form-control @error('pemakai') is-invalid @enderror"
-                                            name="pemakai" multiple style="width: 100%; height: 38px;">
+                                            name="pemakai[]" multiple="multiple" style="width: 100%; height: 38px;">
                                             <option value="{{ old('pemakai') ?? '' }}">{{
                                                 old('pemakai') ?? 'Pilih penanggung jawab' }}
                                             </option>
