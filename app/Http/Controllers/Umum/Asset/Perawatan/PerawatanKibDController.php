@@ -101,6 +101,7 @@ class PerawatanKibDController extends Controller
     public function update(PerawatanAssetRequest $request, $id)
     {
         $kib = PerawatanAssetUmum::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/perawatan/kib-d/" . $kib->foto)) {
@@ -112,14 +113,8 @@ class PerawatanKibDController extends Controller
             $request['foto'] = $kib->foto;
         }
 
-        $kib->update([
-            'asset_umum_id' => $request->asset_umum_id,
-            'tgl' => $request->tgl,
-            'uraian' => $request->uraian,
-            'nilai' => $request->nilai,
-            'keterangan' => $request->keterangan,
-            'foto' => $kib->foto,
-        ]);
+        $input['foto'] = $kib->foto;
+        $kib->update($input);
 
         Alert::success('Success', 'Update Perawatan Asset Kib D has been successfully');
 

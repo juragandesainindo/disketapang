@@ -11,6 +11,7 @@ use App\Exports\KendaraanExport;
 use App\Http\Requests\KendaraanRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class KendaraanController extends Controller
 {
@@ -88,8 +89,9 @@ class KendaraanController extends Controller
 
         Kendaraan::create($input);
 
+        Alert::success('Success', 'Create kendaraan has been successfully');
 
-        return redirect()->route('kendaraans.index')->with('success', 'Create kendaraan successfully');
+        return redirect()->route('kendaraans.index');
     }
 
     /**
@@ -188,6 +190,8 @@ class KendaraanController extends Controller
     public function update(KendaraanRequest $request, $id)
     {
         $kendaraan = Kendaraan::findOrFail($id);
+        $input = $request->validated();
+
         if ($request->hasFile("image")) {
             if (File::exists("kendaraan/" . $kendaraan->image)) {
                 File::delete("kendaraan/" . $kendaraan->image);
@@ -243,31 +247,18 @@ class KendaraanController extends Controller
             $request['image_mesin'] = $kendaraan->image_mesin;
         }
 
-        $kendaraan->update([
-            'registrasi'       => $request->registrasi,
-            'nama'             => $request->nama,
-            'alamat'           => $request->alamat,
-            'merk'             => $request->merk,
-            'type'             => $request->type,
-            'jenis'            => $request->jenis,
-            'model'            => $request->model,
-            'tahun_pembuatan'  => $request->tahun_pembuatan,
-            'silinder'         => $request->silinder,
-            'no_rangka'        => $request->no_rangka,
-            'no_mesin'         => $request->no_mesin,
-            'warna'            => $request->warna,
-            'bahan_bakar'      => $request->bahan_bakar,
-            'warna_tnkb'       => $request->warna_tnkb,
-            'berlaku'          => $request->berlaku,
-            'image'            => $kendaraan->image,
-            'image_s_kiri'     => $kendaraan->image_s_kiri,
-            'image_s_kanan'    => $kendaraan->image_s_kanan,
-            'image_belakang'   => $kendaraan->image_belakang,
-            'image_dalam'      => $kendaraan->image_dalam,
-            'image_mesin'      => $kendaraan->image_mesin,
-        ]);
+        $input['image'] = $kendaraan->image;
+        $input['image_s_kiri'] = $kendaraan->image_s_kiri;
+        $input['image_s_kanan'] = $kendaraan->image_s_kanan;
+        $input['image_belakang'] = $kendaraan->image_belakang;
+        $input['image_dalam'] = $kendaraan->image_dalam;
+        $input['image_mesin'] = $kendaraan->image_mesin;
 
-        return redirect()->route('kendaraans.index')->with('success', 'Edit kendaraan dinas successfully.');
+        $kendaraan->update($input);
+
+        Alert::success('Success', 'Update kendaraan has been successfully');
+
+        return redirect()->route('kendaraans.index');
     }
 
     /**
@@ -301,6 +292,8 @@ class KendaraanController extends Controller
         }
 
         Kendaraan::find($id)->delete();
+
+        Alert::error('Delete', 'Delete kendaraan has been successfully');
 
         return redirect()->route('kendaraans.index')->with('success', 'Delete kendaraan dinas successfully.');
     }

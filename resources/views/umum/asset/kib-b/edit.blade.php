@@ -23,28 +23,17 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
-                                        <label>ID Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="id_brg" value="{{ old('id_brg') ?? $kib->id_brg }}"
-                                            class="form-control @error('id_brg') is-invalid @enderror" type="number"
-                                            autofocus>
-                                        @error('id_brg')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>Kode Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="kode_brg" value="{{ old('kode_brg') ?? $kib->kode_brg }}"
-                                            class="form-control kode @error('kode_brg') is-invalid @enderror"
-                                            type="text">
-                                        @error('kode_brg')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>Nama Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="nama_brg" value="{{ old('nama_brg') ?? $kib->nama_brg }}"
-                                            class="form-control @error('nama_brg') is-invalid @enderror" type="text">
-                                        @error('nama_brg')
+                                        <label>Mapping Asset &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
+                                        <select name="mapping_asset_id" class="form-control js-example-basic-single"
+                                            width="100%" required>
+                                            <option value="{{ $kib->mappingAsset->id }}">{{ $kib->mappingAsset->kode_brg
+                                                }} - {{ $kib->mappingAsset->nama_brg }}</option>
+                                            @foreach ($mapping as $item)
+                                            <option value="{{ $item->id }}">{{ $item->kode_brg }} - {{ $item->nama_brg
+                                                }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('mapping_asset_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -67,8 +56,6 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
                                         <label>Nilai Perolehan (Total)</label>
                                         <input name="nilai_perolehan"
@@ -79,6 +66,8 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
                                         <label>Nilai Surut</label>
                                         <input name="nilai_surut" value="{{ old('nilai_surut') ?? $kib->nilai_surut }}"
@@ -108,7 +97,7 @@
                                         <label>Penanggung Jawab &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="custom-select2 form-control @error('penanggung_jawab') is-invalid @enderror"
+                                            class="js-example-basic-single form-control @error('penanggung_jawab') is-invalid @enderror"
                                             name="penanggung_jawab" style="width: 100%; height: 38px;">
                                             <option value="{{ old('penanggung_jawab') ?? $kib->penanggung_jawab }}">{{
                                                 old('penanggung_jawab') ?? $kib->penanggung_jawab }}
@@ -129,6 +118,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="row">
                 <div class="col-12 col-lg-12">
                     <div class="card flex-fill px-2 pb-2">
@@ -286,6 +277,62 @@
                 </div>
             </div>
         </form>
+
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="card flex-fill px-2">
+                    <div class="card-header">
+                        <h5 class="card-title">Detail Pemakai</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Session::has('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success!</strong> {{ Session::get('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12">
+                                <form action="{{ route('asset-umum-pegawai.update',$kib->id) }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="form-group">
+                                        <label>Tambah Pemakai</label>
+                                        <select
+                                            class="js-example-basic-single form-control @error('pegawai_id') is-invalid @enderror"
+                                            name="pegawai_id[]" multiple style="width: 100%;" required>
+                                            <option value="">Pilih pegawai</option>
+                                            @foreach ($pegawai as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('pegawai_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <button type="submit" class="btn btn-primary mt-3">Tambah</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                @foreach ($kib->assetUmumPegawai as $item)
+                                <div class="d-flex">
+                                    <form action="{{ route('asset-umum-pegawai',$item->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div>
+                                            <span class="badge bg-primary">{{ $item->pegawai->nama }}</span>
+                                            <button type="submit" class="badge bg-danger border-0">X</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </main>

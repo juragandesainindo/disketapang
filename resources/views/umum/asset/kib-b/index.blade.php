@@ -26,6 +26,7 @@
 </div>
 
 
+
 <main class="content">
     <div class="container-fluid p-0">
 
@@ -53,13 +54,13 @@
                             <tr>
                                 <th>Kode</th>
                                 <th>Barang</th>
-                                <th>Nilai</th>
+                                <th>Nilai (Rp)</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
                                 <th>Keterangan</th>
                                 <th>Img</th>
                                 <th>Penanggung Jawab</th>
-                                <th>Pengguna</th>
+                                <th>Pemakai</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -68,7 +69,7 @@
                             <tr>
                                 <td class="text-center">{{ $kib->mappingAsset->kode_brg }}</td>
                                 <td>{{ $kib->mappingAsset->nama_brg }}</td>
-                                <td>{{ $kib->nilai_brg }}</td>
+                                <td>{{ number_format($kib->nilai_brg) }}</td>
                                 <td>{{ $kib->tgl_perolehan }}</td>
                                 <td>{{ $kib->penggunaan }}</td>
                                 <td>{{ $kib->keterangan }}</td>
@@ -88,7 +89,12 @@
                                     </span>
                                 </td>
                                 <td>
-                                    {{ $kib->pemakai->implode(',<br>') }}
+                                    @foreach ($kib->pegawai as $item)
+
+                                    <span class="badge bg-primary">
+                                        {{ $item->nama }}
+                                    </span>
+                                    @endforeach
                                 </td>
                                 <td>
                                     <a class="btn btn-warning btn-sm" href="{{ route('kib-b.edit',$kib->id) }}">
@@ -124,9 +130,8 @@
                 <div class="modal-body">
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
-                        ID barang : <strong>{{ $item->id_brg }}</strong> <br>
-                        Kode barang : <strong>{{ $item->kode_brg }}</strong> <br>
-                        Nama Barang : <strong>{{ $item->nama_brg }}</strong> <br>
+                        Kode barang : <strong>{{ $item->mappingAsset->kode_brg }}</strong> <br>
+                        Nama Barang : <strong>{{ $item->mappingAsset->nama_brg }}</strong> <br>
                         Keterangan : <strong>{{ $item->keterangan }}</strong> <br>
                         Penanggung Jawab : <strong>{{ $item->penanggung_jawab }}</strong> <br>
                     </p>

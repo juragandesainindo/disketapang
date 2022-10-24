@@ -94,7 +94,7 @@
                                                 diisi)</sup></label>
                                         <select
                                             class="js-example-basic-single form-control @error('penanggung_jawab') is-invalid @enderror"
-                                            name="penanggung_jawab" style="width: 100%; height: 38px;">
+                                            name="penanggung_jawab" style="width: 100%;">
                                             <option value="{{ old('penanggung_jawab') ?? '' }}">{{
                                                 old('penanggung_jawab') ?? 'Pilih penanggung jawab' }}
                                             </option>
@@ -112,13 +112,11 @@
                                         <label>Pemakai &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="js-example-basic-single form-control @error('pemakai') is-invalid @enderror"
-                                            name="pemakai[]" multiple="multiple" style="width: 100%; height: 38px;">
-                                            <option value="{{ old('pemakai') ?? '' }}">{{
-                                                old('pemakai') ?? 'Pilih penanggung jawab' }}
-                                            </option>
+                                            class="js-example-basic-single form-control @error('pegawai_id') is-invalid @enderror"
+                                            name="pegawai_id[]" multiple style="width: 100%;" required>
+                                            <option value="">Pilih pemakai</option>
                                             @foreach ($pegawai as $item)
-                                            <option value="{{ $item->nama }}">{{ $item->nama }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                             @endforeach
                                         </select>
                                         @error('pemakai')

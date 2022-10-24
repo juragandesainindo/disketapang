@@ -18,47 +18,10 @@
             <div class="row">
                 <div class="col-12 col-lg-12">
                     <div class="row">
-                        <div class="col-lg-12 col-12">
-                            <div class="card flex-fill px-2 pb-2">
-                                <div class="card-header">
-                                    <strong>I. Identitas Kartu</strong>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12">
-                                            <div class="form-group mb-3">
-                                                <label>NPWP</label>
-                                                <input type="text" name="npwp" class="form-control @error('npwp') is-invalid
-                                                                                                            @enderror"
-                                                    value="{{ old('npwp') }}">
-                                                @error('npwp')
-                                                <div class="invalid-feedback">
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12">
-                                            <div class="form-group mb-3">
-                                                <label>No BPJS</label>
-                                                <input type="text" name="bpjs" class="form-control @error('bpjs') is-invalid
-                                                                                                            @enderror"
-                                                    value="{{ old('bpjs') }}">
-                                                @error('bpjs')
-                                                <div class="invalid-feedback">
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-lg-8 col-12">
                             <div class="card flex-fill px-2 pb-2">
                                 <div class="card-header">
-                                    <strong>II. Identitas Pegawai</strong>
+                                    <strong>I. Identitas Pegawai</strong>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -89,9 +52,9 @@
                                                 <label>Jenis Kelamin</label>
                                                 <select name="jk" class="form-control @error('jk') is-invalid
                                                                                     @enderror">
-                                                    <option disabled selected>Pilih salah satu</option>
-                                                    <option value="L">Laki-Laki</option>
-                                                    <option value="P">Perempuan</option>
+                                                    <option value="">Pilih salah satu</option>
+                                                    <option value="Laki-Laki">Laki-Laki</option>
+                                                    <option value="Perempuan">Perempuan</option>
                                                 </select>
                                                 @error('jk')
                                                 <div class="invalid-feedback">
@@ -127,7 +90,7 @@
                                                 <label>Agama</label>
                                                 <select name="agama" class="form-control @error('agama') is-invalid
                                                                                     @enderror">
-                                                    <option disabled selected>Pilih salah satu</option>
+                                                    <option value="">Pilih salah satu</option>
                                                     <option value="Islam">Islam</option>
                                                     <option value="Kristen">Kristen</option>
                                                     <option value="Hindu">Hindu</option>
@@ -141,11 +104,11 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group mb-3">
-                                                <label>Telepon</label>
-                                                <input type="text" name="telepon" class="form-control @error('telepon') is-invalid
+                                                <label>HP</label>
+                                                <input type="text" name="no_hp" class="form-control @error('no_hp') is-invalid
                                                                                     @enderror"
-                                                    value="{{ old('telepon') }}">
-                                                @error('telepon')
+                                                    value="{{ old('no_hp') }}">
+                                                @error('no_hp')
                                                 <div class="invalid-feedback">
                                                     <span class="text-danger">{{ $message }}</span>
                                                 </div>
@@ -186,62 +149,61 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Foto Diri &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="image" id="image" value="{{ old('image') }}"
-                                            class="form-control @error('image') is-invalid @enderror" type="file"
+                                        <input name="foto_diri" id="image" value="{{ old('foto_diri') }}"
+                                            class="form-control @error('foto_diri') is-invalid @enderror" type="file"
                                             autofocus>
                                         <img id="preview-image" class="img-preview">
-                                        @error('image')
+                                        @error('foto_diri')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>KTP</label>
-                                        <input name="image_s_kiri" id="imageKiri" value="{{ old('image_s_kiri') }}"
-                                            class="form-control @error('image_s_kiri') is-invalid @enderror" type="file"
+                                        <input name="ktp" id="imageKiri" value="{{ old('ktp') }}"
+                                            class="form-control @error('ktp') is-invalid @enderror" type="file"
                                             autofocus>
                                         <img id="preview-image-kiri" class="img-preview">
-                                        @error('image_s_kiri')
+                                        @error('ktp')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>KK</label>
-                                        <input name="image_s_kanan" id="imageKanan" value="{{ old('image_s_kanan') }}"
-                                            class="form-control @error('image_s_kanan') is-invalid @enderror"
-                                            type="file" autofocus>
+                                        <input name="kk" id="imageKanan" value="{{ old('kk') }}"
+                                            class="form-control @error('kk') is-invalid @enderror" type="file"
+                                            autofocus>
                                         <img id="preview-image-kanan" class="img-preview">
-                                        @error('image_s_kanan')
+                                        @error('kk')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Akte</label>
-                                        <input name="image_belakang" id="imageBelakang"
-                                            value="{{ old('image_belakang') }}"
-                                            class="form-control @error('image_belakang') is-invalid @enderror"
-                                            type="file" autofocus>
+                                        <input name="akte" id="imageBelakang" value="{{ old('akte') }}"
+                                            class="form-control @error('akte') is-invalid @enderror" type="file"
+                                            autofocus>
                                         <img id="preview-image-belakang" class="img-preview">
-                                        @error('image_belakang')
+                                        @error('akte')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>BPJS</label>
-                                        <input name="image_dalam" id="imageDalam" value="{{ old('image_dalam') }}"
-                                            class="form-control @error('image_dalam') is-invalid @enderror" type="file"
+                                        <input name="bpjs" id="imageDalam" value="{{ old('bpjs') }}"
+                                            class="form-control @error('bpjs') is-invalid @enderror" type="file"
                                             autofocus>
                                         <img id="preview-image-dalam" class="img-preview">
-                                        @error('image_dalam')
+                                        @error('bpjs')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>NPWP</label>
-                                        <input name="image_mesin" id="imageMesin" value="{{ old('image_mesin') }}"
-                                            class="form-control @error('image_mesin') is-invalid @enderror" type="file"
+                                        <input name="npwp" id="imageMesin" value="{{ old('npwp') }}"
+                                            class="form-control @error('npwp') is-invalid @enderror" type="file"
                                             autofocus>
                                         <img id="preview-image-mesin" class="img-preview">
-                                        @error('image_mesin')
+                                        @error('npwp')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

@@ -53,7 +53,7 @@
                             <tr>
                                 <th>Kode</th>
                                 <th>Barang</th>
-                                <th>Nilai</th>
+                                <th>Nilai (Rp)</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
                                 <th>Keterangan</th>
@@ -67,7 +67,7 @@
                             <tr>
                                 <td>{{ $atb->mappingAsset->kode_brg }}</td>
                                 <td>{{ $atb->mappingAsset->nama_brg }}</td>
-                                <td>{{ $atb->nilai_brg }}</td>
+                                <td>{{ number_format($atb->nilai_brg) }}</td>
                                 <td>{{ $atb->tgl_perolehan }}</td>
                                 <td>{{ $atb->penggunaan }}</td>
                                 <td>{{ $atb->keterangan }}</td>

@@ -12,18 +12,31 @@ class Pegawai extends Model
 
     protected $table = 'pegawai';
     protected $fillable = [
-    	'nip','nama','npwp','jk','tempat_lahir','tgl_lahir','agama','alamat','bpjs','telepon','email','foto'
+        'nip',
+        'nama',
+        'jk',
+        'tempat_lahir',
+        'tgl_lahir',
+        'agama',
+        'alamat',
+        'no_hp',
+        'email',
+        'foto_diri',
+        'kk',
+        'ktp',
+        'akte',
+        'npwp',
+        'bpjs',
     ];
-    protected $dates =['tgl_lahir'];
 
-    public function pangkat()
+    public function pegawaiPangkat()
     {
-    	return $this->hasMany(Pangkat::class);
+        return $this->hasMany(PegawaiPangkat::class);
     }
 
     public function jabatan()
     {
-    	return $this->hasMany(Jabatan::class);
+        return $this->hasMany(Jabatan::class);
     }
 
     public function pendidikan()
@@ -70,9 +83,14 @@ class Pegawai extends Model
     {
         return $this->hasMany(PegawaiImage::class);
     }
-    
+
     public function pegawaiGaji()
     {
         return $this->hasMany(PegawaiGaji::class);
+    }
+
+    public function assetUmum()
+    {
+        return $this->belongsToMany(AssetUmum::class);
     }
 }

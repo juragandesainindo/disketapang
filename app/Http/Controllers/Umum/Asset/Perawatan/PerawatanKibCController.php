@@ -87,7 +87,6 @@ class PerawatanKibCController extends Controller
     public function edit($id)
     {
         $kib = PerawatanAssetUmum::findOrFail($id);
-        // dd($kib->toArray());
         $modelKib = AssetUmum::where('kategori', 'KibC')->get();
         return view('umum.asset.perawatan-asset.kib-c.edit', compact('kib', 'modelKib'));
     }
@@ -102,6 +101,7 @@ class PerawatanKibCController extends Controller
     public function update(PerawatanAssetRequest $request, $id)
     {
         $kib = PerawatanAssetUmum::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/perawatan/kib-c/" . $kib->foto)) {
@@ -113,14 +113,8 @@ class PerawatanKibCController extends Controller
             $request['foto'] = $kib->foto;
         }
 
-        $kib->update([
-            'asset_umum_id' => $request->asset_umum_id,
-            'tgl' => $request->tgl,
-            'uraian' => $request->uraian,
-            'nilai' => $request->nilai,
-            'keterangan' => $request->keterangan,
-            'foto' => $kib->foto,
-        ]);
+        $input['foto'] = $kib->foto;
+        $kib->update($input);
 
         Alert::success('Success', 'Update Perawatan Asset Kib C has been successfully');
 

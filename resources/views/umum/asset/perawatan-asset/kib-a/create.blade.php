@@ -25,7 +25,7 @@
                                         <label>Perawatan Kib A &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="form-control form-select @error('asset_umum_id') is-invalid @enderror"
+                                            class="form-control js-example-basic-single @error('asset_umum_id') is-invalid @enderror"
                                             name="asset_umum_id" style="width: 100%; height: 38px;">
                                             <option value="{{ old('asset_umum_id') ?? '' }}">{{
                                                 old('asset_umum_id') ?? 'Pilih Perawatan Kib A' }}

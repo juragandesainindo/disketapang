@@ -58,7 +58,7 @@
                             <tr>
                                 <th>Kode</th>
                                 <th>Barang</th>
-                                <th>Nilai</th>
+                                <th>Nilai (Rp)</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
                                 <th>Keterangan</th>

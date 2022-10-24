@@ -8,21 +8,69 @@ use Illuminate\Database\Eloquent\Model;
 class AssetUmum extends Model
 {
     use HasFactory;
+
     protected $table = 'asset_umum';
-    protected $guarded = [];
-
-    // public function setPemakaiAttribute($value)
-    // {
-    //     $this->attributes['pemakai'] = json_encode($value);
-    // }
-
-    // public function getPemakaiAttribute($value)
-    // {
-    //     return $this->attributes['pemakai'] = json_decode($value);
-    // }
+    protected $fillable = [
+        'mapping_asset_id',
+        'tgl_perolehan',
+        'nilai_brg',
+        'nilai_perolehan',
+        'nilai_surut',
+        'sertifikat',
+        'alamat',
+        'luas',
+        'penggunaan',
+        'keterangan',
+        'jenis_sertifikat',
+        'penanggung_jawab',
+        'foto',
+        'merk_type',
+        'nopol',
+        'status_asset',
+        'masa_manfaat',
+        'sisa_manfaat',
+        'ukuran',
+        'bahan_warna',
+        'spesifikasi',
+        'no_pabrik',
+        'no_rangka',
+        'no_mesin',
+        'bpkb',
+        'stnk',
+        'kontruksi',
+        'latitude',
+        'longitude',
+        'tingkat',
+        'imb',
+        'panjang',
+        'lebar',
+        'judul',
+        'penerbit',
+        'pencipta',
+        'asal',
+        'bahan',
+        'kdp',
+        'dokumen',
+        'tgl_dokumen',
+        'pekerjaan',
+        'nama_developer',
+        'kontak_developer',
+        'instansi_developer',
+        'kategori',
+    ];
 
     public function mappingAsset()
     {
         return $this->belongsTo(MappingAsset::class);
+    }
+
+    public function pegawai()
+    {
+        return $this->belongsToMany(Pegawai::class);
+    }
+
+    public function assetUmumPegawai()
+    {
+        return $this->hasMany(AssetUmumPegawai::class);
     }
 }

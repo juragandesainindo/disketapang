@@ -19,9 +19,11 @@ use App\Models\PegawaiGaji;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Exports\PegawaiDukExport;
+use App\Http\Requests\Umum\PegawaiRequest;
 use Barryvdh\DomPDF\PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PegawaiController extends Controller
 {
@@ -53,46 +55,52 @@ class PegawaiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PegawaiRequest $request)
     {
-        $request->validate([
-            'nip' => 'required',
-            'nama'  => 'required',
-            "npwp" => 'required',
-            "jk" => 'required',
-            "tempat_lahir" => 'required',
-            "tgl_lahir" => 'required',
-            "agama" => 'required',
-            "alamat" => 'required',
-            "telepon" => 'required',
-            "email" => 'required',
-            "bpjs" => 'required',
-            "foto" => 'required',
-        ]);
+        $input = $request->validated();
 
-        if ($request->hasFile("foto")) {
-            $file = $request->file("foto");
+        if ($request->hasFile('foto_diri')) {
+            $file = $request->file('foto_diri');
             $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path("umum/pegawai"), $imageName);
-
-            $pegawai = new Pegawai([
-                "nip" => $request->nip,
-                "nama" => $request->nama,
-                "npwp" => $request->npwp,
-                "jk" => $request->jk,
-                "tempat_lahir" => $request->tempat_lahir,
-                "tgl_lahir" => $request->tgl_lahir,
-                "agama" => $request->agama,
-                "alamat" => $request->alamat,
-                "telepon" => $request->telepon,
-                "email" => $request->email,
-                "bpjs" => $request->bpjs,
-                "foto" => $imageName,
-            ]);
-            $pegawai->save();
+            $file->move(\public_path('umum/pegawai'), $imageName);
+            $input['foto_diri'] = $imageName;
+        }
+        if ($request->hasFile('kk')) {
+            $file = $request->file('kk');
+            $imageName = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/kk'), $imageName);
+            $input['kk'] = $imageName;
+        }
+        if ($request->hasFile('ktp')) {
+            $file = $request->file('ktp');
+            $imageName = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/ktp'), $imageName);
+            $input['ktp'] = $imageName;
+        }
+        if ($request->hasFile('akte')) {
+            $file = $request->file('akte');
+            $imageName = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/akte'), $imageName);
+            $input['akte'] = $imageName;
+        }
+        if ($request->hasFile('npwp')) {
+            $file = $request->file('npwp');
+            $imageName = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/npwp'), $imageName);
+            $input['npwp'] = $imageName;
+        }
+        if ($request->hasFile('bpjs')) {
+            $file = $request->file('bpjs');
+            $imageName = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/bpjs'), $imageName);
+            $input['bpjs'] = $imageName;
         }
 
-        return redirect()->route('pegawais.index')->with('success', 'Pegawai uploaded successfully');
+        Pegawai::create($input);
+
+        Alert::success('Success', 'Create pegawai has been successfully');
+
+        return redirect()->route('pegawais.index');
     }
 
     /**
@@ -103,20 +111,8 @@ class PegawaiController extends Controller
      */
     public function show($id)
     {
-        $editPangkat = 1;
-        $editJabatan = 1;
-        $editPendidikanUmum = 1;
-        $editPelatihanKepemimpinan = 1;
-        $editPelatihanTeknis = 1;
-        $editOrganisasi = 1;
-        $editPenghargaan = 1;
-        $editPasangan = 1;
-        $editAnak = 1;
-        $editOrtu = 1;
-        $editDokumenPegawai = 1;
-        $editGaji = 1;
         $pegawai = Pegawai::findOrFail($id);
-        return view('umum.pegawai.show', compact('pegawai', 'editPangkat', 'editJabatan', 'editPendidikanUmum', 'editPelatihanKepemimpinan', 'editPelatihanTeknis', 'editOrganisasi', 'editPenghargaan', 'editPasangan', 'editAnak', 'editOrtu', 'editDokumenPegawai', 'editGaji'));
+        return view('umum.pegawai.show', compact('pegawai'));
     }
 
     /**
@@ -138,47 +134,78 @@ class PegawaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PegawaiRequest $request, $id)
     {
         $pegawai = Pegawai::findOrFail($id);
-        if ($request->hasFile("foto")) {
-            if (File::exists("umum/pegawai/" . $pegawai->foto)) {
-                File::delete("umum/pegawai/" . $pegawai->foto);
+        $input = $request->validated();
+
+        if ($request->hasFile('foto_diri')) {
+            if (File::exists("umum/pegawai/" . $pegawai->foto_diri)) {
+                File::delete("umum/pegawai/" . $pegawai->foto_diri);
             }
-            $file = $request->file("foto");
-            $pegawai->foto = time() . "_" . $file->getClientOriginalName();
-            $file->move(\public_path("umum/pegawai"), $pegawai->foto);
-            $request['pegawai'] = $pegawai->foto;
+            $file = $request->file('foto_diri');
+            $pegawai->foto_diri = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai'), $pegawai->foto_diri);
+            $request['foto_diri'] = $pegawai->foto_diri;
+        }
+        if ($request->hasFile('kk')) {
+            if (File::exists("umum/pegawai/kk/" . $pegawai->kk)) {
+                File::delete("umum/pegawai/kk/" . $pegawai->kk);
+            }
+            $file = $request->file('kk');
+            $pegawai->kk = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/kk'), $pegawai->kk);
+            $request['kk'] = $pegawai->kk;
+        }
+        if ($request->hasFile('ktp')) {
+            if (File::exists("umum/pegawai/ktp/" . $pegawai->ktp)) {
+                File::delete("umum/pegawai/ktp/" . $pegawai->ktp);
+            }
+            $file = $request->file('ktp');
+            $pegawai->ktp = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/ktp'), $pegawai->ktp);
+            $request['ktp'] = $pegawai->ktp;
+        }
+        if ($request->hasFile('akte')) {
+            if (File::exists("umum/pegawai/akte/" . $pegawai->akte)) {
+                File::delete("umum/pegawai/akte/" . $pegawai->akte);
+            }
+            $file = $request->file('akte');
+            $pegawai->akte = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/akte'), $pegawai->akte);
+            $request['akte'] = $pegawai->akte;
+        }
+        if ($request->hasFile('npwp')) {
+            if (File::exists("umum/pegawai/npwp/" . $pegawai->npwp)) {
+                File::delete("umum/pegawai/npwp/" . $pegawai->npwp);
+            }
+            $file = $request->file('npwp');
+            $pegawai->npwp = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/npwp'), $pegawai->npwp);
+            $request['npwp'] = $pegawai->npwp;
+        }
+        if ($request->hasFile('bpjs')) {
+            if (File::exists("umum/pegawai/bpjs/" . $pegawai->bpjs)) {
+                File::delete("umum/pegawai/bpjs/" . $pegawai->bpjs);
+            }
+            $file = $request->file('bpjs');
+            $pegawai->bpjs = time() . '_' . $file->getClientOriginalName();
+            $file->move(\public_path('umum/pegawai/bpjs'), $pegawai->bpjs);
+            $request['bpjs'] = $pegawai->bpjs;
         }
 
-        $pegawai->update([
-            "nip" => $request->nip,
-            "nama" => $request->nama,
-            "npwp" => $request->npwp,
-            "jk" => $request->jk,
-            "tempat_lahir" => $request->tempat_lahir,
-            "tgl_lahir" => $request->tgl_lahir,
-            "agama" => $request->agama,
-            "alamat" => $request->alamat,
-            "telepon" => $request->telepon,
-            "email" => $request->email,
-            "bpjs" => $request->bpjs,
-            "foto" => $pegawai->foto,
-        ]);
+        $input['foto_diri'] = $pegawai->foto_diri;
+        $input['kk'] = $pegawai->kk;
+        $input['ktp'] = $pegawai->ktp;
+        $input['akte'] = $pegawai->akte;
+        $input['npwp'] = $pegawai->npwp;
+        $input['bpjs'] = $pegawai->bpjs;
 
-        // if($request->hasFile("images")){
-        //     $files=$request->file("images");
-        //     foreach($files as $file){
-        //         $imageName=time().'_'.$file->getClientOriginalName();
-        //         $request['image_pegawai']=$imageName;
-        //         $request['pegawai_id']=$id;
-        //         $file->move(\public_path("umum/pegawai/all"),$imageName);
-        //         PegawaiImage::create($request->all());
+        $pegawai->update($input);
 
-        //     }
-        // }
+        Alert::success('Success', 'Update pegawai has been successfully');
 
-        return redirect()->route('pegawais.index')->with('success', 'Pegawai edit successfully');
+        return redirect()->route('pegawais.index');
     }
 
     /**
@@ -190,84 +217,30 @@ class PegawaiController extends Controller
     public function destroy($id)
     {
         $pegawai = Pegawai::findOrFail($id);
-        if (File::exists("umum/pegawai/" . $pegawai->foto)) {
-            File::delete("umum/pegawai/" . $pegawai->foto);
+        if (File::exists("umum/pegawai/" . $pegawai->foto_diri)) {
+            File::delete("umum/pegawai/" . $pegawai->foto_diri);
         }
+        if (File::exists("umum/pegawai/kk/" . $pegawai->kk)) {
+            File::delete("umum/pegawai/kk/" . $pegawai->kk);
+        }
+        if (File::exists("umum/pegawai/ktp/" . $pegawai->ktp)) {
+            File::delete("umum/pegawai/ktp/" . $pegawai->ktp);
+        }
+        if (File::exists("umum/pegawai/akte/" . $pegawai->akte)) {
+            File::delete("umum/pegawai/akte/" . $pegawai->akte);
+        }
+        if (File::exists("umum/pegawai/npwp/" . $pegawai->npwp)) {
+            File::delete("umum/pegawai/npwp/" . $pegawai->npwp);
+        }
+        if (File::exists("umum/pegawai/bpjs/" . $pegawai->bpjs)) {
+            File::delete("umum/pegawai/bpjs/" . $pegawai->bpjs);
+        }
+
         Pegawai::find($id)->delete();
 
+        Alert::error('Delete', 'Delete pegawai has been successfully');
 
-
-        return redirect()->route('pegawais.index')->with('success', 'Delete Pegawai successfully');
-    }
-
-    public function deleteImage($id)
-    {
-        $images = PegawaiImage::findOrFail($id);
-        if (File::exists('umum/pegawai/all/' . $images->image_pegawai)) {
-            File::delete('umum/pegawai/all/' . $images->image_pegawai);
-        }
-
-        PegawaiImage::find($id)->delete();
-
-
-        return back();
-    }
-
-
-    public function storePangkat(Request $request)
-    {
-        if ($request->hasFile("foto")) {
-            $file = $request->file("foto");
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path("umum/pegawai/pangkat"), $imageName);
-
-            $pangkat = new Pangkat([
-                "nama_pangkat" => $request->nama_pangkat,
-                "no_sk" => $request->no_sk,
-                "tgl_sk" => $request->tgl_sk,
-                "tmt_pangkat" => $request->tmt_pangkat,
-                "foto" => $imageName,
-                "pegawai_id" => $request->pegawai_id,
-
-            ]);
-            $pangkat->save();
-        }
-        return back()->with('success', 'Create pangkat successfully.');
-    }
-
-    public function updatePangkat(Request $request, $id)
-    {
-
-        $pangkat = Pangkat::findOrFail($id);
-        if ($request->hasFile("foto")) {
-            if (File::exists("umum/pegawai/pangkat/" . $pangkat->foto)) {
-                File::delete("umum/pegawai/pangkat/" . $pangkat->foto);
-            }
-            $file = $request->file("foto");
-            $pangkat->foto = time() . "_" . $file->getClientOriginalName();
-            $file->move(\public_path("umum/pegawai/pangkat"), $pangkat->foto);
-            $request['pangkat'] = $pangkat->foto;
-        }
-
-        $pangkat->update([
-            "nama_pangkat" => $request->nama_pangkat,
-            "no_sk" => $request->no_sk,
-            "tgl_sk" => $request->tgl_sk,
-            "tmt_pangkat" => $request->tmt_pangkat,
-            "foto" => $pangkat->foto,
-        ]);
-
-        return back()->with('success', 'Edit pangkat successfully.');
-    }
-
-    public function destroyPangkat($id)
-    {
-        $pangkat = Pangkat::findOrFail($id);
-        if (File::exists("umum/pegawai/pangkat/" . $pangkat->foto)) {
-            File::delete("umum/pegawai/pangkat/" . $pangkat->foto);
-        }
-        Pangkat::find($id)->delete();
-        return back()->with('success', 'Delete pangkat successfully.');
+        return redirect()->route('pegawais.index');
     }
 
     public function storeJabatan(Request $request)

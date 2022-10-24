@@ -69,6 +69,53 @@
     </div>
 </div>
 
+<!-- edit -->
+@foreach ($mapping as $item)
+<div class="modal fade" id="edit-{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Edit Data</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('mapping-asset.update',$item->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label>Kode Barang</label>
+                        <input type="text" name="kode_brg" value="{{ old('kode_brg') ?? $item->kode_brg }}"
+                            class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Nama Barang</label>
+                        <input type="text" name="nama_brg" value="{{ old('nama_brg') ?? $item->nama_brg }}"
+                            class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select name="kategori" class="form-control" required>
+                            <option value="{{ $item->kategori }}">{{ $item->kategori }}</option>
+                            <option value="KibA">KIB A ( Tanah )</option>
+                            <option value="KibB">KIB B ( Peralatan dan Mesin )</option>
+                            <option value="KibC">KIB C ( Gedung & Bangunan )</option>
+                            <option value="KibD">KIB D ( Jalan, Irigasi dan Jaringan )</option>
+                            <option value="KibE">KIB E ( Asset Tetap Lainnya )</option>
+                            <option value="KibF">KIB F ( Konstruksi Dalam Penggunaan )</option>
+                            <option value="Atb">ATB ( Asset Tak Berwujud )</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary"><i data-feather="save"></i> Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <main class="content">
     <div class="container-fluid p-0">
@@ -123,18 +170,24 @@
     </div>
 </main>
 
-<div class="modal fade" id="delete-" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+@foreach ($mapping as $item)
+<div class="modal fade" id="delete-{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="myLargeModalLabel">Hapus Data</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('mapping-asset.destroy',$item->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('DELETE')
                 <div class="modal-body">
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
+                        Kode : <strong>{{ $item->kode_brg }}</strong> <br>
+                        Nama : <strong>{{ $item->nama_brg }}</strong> <br>
+                        Kategori : <strong>{{ $item->kategori }}</strong>
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -145,4 +198,5 @@
         </div>
     </div>
 </div>
+@endforeach
 @endsection

@@ -40,10 +40,16 @@
                 </a>
 
                 <ul class="sidebar-nav pb-5">
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('home') }}">
+                    <li class="sidebar-item {{ request()->is('home*') ? 'active' : '' }}">
+                        <a class="sidebar-link href=" {{ route('home') }}">
                             <i class="align-middle" data-feather="sliders"></i> <span
                                 class="align-middle">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ url('artikel-hadiah') }}">
+                            <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Artikel
+                                Hadiah (Many to Many)</span>
                         </a>
                     </li>
                     <li class="sidebar-item {{ request()->is('pegawais*') ? 'active' : '' }}">

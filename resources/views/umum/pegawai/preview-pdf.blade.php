@@ -45,7 +45,7 @@
 
 
 	<div class="container">
-		<img class="img-responsive" src="/umum/pegawai/{{$pegawai->foto}}" alt="" />
+		<img class="img-responsive" src="{{ asset('umum/pegawai/'.$pegawai->foto_diri) }}" alt="" />
 
 
 		<div class="row">
@@ -70,12 +70,6 @@
 				<strong class="phone-number">: {{ $pegawai->nip }}</strong>
 			</div>
 			<div class="col-md-3">
-				<span class="title">NPWP</span>
-			</div>
-			<div class="col-md-9">
-				<strong class="phone-number">: {{ $pegawai->npwp }}</strong>
-			</div>
-			<div class="col-md-3">
 				<span class="title">Jenis Kelamin</span>
 			</div>
 			<div class="col-md-9">
@@ -86,7 +80,7 @@
 			</div>
 			<div class="col-md-9">
 				<strong class="phone-number">: {{ $pegawai->tempat_lahir }}, {{
-					$pegawai->tgl_lahir->isoFormat('DD-MMMM-Y') }}</strong>
+					$pegawai->tgl_lahir }}</strong>
 			</div>
 			<div class="col-md-3">
 				<span class="title">Agama</span>
@@ -94,7 +88,7 @@
 			<div class="col-md-9">
 				<strong class="phone-number">: {{ $pegawai->agama }}</strong>
 			</div>
-			@foreach($pegawai->pangkat()->orderBy('tgl_sk','desc')->take(1)->get() as $data)
+			@foreach($pegawai->pegawaiPangkat()->orderBy('tgl_sk','desc')->take(1)->get() as $data)
 			<div class="col-md-3">
 				<span class="title">Pangkat/Golongan</span>
 			</div>
@@ -102,27 +96,11 @@
 				<strong class="phone-number">: {{ $data->nama_pangkat }}, {{ $data->gol_pangkat }}</strong>
 			</div>
 			@endforeach
-			@foreach($pegawai->pendidikan()->orderBy('tahun_lulus','desc')->take(1)->get() as $pen)
 			<div class="col-md-3">
-				<span class="title">Pendidikan Terakhir</span>
+				<span class="title">HP</span>
 			</div>
 			<div class="col-md-9">
-				<strong class="phone-number">: {{ $pen->jenjang_pendidikan }} {{ $pen->jurusan }}</strong>
-			</div>
-			@endforeach
-			@foreach($pegawai->jabatan()->orderBy('tmt_jabatan','desc')->take(1)->get() as $pen)
-			<div class="col-md-3">
-				<span class="title">Jabatan</span>
-			</div>
-			<div class="col-md-9">
-				<strong class="phone-number">: {{ $pen->nama_jabatan }}</strong>
-			</div>
-			@endforeach
-			<div class="col-md-3">
-				<span class="title">Telepon</span>
-			</div>
-			<div class="col-md-9">
-				<strong class="phone-number">: {{ $pegawai->telepon }}</strong>
+				<strong class="phone-number">: {{ $pegawai->no_hp }}</strong>
 			</div>
 			<div class="col-md-3">
 				<span class="title">Email</span>
@@ -136,15 +114,9 @@
 			<div class="col-md-9">
 				<strong class="phone-number">: {{ $pegawai->alamat }}</strong>
 			</div>
-			<div class="col-md-3">
-				<span class="title">No BPJS</span>
-			</div>
-			<div class="col-md-9">
-				<strong class="phone-number">: {{ $pegawai->bpjs }}</strong>
-			</div>
 		</div>
 
-		@if ($pegawai->pangkat->count() == 0)
+		@if ($pegawai->pegawaiPangkat->count() == 0)
 		@else
 		<table class="table table-bordered mt-3">
 			<thead>
@@ -160,251 +132,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach($pegawai->pangkat as $key => $p)
+				@foreach($pegawai->pegawaiPangkat as $key => $p)
 				<tr>
 					<td style="text-align: center;">{{ ++$key }}</td>
 					<td>{{ $p->nama_pangkat }}, {{ $p->gol_pangkat }}</td>
 					<td>{{ $p->no_sk }}</td>
-					<td>{{ $p->tgl_sk->isoFormat('DD-MM-Y') }}</td>
-					<td>{{ $p->tmt_pangkat->isoFormat('DD-MM-Y') }}</td>
+					<td>{{ $p->tgl_sk }}</td>
+					<td>{{ $p->tmt_pangkat }}</td>
 				</tr>
 				@endforeach
 			</tbody>
 		</table>
 		@endif
 
-		@if ($pegawai->jabatan->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<thead>
-				<tr>
-					<th colspan="5">RIWAYAT JABATAN</th>
-				</tr>
-				<tr style="text-align: center;">
-					<th>No</th>
-					<th>Jabatan</th>
-					<th>Eselon</th>
-					<th>TMT Jabatan</th>
-					<th>Masa Jabatan</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach($pegawai->jabatan as $key => $j)
-				<tr>
-					<td style="text-align: center;">{{ ++$key }}</td>
-					<td>{{ $j->nama_jabatan }}</td>
-					<td>{{ $j->eselon }}</td>
-					<td>{{ $j->tmt_jabatan->isoFormat('DD-MM-Y') }}</td>
-					<td>{{ $j->tmt_jabatan->isoFormat('DD-MM-Y') }} s/d {{ $j->akhir_jabatan->isoFormat('DD-MM-Y') }}
-					</td>
-				</tr>
-				@endforeach
-			</tbody>
-		</table>
-		@endif
 
-		@if ($pegawai->pendidikan->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<tr>
-				<th colspan="5">RIWAYAT PENDIDIKAN UMUM</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Jenjang Pendidikan</th>
-				<th>Fakultas/Jurusan</th>
-				<th>Nama Sekolah/Univ.</th>
-				<th>Tahun Lulus</th>
-			</tr>
-			@foreach($pegawai->pendidikan as $key => $pen)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $pen->jenjang_pendidikan }}</td>
-				<td>{{ $pen->jurusan }}</td>
-				<td>{{ $pen->nama_sekolah }}</td>
-				<td>{{ $pen->tahun_lulus }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		@if ($pegawai->pelatihankepemimpinan->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<tr>
-				<th colspan="5">RIWAYAT PENDIDIKAN DAN PELATIHAN KEPEMIMPINAN</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Nama Diklat</th>
-				<th>Angkatan/Tahun</th>
-				<th>Tempat</th>
-				<th>Panitia Penyelenggara</th>
-			</tr>
-			@foreach($pegawai->pelatihankepemimpinan as $key => $data)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $data->nama_diklat }}</td>
-				<td>{{ $data->angkatan }} {{ $data->tahun }}</td>
-				<td>{{ $data->tempat }}</td>
-				<td>{{ $data->panitia }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		@if ($pegawai->pelatihanteknis->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<tr>
-				<th colspan="5">RIWAYAT PENDIDIKAN/ PELATIHAN TEKNIS DAN PELATIHAN FUNGSIONAL</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Nama Diklat</th>
-				<th>Angkatan/Tahun</th>
-				<th>Tempat</th>
-				<th>Panitia Penyelenggara</th>
-			</tr>
-			@foreach($pegawai->pelatihanteknis as $key => $data)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $data->nama_diklat }}</td>
-				<td>{{ $data->angkatan }} {{ $data->tahun }}</td>
-				<td>{{ $data->tempat }}</td>
-				<td>{{ $data->panitia }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		@if ($pegawai->organisasi->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<tr>
-				<th colspan="5">PENGALAMAN DALAM ORGANISASI</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Nama Organisasi</th>
-				<th>Kedudukan Dalam Organisasi</th>
-				<th>Tempat</th>
-				<th>Nama Pimpinan</th>
-			</tr>
-			@foreach($pegawai->organisasi as $key => $data)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $data->nama_organisasi }}</td>
-				<td>{{ $data->kedudukan }}</td>
-				<td>{{ $data->tempat }}</td>
-				<td>{{ $data->nama_pimpinan }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		@if ($pegawai->penghargaan->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<tr>
-				<th colspan="4">RIWAYAT PENGHARGAAN/ TANDA JASA</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Penghargaan/Tanda Jasa</th>
-				<th>Tahun</th>
-				<th>Asal Perolehan</th>
-			</tr>
-			@foreach($pegawai->penghargaan as $key => $data)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $data->penghargaan }}</td>
-				<td>{{ $data->tahun }}</td>
-				<td>{{ $data->asal_perolehan }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		@if ($pegawai->pasangan->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<tr>
-				<th colspan="5">DATA ISTERI/ SUAMI</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Nama</th>
-				<th>Tempat dan Tgl Lahir</th>
-				<th>Tgl Nikah</th>
-				<th>Pekerjaan</th>
-			</tr>
-			@foreach($pegawai->pasangan as $key => $data)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $data->nama_pasangan }}</td>
-				<td>{{ $data->tempat_lahir }}, {{ $data->tgl_lahir->isoFormat('DD-MMMM-Y') }}</td>
-				<td>{{ $data->tgl_nikah->isoFormat('DD-MMMM-Y') }}</td>
-				<td>{{ $data->pekerjaan }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		@if ($pegawai->anak->count() == 0)
-		@else
-		<table class="table table-bordered mt-3">
-			<tr>
-				<th colspan="5">DATA ANAK</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Nama</th>
-				<th>Tempat dan Tgl Lahir</th>
-				<th>Status Anak</th>
-				<th>Pekerjaan</th>
-			</tr>
-			@foreach($pegawai->anak as $key => $data)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $data->nama_anak }}</td>
-				<td>{{ $data->tempat_lahir }}, {{ $data->tgl_lahir->isoFormat('DD-MMMM-Y') }}</td>
-				<td>{{ $data->status_anak }}</td>
-				<td>{{ $data->pekerjaan }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		@if ($pegawai->ortu->count() == 0)
-		@else
-		<table class="table table-bordered mt-3 mb-4">
-			<tr>
-				<th colspan="5">DATA ORANG TUA</th>
-			</tr>
-			<tr style="text-align: center;">
-				<th>No</th>
-				<th>Nama</th>
-				<th>Tempat dan Tgl Lahir</th>
-				<th>Ayah/Ibu</th>
-				<th>Pekerjaan</th>
-			</tr>
-			@foreach($pegawai->ortu as $key => $data)
-			<tr>
-				<td style="text-align: center;">{{ ++$key }}</td>
-				<td>{{ $data->nama_ortu }}</td>
-				<td>{{ $data->tempat_lahir }} {{ $data->tgl_lahir->isoFormat('DD-MMMM-Y') }}</td>
-				<td>{{ $data->status_ortu }}</td>
-				<td>{{ $data->pekerjaan }}</td>
-			</tr>
-			@endforeach
-		</table>
-		@endif
-
-		<div class="row">
+		<div class="row mt-5">
 			<div class="col-md-6"></div>
 			<div class="col-md-4 text-center">
-				<strong class="mt-5">Pekanbaru, {{ \Carbon\Carbon::now()->isoFormat('DD-MMMM-Y') }}</strong>
+				<strong class="mt-5">Pekanbaru, {{ \Carbon\Carbon::now() }}</strong>
 				<br><br><br><br>
 				<strong><u>{{ $pegawai->nama }}</u></strong><br>
 				<span>{{ $pegawai->nip }}</span>

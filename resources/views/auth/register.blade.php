@@ -1,4 +1,4 @@
-{{-- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" name="telepon" value="{{ old('telepon') }}"
+                            <input type="number" class="form-control" name="telepon" value="{{ old('telepon') }}"
                                 placeholder="Enter Your Phone Number" required>
                         </div>
 
@@ -131,4 +131,4 @@
         </div>
     </div>
 </div>
-@endsection --}}
+@endsection

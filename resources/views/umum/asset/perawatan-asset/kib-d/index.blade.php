@@ -51,12 +51,11 @@
                     <table id="example" class="table table-striped" style="width:100%;">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Kode</th>
-                                <th>Nama</th>
+                                <th>Barang</th>
                                 <th>Tgl</th>
                                 <th>Uraian</th>
-                                <th>Nilai</th>
+                                <th>Nilai (Rp)</th>
                                 <th>Keterangan</th>
                                 <th>Img</th>
                                 <th>Penanggung Jawab</th>
@@ -66,12 +65,11 @@
                         <tbody>
                             @foreach ($kibs as $item)
                             <tr>
-                                <td class="text-center">{{ $item->assetUmum->id_brg }}</td>
-                                <td>{{ $item->assetUmum->kode_brg }}</td>
-                                <td>{{ $item->assetUmum->nama_brg }}</td>
+                                <td>{{ $item->assetUmum->mappingAsset->kode_brg }}</td>
+                                <td>{{ $item->assetUmum->mappingAsset->nama_brg }}</td>
                                 <td>{{ $item->tgl }}</td>
                                 <td>{{ $item->uraian }}</td>
-                                <td>{{ $item->nilai }}</td>
+                                <td>{{ number_format($item->nilai) }}</td>
                                 <td>{{ $item->keterangan }}</td>
                                 <td>
                                     @if ($item->foto === NULL)
@@ -124,9 +122,8 @@
                 <div class="modal-body">
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
-                        ID barang : <strong>{{ $item->assetUmum->id_brg }}</strong> <br>
-                        Kode barang : <strong>{{ $item->assetUmum->kode_brg }}</strong> <br>
-                        Nama Barang : <strong>{{ $item->assetUmum->nama_brg }}</strong> <br>
+                        Kode barang : <strong>{{ $item->assetUmum->mappingAsset->kode_brg }}</strong> <br>
+                        Nama Barang : <strong>{{ $item->assetUmum->mappingAsset->nama_brg }}</strong> <br>
                         Keterangan : <strong>{{ $item->keterangan }}</strong> <br>
                         Penanggung Jawab : <strong>{{ $item->assetUmum->penanggung_jawab }}</strong> <br>
                     </p>

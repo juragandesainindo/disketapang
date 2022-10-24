@@ -42,6 +42,7 @@ class KibAController extends Controller
             $input['foto'] = $imageName;
         }
 
+
         AssetUmum::create($input);
         // toast('Create Kib A has been successfully', 'error');
 

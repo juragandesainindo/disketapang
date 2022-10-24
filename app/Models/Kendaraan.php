@@ -34,11 +34,4 @@ class Kendaraan extends Model
         'image_dalam',
         'image_mesin',
     ];
-
-    // protected $dates =['berlaku'];
-
-    public function kendaraanimage()
-    {
-        return $this->hasMany(KendaraanImage::class);
-    }
 }

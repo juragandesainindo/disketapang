@@ -25,7 +25,6 @@ class KibBRequest extends FormRequest
     {
         return [
             'mapping_asset_id' => 'required',
-            'pemakai' => 'nullable',
             'tgl_perolehan' => 'required',
             'nilai_brg' => 'required',
             'nilai_perolehan' => 'nullable',

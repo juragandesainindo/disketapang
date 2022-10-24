@@ -101,6 +101,7 @@ class PerawatanAtbController extends Controller
     public function update(PerawatanAssetRequest $request, $id)
     {
         $kib = PerawatanAssetUmum::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/perawatan/atb/" . $kib->foto)) {
@@ -111,15 +112,9 @@ class PerawatanAtbController extends Controller
             $file->move(\public_path('umum/asset/perawatan/atb'), $kib->foto);
             $request['foto'] = $kib->foto;
         }
+        $input['foto'] = $kib->foto;
 
-        $kib->update([
-            'asset_umum_id' => $request->asset_umum_id,
-            'tgl' => $request->tgl,
-            'uraian' => $request->uraian,
-            'nilai' => $request->nilai,
-            'keterangan' => $request->keterangan,
-            'foto' => $kib->foto,
-        ]);
+        $kib->update($input);
 
         Alert::success('Success', 'Update Perawatan Asset Tak Berwujud has been successfully');
 

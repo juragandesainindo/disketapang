@@ -32,9 +32,18 @@ class MappingAssetController extends Controller
 
     public function update(Request $request, $id)
     {
+        $mapping = MappingAsset::findOrFail($id);
+        $mapping->update($request->all());
+
+        Alert::success('Success', 'Update mapping asset kib a has been successfully');
+        return back();
     }
 
     public function destroy($id)
     {
+        $mapping = MappingAsset::findOrFail($id);
+        $mapping->delete();
+        Alert::error('Delete', 'Delete mapping asset kib a has been successfully');
+        return back();
     }
 }

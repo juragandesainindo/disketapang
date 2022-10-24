@@ -26,14 +26,16 @@
                                         <label>Perawatan Kib F &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="form-control form-select @error('asset_umum_id') is-invalid @enderror"
+                                            class="form-control js-example-basic-single @error('asset_umum_id') is-invalid @enderror"
                                             name="asset_umum_id" style="width: 100%; height: 38px;">
                                             <option value="{{ old('asset_umum_id') ?? $kib->assetUmum->id }}">{{
-                                                old('asset_umum_id') ?? $kib->assetUmum->id_brg .' - '.
-                                                $kib->assetUmum->nama_brg }}
+                                                old('asset_umum_id') ??
+                                                $kib->assetUmum->mappingAsset->kode_brg .' - '.
+                                                $kib->assetUmum->mappingAsset->nama_brg }}
                                             </option>
                                             @foreach ($modelKib as $item)
-                                            <option value="{{ $item->id }}">{{ $item->id_brg }} - {{ $item->nama_brg }}
+                                            <option value="{{ $item->id }}">{{ $item->mappingAsset->kode_brg }} - {{
+                                                $item->mappingAsset->nama_brg }}
                                             </option>
                                             @endforeach
                                         </select>

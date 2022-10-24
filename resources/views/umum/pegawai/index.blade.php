@@ -51,16 +51,16 @@
                                     <span class="text-sm">{{ $item->nip }}</span>
                                 </td>
                                 <td>
-                                    {{ $item->telepon }}<br>
+                                    {{ $item->no_hp }}<br>
                                     <span class="text-sm">{{ $item->email }}</span>
                                 </td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>
-                                    @if ($item->foto === Null)
+                                    @if ($item->foto_diri === Null)
                                     <span class="text-secondary">Null</span>
                                     @else
-                                    <a href="{{ asset('umum/pegawai/'.$item->foto) }}" target="_blank">
-                                        <img src="{{ asset('umum/pegawai/'.$item->foto) }}" width="36" height="36"
+                                    <a href="{{ asset('umum/pegawai/'.$item->foto_diri) }}" target="_blank">
+                                        <img src="{{ asset('umum/pegawai/'.$item->foto_diri) }}" width="36" height="36"
                                             class="rounded-circle me-2" alt="Vanessa Tucker">
                                     </a>
                                     @endif
@@ -96,7 +96,7 @@
                 <h4 class="modal-title" id="myLargeModalLabel">Hapus Data</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('pegawais.destroy',$item->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('DELETE')
                 <div class="modal-body">

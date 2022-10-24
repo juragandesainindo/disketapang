@@ -48,7 +48,6 @@ use App\Http\Controllers\Umum\Asset\KibCController;
 use App\Http\Controllers\Umum\Asset\KibDController;
 use App\Http\Controllers\Umum\Asset\KibEController;
 use App\Http\Controllers\Umum\Asset\KibFController;
-use App\Http\Controllers\Umum\Asset\Laporan\LaporanPernyataanController;
 use App\Http\Controllers\Umum\Asset\Laporan\LaporanRekonController;
 use App\Http\Controllers\Umum\Asset\MappingAssetController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanAtbController;
@@ -58,7 +57,8 @@ use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibCController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibDController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibEController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibFController;
-use App\Models\LaporanRekon;
+use App\Http\Controllers\umum\manyToMany\ArtikelHadiahController;
+use App\Http\Controllers\Umum\PegawaiPangkatController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -127,10 +127,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('pegawai-pdf/{id}', [PegawaiController::class, 'exportPDF'])->name('pegawai-pdf.export');
     Route::get('pegawai-preview-pdf/{id}', [PegawaiController::class, 'previewPDF'])->name('pegawai-preview-pdf');
 
-    Route::get('pegawai-pangkat', [PegawaiController::class, 'indexPangkat'])->name('pegawai-pangkat.index');
-    Route::post('pegawai-pangkat', [PegawaiController::class, 'storePangkat'])->name('pegawai-pangkat.store');
-    Route::put('pegawai-pangkat/{id}', [PegawaiController::class, 'updatePangkat'])->name('pegawai-pangkat.update');
-    Route::delete('pegawai-pangkat/{id}', [PegawaiController::class, 'destroyPangkat'])->name('pegawai-pangkat.destroy');
+    Route::post('pegawai-pangkat', [PegawaiPangkatController::class, 'store'])->name('pegawai-pangkat.store');
+    Route::put('pegawai-pangkat/{id}', [PegawaiPangkatController::class, 'update'])->name('pegawai-pangkat.update');
+    Route::delete('pegawai-pangkat/{id}', [PegawaiPangkatController::class, 'destroy'])->name('pegawai-pangkat.destroy');
 
     Route::post('pegawai-jabatan', [PegawaiController::class, 'storeJabatan'])->name('pegawai-jabatan.store');
     Route::put('pegawai-jabatan/{id}', [PegawaiController::class, 'updateJabatan'])->name('pegawai-jabatan.update');
@@ -450,8 +449,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('mapping-asset', [MappingAssetController::class, 'index'])->name('mapping-asset.index');
     Route::post('mapping-asset', [MappingAssetController::class, 'store'])->name('mapping-asset.store');
+    Route::put('mapping-asset/{id}', [MappingAssetController::class, 'update'])->name('mapping-asset.update');
+    Route::delete('mapping-asset/{id}', [MappingAssetController::class, 'destroy'])->name('mapping-asset.destroy');
+
     Route::resource('kib-a', KibAController::class);
     Route::resource('kib-b', KibBController::class);
+    Route::put('asset-umum-pegawai/{id}', [KibBController::class, 'updatePegawai'])->name('asset-umum-pegawai.update');
+    Route::delete('asset-umum-pegawai/{id}', [KibBController::class, 'deletePegawai'])->name('asset-umum-pegawai');
     Route::resource('kib-c', KibCController::class);
     Route::resource('kib-d', KibDController::class);
     Route::resource('kib-e', KibEController::class);
@@ -473,4 +477,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('dropdown-dependent', [DropdownDependentController::class, 'index'])->name('dropdown-dependent');
     // Route::get('get-pangkat', [DropdownDependentController::class, 'getPangkat'])->name('getPangkat');
     // Route::get('get-jabatan', [DropdownDependentController::class, 'getJabatan'])->name('getJabatan');
+
+
+    // Many to many
+    Route::get('artikel-hadiah', [ArtikelHadiahController::class, 'hadiah']);
+    Route::post('artikel-hadiah', [ArtikelHadiahController::class, 'storeHadiah'])->name('store.hadiah');
+    Route::post('artikel-hadiah-artikel', [ArtikelHadiahController::class, 'storeArtikel'])->name('store.artikel');
 });

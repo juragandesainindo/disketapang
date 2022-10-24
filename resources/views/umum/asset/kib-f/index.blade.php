@@ -53,7 +53,7 @@
                             <tr>
                                 <th>Kode</th>
                                 <th>Barang</th>
-                                <th>Nilai</th>
+                                <th>Nilai (Rp)</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
                                 <th>Keterangan</th>
@@ -67,7 +67,7 @@
                             <tr>
                                 <td>{{ $kib->mappingAsset->kode_brg }}</td>
                                 <td>{{ $kib->mappingAsset->nama_brg }}</td>
-                                <td>{{ $kib->nilai_brg }}</td>
+                                <td>{{ number_format($kib->nilai_brg) }}</td>
                                 <td>{{ $kib->tgl_perolehan }}</td>
                                 <td>{{ $kib->penggunaan }}</td>
                                 <td>{{ $kib->keterangan }}</td>
