@@ -124,101 +124,37 @@
 			</div>
 		</div>
 
+
+		{{-- Pangkat --}}
 		@include('umum.pegawai.modal.pangkat')
 
-		{{-- Pangkat start --}}
-		<div class="row">
-			<div class="col-12 col-lg-12">
-				<div class="card flex-fill px-2 pb-2">
-					<div class="card-header d-flex justify-content-between align-items-center">
-						<h5 class="card-title text-dark mb-0">Riwayat Kepangkatan</h5>
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-							data-bs-target="#createPangkat">
-							<i data-feather="folder-plus"></i>&nbsp;
-							Add Pangkat
-						</button>
-					</div>
-					<div class="card-body">
-						<table id="pangkat" class="table table-striped" style="width:100%;">
-							<thead>
-								<tr>
-									<th>No</th>
-									<th>Pangkat/Gol</th>
-									<th>No SK</th>
-									<th>Tgl SK</th>
-									<th>TMT Pangkat</th>
-									<th>File</th>
-									<th>Aksi</th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach ($pegawai->pegawaiPangkat as $key => $item)
-								<tr>
-									<td>{{ ++$key }}</td>
-									<td>{{ $item->nama_pangkat }}</td>
-									<td>{{ $item->no_sk }}</td>
-									<td>{{ $item->tgl_sk }}</td>
-									<td>{{ $item->tmt_pangkat }}</td>
-									<td>
-										@if ($item->foto === Null)
-										<span class="text-secondary">Null</span>
-										@else
-										<a href="{{ asset('umum/pegawai/pangkat/'.$item->foto) }}" target="_blank">
-											<img src="{{ asset('assets/folder.png') }}" width="36" height="36"
-												class="rounded-circle me-2" alt="{{ $item->nama_pangkat }}">
-											@endif
-									</td>
-									<td>
-										<a href="#" data-bs-toggle="modal" data-bs-target="#editPangkat-{{ $item->id }}"
-											class="btn btn-info btn-sm"><i data-feather="edit"></i></a>
-										<a href="#" data-bs-toggle="modal"
-											data-bs-target="#deletePangkat-{{ $item->id }}"
-											class="btn btn-danger btn-sm"><i data-feather="trash"></i></a>
-									</td>
-								</tr>
-								@endforeach
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		{{-- Pangkat end --}}
+		{{-- Jabatan --}}
+		@include('umum.pegawai.modal.jabatan')
 
-		{{-- Jabatan start --}}
-		<div class="row">
-			<div class="col-12 col-lg-12">
-				<div class="card flex-fill px-2 pb-2">
-					<div class="card-header d-flex justify-content-between align-items-center">
-						<h5 class="card-title text-dark mb-0">Riwayat Jabatan</h5>
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-							data-bs-target="#createPangkat">
-							<i data-feather="folder-plus"></i>&nbsp;
-							Add Jabatan
-						</button>
-					</div>
-					<div class="card-body">
-						<table id="jabatan" class="table table-striped" style="width:100%;">
-							<thead>
-								<tr>
-									<th>No</th>
-									<th>Pangkat/Gol</th>
-									<th>No SK</th>
-									<th>Tgl SK</th>
-									<th>TMT Pangkat</th>
-									<th>File</th>
-									<th>Aksi</th>
-								</tr>
-							</thead>
-							<tbody>
+		{{-- Pendidikan Umum --}}
+		@include('umum.pegawai.modal.pendidikanUmum')
 
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		{{-- Jabatan end --}}
+		{{-- Pelatihan Kepemimpinan --}}
+		@include('umum.pegawai.modal.pelatihanKepemimpinan')
+
+		{{-- Pelatihan Teknis --}}
+		@include('umum.pegawai.modal.pelatihanTeknis')
+
+		{{-- Organisasi --}}
+		@include('umum.pegawai.modal.organisasi')
+
+		{{-- Penghargaan --}}
+		@include('umum.pegawai.modal.penghargaan')
+
+		{{-- Pasangan --}}
+		@include('umum.pegawai.modal.pasangan')
+
+		{{-- Anak --}}
+		@include('umum.pegawai.modal.anak')
+
+		{{-- Ortu --}}
+		@include('umum.pegawai.modal.ortu')
+
 	</div>
 </main>
 @endsection
@@ -230,6 +166,12 @@
 			scrollX:true,
 			});
 			$('#jabatan').DataTable({
+			scrollX:true,
+			});
+			$('#pendidikanUmum').DataTable({
+			scrollX:true,
+			});
+			$('#pelatihanKepemimpinan').DataTable({
 			scrollX:true,
 			});
 		});

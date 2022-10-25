@@ -46,11 +46,8 @@
                                 class="align-middle">Dashboard</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ url('artikel-hadiah') }}">
-                            <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Artikel
-                                Hadiah (Many to Many)</span>
-                        </a>
+                    <li class="sidebar-header">
+                        Sub Bagian Umum
                     </li>
                     <li class="sidebar-item {{ request()->is('pegawais*') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ url('pegawais') }}">
@@ -74,10 +71,6 @@
                             <i class="align-middle" data-feather="sliders"></i> <span
                                 class="align-middle">Kendaraan</span>
                         </a>
-                    </li>
-                    <hr>
-                    <li class="sidebar-header">
-                        Kumpulan Asset
                     </li>
 
                     <li class="sidebar-item {{ request()->is('mapping-asset*') ? 'active' : '' }}">
@@ -215,6 +208,22 @@
                             <span class="align-middle">Laporan</span>
                         </a>
                     </li>
+
+                    <li class="sidebar-header">
+                        Sub Bagian Keuangan
+                    </li>
+                    <li class="sidebar-item {{ request()->is('referensi-tufoksi*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ url('referensi-tufoksi') }}">
+                            <i class="align-middle" data-feather="file"></i>
+                            <span class="align-middle">Referensi Tufoksi</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->is('evaluasi-renstra*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ url('evaluasi-renstra') }}">
+                            <i class="align-middle" data-feather="file"></i>
+                            <span class="align-middle">Evaluasi Renstra</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -243,13 +252,6 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 {{-- <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
                                         data-feather="user"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
-                                        data-feather="pie-chart"></i> Analytics</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="index.html"><i class="align-middle me-1"
-                                        data-feather="settings"></i> Settings & Privacy</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
-                                        data-feather="help-circle"></i> Help Center</a>
                                 <div class="dropdown-divider"></div> --}}
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log
@@ -314,8 +316,8 @@
                 scrollX:true,
             });
         });
-        $(document).ready(function(){
         
+        $(document).ready(function(){
             $('.kode').mask('0.0.0.0.0.000');
             $('.rupiah').mask('000000000000000', {reverse:true});
             $('.hp').mask('0000-0000-0000');

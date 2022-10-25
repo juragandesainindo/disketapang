@@ -35,10 +35,9 @@
                                             style="width: 100%;" required>
                                             <option value="">Pilih asset</option>
                                             @foreach ($assets as $item)
-                                            <option value="{{ $item->id }}">( {{ $item->kategori }} ) {{ $item->id_brg
-                                                }} - {{
-                                                $item->kode_brg }} - {{
-                                                $item->nama_brg }}
+                                            <option value="{{ $item->id }}">( {{ $item->kategori }} ) {{
+                                                $item->mappingAsset->kode_brg }} - {{
+                                                $item->mappingAsset->nama_brg }}
                                             </option>
                                             @endforeach
                                         </select>

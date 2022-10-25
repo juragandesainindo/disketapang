@@ -27,9 +27,64 @@
     </div>
 </div>
 
+
+
+<main class="content">
+    <div class="container-fluid p-0">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h3">@yield('title')</h1>
+            <div>
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#search">
+                    <i data-feather="search"></i>&nbsp;
+                    search
+                </button>
+
+                <a href="#" data-bs-target="#create" data-bs-toggle="modal" class="btn btn-primary">
+                    <i data-feather="folder-plus"></i>&nbsp;
+                    Create
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="card flex-fill px-3 pb-3 pt-3">
+
+                    <table id="example" class="table table-striped" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>Kode Barang</th>
+                                <th>Barang</th>
+                                <th>Kategori</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($mapping as $item)
+                            <tr>
+                                <td>{{ $item->kode_brg }}</td>
+                                <td>{{ $item->nama_brg }}</td>
+                                <td>{{ $item->kategori }}</td>
+                                <th>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-{{ $item->id }}"
+                                        class="btn btn-info btn-sm"><i data-feather="edit"></i></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#delete-{{ $item->id }}"
+                                        class="btn btn-danger btn-sm"><i data-feather="trash"></i></a>
+                                </th>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 <!-- create -->
 <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="myLargeModalLabel">Tambah Data</h4>
@@ -116,59 +171,6 @@
     </div>
 </div>
 @endforeach
-
-<main class="content">
-    <div class="container-fluid p-0">
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h3">@yield('title')</h1>
-            <div>
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#search">
-                    <i data-feather="search"></i>&nbsp;
-                    search
-                </button>
-
-                <a href="#" data-bs-target="#create" data-bs-toggle="modal" class="btn btn-primary">
-                    <i data-feather="folder-plus"></i>&nbsp;
-                    Create
-                </a>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 col-lg-12">
-                <div class="card flex-fill px-3 pb-3 pt-3">
-
-                    <table id="example" class="table table-striped" style="width:100%;">
-                        <thead>
-                            <tr>
-                                <th>Kode Barang</th>
-                                <th>Barang</th>
-                                <th>Kategori</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($mapping as $item)
-                            <tr>
-                                <td>{{ $item->kode_brg }}</td>
-                                <td>{{ $item->nama_brg }}</td>
-                                <td>{{ $item->kategori }}</td>
-                                <th>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit-{{ $item->id }}"
-                                        class="btn btn-info btn-sm"><i data-feather="edit"></i></a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#delete-{{ $item->id }}"
-                                        class="btn btn-danger btn-sm"><i data-feather="trash"></i></a>
-                                </th>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
 
 @foreach ($mapping as $item)
 <div class="modal fade" id="delete-{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"

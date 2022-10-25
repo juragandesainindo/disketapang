@@ -34,19 +34,19 @@ class Pegawai extends Model
         return $this->hasMany(PegawaiPangkat::class);
     }
 
-    public function jabatan()
+    public function pegawaiJabatan()
     {
-        return $this->hasMany(Jabatan::class);
+        return $this->hasMany(PegawaiJabatan::class);
     }
 
-    public function pendidikan()
+    public function pendidikanUmum()
     {
-        return $this->hasMany(Pendidikan::class);
+        return $this->hasMany(PegawaiPendidikanUmum::class);
     }
 
-    public function pelatihankepemimpinan()
+    public function pelatihanKepemimpinan()
     {
-        return $this->hasMany(PelatihanKepemimpinan::class);
+        return $this->hasMany(PegawaiPelatihanKepemimpinan::class);
     }
 
     public function pelatihanteknis()

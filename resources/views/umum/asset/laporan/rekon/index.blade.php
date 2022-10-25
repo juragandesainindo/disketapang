@@ -72,7 +72,8 @@
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>{{ $item->kode_surat }}</td>
-                                <td>{{ $item->assetUmum->id_brg }}<br>{{ $item->assetUmum->kode_brg }}<br>{{
+                                <td>{{ $item->assetUmum->id_brg }}<br>{{ $item->assetUmum->mappingAsset->kode_brg
+                                    }}<br>{{
                                     $item->assetUmum->nama_brg }}</td>
                                 <td>{{ $item->pegawai->nama }}<br>
                                     <p class="text-xs">{{ $item->pegawai->nip }}</p>

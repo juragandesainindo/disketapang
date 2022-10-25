@@ -8,8 +8,6 @@ use App\Models\Ortu;
 use App\Models\Jabatan;
 use App\Models\Organisasi;
 use App\Models\Pegawai;
-use App\Models\PegawaiImage;
-use App\Models\Pangkat;
 use App\Models\PelatihanKepemimpinan;
 use App\Models\PelatihanTeknis;
 use App\Models\Pendidikan;
@@ -236,198 +234,17 @@ class PegawaiController extends Controller
             File::delete("umum/pegawai/bpjs/" . $pegawai->bpjs);
         }
 
-        Pegawai::find($id)->delete();
+        foreach ($pegawai->pegawaiPangkat as $item) {
+            if (File::exists("umum/pegawai/pangkat/" . $item->foto)) {
+                File::delete("umum/pegawai/pangkat/" . $item->foto);
+            }
+            $item->delete();
+        }
+        $pegawai->delete();
 
         Alert::error('Delete', 'Delete pegawai has been successfully');
 
         return redirect()->route('pegawais.index');
-    }
-
-    public function storeJabatan(Request $request)
-    {
-        $request->validate([
-            'nama_jabatan'  => 'required',
-            'eselon'        => 'required',
-            'tmt_jabatan'   => 'required',
-            'akhir_jabatan' => 'required',
-            'foto'          => 'image|max:20480',
-        ]);
-
-        if ($request->hasFile("foto")) {
-            $file = $request->file("foto");
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path("umum/pegawai/jabatan"), $imageName);
-
-            $jabatan = new Jabatan([
-                "nama_jabatan" => $request->nama_jabatan,
-                "eselon" => $request->eselon,
-                "tmt_jabatan" => $request->tmt_jabatan,
-                "akhir_jabatan" => $request->akhir_jabatan,
-                "foto" => $imageName,
-                "pegawai_id" => $request->pegawai_id,
-
-            ]);
-            $jabatan->save();
-        }
-
-        return back()->with('success', 'Create jabatan successfully.');
-    }
-
-    public function updateJabatan(Request $request, $id)
-    {
-        $data = Jabatan::findOrFail($id);
-
-        if ($request->hasFile("foto")) {
-            if (File::exists("umum/pegawai/jabatan/" . $data->foto)) {
-                File::delete("umum/pegawai/jabatan/" . $data->foto);
-            }
-            $file = $request->file("foto");
-            $data->foto = time() . "_" . $file->getClientOriginalName();
-            $file->move(\public_path("umum/pegawai/jabatan"), $data->foto);
-            $request['jabatan'] = $data->foto;
-        }
-
-        $data->update([
-            "nama_jabatan" => $request->nama_jabatan,
-            "eselon" => $request->eselon,
-            "tmt_jabatan" => $request->tmt_jabatan,
-            "akhir_jabatan" => $request->akhir_jabatan,
-            "foto" => $data->foto,
-        ]);
-
-        return back()->with('success', 'Edit jabatan successfully.');
-    }
-
-    public function destroyJabatan($id)
-    {
-        $jabatan = Jabatan::findOrFail($id);
-        if (File::exists("umum/pegawai/jabatan/" . $jabatan->foto)) {
-            File::delete("umum/pegawai/jabatan/" . $jabatan->foto);
-        }
-        Jabatan::find($id)->delete();
-        return back()->with('success', 'Delete jabatan successfully.');
-    }
-
-    public function storePendidikanUmum(Request $request)
-    {
-
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pendidikan-umum'), $imageName);
-
-            $pendidikanUmum = new Pendidikan([
-                'jenjang_pendidikan'    => $request->jenjang_pendidikan,
-                'jurusan'               => $request->jurusan,
-                'nama_sekolah'          => $request->nama_sekolah,
-                'tahun_lulus'           => $request->tahun_lulus,
-                'foto'                  => $imageName,
-                'pegawai_id'            => $request->pegawai_id
-            ]);
-
-            $pendidikanUmum->save();
-        }
-
-        return back()->with('success', 'Create pendidikan umum successfully.');
-    }
-
-    public function updatePendidikanUmum(Request $request, $id)
-    {
-        $pendidikanUmum = Pendidikan::findOrFail($id);
-
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/pendidikan-umum/' . $pendidikanUmum->foto)) {
-                File::delete('umum/pegawai/pendidikan-umum/' . $pendidikanUmum->foto);
-            }
-
-            $file = $request->file('foto');
-            $pendidikanUmum->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pendidikan-umum'), $pendidikanUmum->foto);
-            $request['pendidikan_umum'] = $pendidikanUmum->foto;
-        }
-
-        $pendidikanUmum->update([
-            "jenjang_pendidikan"    => $request->jenjang_pendidikan,
-            "jurusan"               => $request->jurusan,
-            "nama_sekolah"          => $request->nama_sekolah,
-            "tahun_lulus"           => $request->tahun_lulus,
-            "foto"                  => $pendidikanUmum->foto,
-        ]);
-
-        return back()->with('success', 'Edit pendidikan umum successfully.');
-    }
-
-    public function destroyPendidikanUmum($id)
-    {
-        $pendidikanUmum = Pendidikan::findOrFail($id);
-
-        if (File::exists('umum/pegawai/pendidikan-umum/' . $pendidikanUmum->foto)) {
-            File::delete('umum/pegawai/pendidikan-umum/' . $pendidikanUmum->foto);
-        }
-        Pendidikan::find($id)->delete();
-        return back()->with('success', 'Delete pendidikan umum successfully.');
-    }
-
-    public function storePelatihanKepemimpinan(Request $request)
-    {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pelatihan-kepemimpinan'), $imageName);
-
-            $data = new PelatihanKepemimpinan([
-                'nama_diklat'       => $request->nama_diklat,
-                'angkatan'          => $request->angkatan,
-                'tahun'             => $request->tahun,
-                'tempat'            => $request->tempat,
-                'panitia'           => $request->panitia,
-                'foto'              => $imageName,
-                'pegawai_id'        => $request->pegawai_id
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create pelatihan kepemimpinan successfully.');
-    }
-
-    public function updatePelatihanKepemimpinan(Request $request, $id)
-    {
-        $data = PelatihanKepemimpinan::findOrFail($id);
-
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/pelatihan-kepemimpinan/' . $data->foto)) {
-                File::delete('umum/pegawai/pelatihan-kepemimpinan/' . $data->foto);
-            }
-
-            $file = $request->file('foto');
-            $data->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pelatihan-kepemimpinan'), $data->foto);
-            $request['pelatihan_kepemimpinan'] = $data->foto;
-        }
-
-        $data->update([
-            'nama_diklat'       => $request->nama_diklat,
-            'angkatan'          => $request->angkatan,
-            'tahun'             => $request->tahun,
-            'tempat'            => $request->tempat,
-            'panitia'           => $request->panitia,
-            'foto'              => $data->foto
-        ]);
-
-        return back()->with('success', 'Edit pelatihan kepemimpinan successfully.');
-    }
-
-    public function destroyPelatihanKepemimpinan($id)
-    {
-        $data = PelatihanKepemimpinan::findOrFail($id);
-
-        if (File::exists('umum/pegawai/pelatihan-kepemimpinan/' . $data->foto)) {
-            File::delete('umum/pegawai/pelatihan-kepemimpinan/' . $data->foto);
-        }
-
-        PelatihanKepemimpinan::find($id)->delete();
-        return back()->with('success', 'Delete pelatihan kepemimpinan successfully.');
     }
 
     public function storePelatihanTeknis(Request $request)

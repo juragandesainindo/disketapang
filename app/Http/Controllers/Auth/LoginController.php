@@ -6,12 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Auth;
-use DB;
-use App\Models\User;
 use Carbon\Carbon;
-use Session;
-use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -82,7 +80,7 @@ class LoginController extends Controller
     {
         $user = Auth::User();
         Session::put('user', $user);
-        $user=Session::get('user');
+        $user = Session::get('user');
 
         $name       = $user->name;
         $email      = $user->email;
@@ -101,5 +99,4 @@ class LoginController extends Controller
         // Toastr::success('Logout successfully :)','Success');
         return redirect('/');
     }
-
 }

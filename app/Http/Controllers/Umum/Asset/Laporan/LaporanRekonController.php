@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\AssetUmum;
 use App\Models\Jabatan;
 use App\Models\LaporanRekon;
-use App\Models\Pangkat;
 use App\Models\Pegawai;
+use App\Models\PegawaiPangkat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Month;
@@ -62,7 +62,7 @@ class LaporanRekonController extends Controller
 
     public function getPangkat(Request $request)
     {
-        $pangkat = Pangkat::where('pegawai_id', $request->pegawai_id)->orderByDesc('tmt_pangkat')->take(1)->get();
+        $pangkat = PegawaiPangkat::where('pegawai_id', $request->pegawai_id)->orderByDesc('tmt_pangkat')->take(1)->get();
         if (count($pangkat) > 0) {
             return response()->json($pangkat);
         }

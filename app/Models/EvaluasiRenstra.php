@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Renstra extends Model
+class EvaluasiRenstra extends Model
 {
     use HasFactory;
 
-    protected $table = 'renstra';
+    protected $table = 'evaluasi_renstra';
 
     protected $fillable = [
-    	'indikator','target','realisasi','rasio','tahun'
+        'indikator', 'target', 'realisasi', 'rasio', 'tahun'
     ];
 }
