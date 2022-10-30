@@ -49,39 +49,34 @@ class Pegawai extends Model
         return $this->hasMany(PegawaiPelatihanKepemimpinan::class);
     }
 
-    public function pelatihanteknis()
+    public function pelatihanTeknis()
     {
-        return $this->hasMany(PelatihanTeknis::class);
+        return $this->hasMany(PegawaiPelatihanTeknis::class);
     }
 
-    public function organisasi()
+    public function pegawaiOrganisasi()
     {
-        return $this->hasMany(Organisasi::class);
+        return $this->hasMany(PegawaiOrganisasi::class);
     }
 
-    public function penghargaan()
+    public function pegawaiPenghargaan()
     {
-        return $this->hasMany(Penghargaan::class);
+        return $this->hasMany(PegawaiPenghargaan::class);
     }
 
-    public function pasangan()
+    public function pegawaiPasangan()
     {
-        return $this->hasMany(Pasangan::class);
+        return $this->hasMany(PegawaiPasangan::class);
     }
 
-    public function anak()
+    public function pegawaiAnak()
     {
-        return $this->hasMany(Anak::class);
+        return $this->hasMany(PegawaiAnak::class);
     }
 
-    public function ortu()
+    public function pegawaiOrtu()
     {
-        return $this->hasMany(Ortu::class);
-    }
-
-    public function image()
-    {
-        return $this->hasMany(PegawaiImage::class);
+        return $this->hasMany(PegawaiOrtu::class);
     }
 
     public function pegawaiGaji()

@@ -66,13 +66,14 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{ route('pegawais.show',$item->id) }}">
+                                    <a class="btn btn-info btn-sm mb-1" href="{{ route('pegawais.show',$item->id) }}">
                                         <i data-feather="inbox"></i>
                                     </a>
-                                    <a class="btn btn-warning btn-sm" href="{{ route('pegawais.edit',$item->id) }}">
+                                    <a class="btn btn-warning btn-sm mb-1"
+                                        href="{{ route('pegawais.edit',$item->id) }}">
                                         <i data-feather="edit"></i>
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-danger btn-sm mb-1" data-bs-toggle="modal"
                                         data-bs-target="#delete-{{ $item->id }}">
                                         <i data-feather="trash"></i>
                                     </button>
@@ -103,8 +104,7 @@
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
                         Nip : <strong>{{ $item->nip }}</strong> <br>
-                        Nama : <strong>{{ $item->nama }}</strong> <br><br>
-                        <img src="{{ asset('umum/pegawai/'.$item->foto) }}" width="50" alt="">
+                        Nama : <strong>{{ $item->nama }}</strong>
                     </p>
                 </div>
                 <div class="modal-footer">

@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Umum\Asset\Laporan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\umum\LaporanRekonStoreRequest;
+use App\Http\Requests\umum\LaporanRekonUpdateRequest;
 use App\Models\AssetUmum;
-use App\Models\Jabatan;
 use App\Models\LaporanRekon;
 use App\Models\Pegawai;
+use App\Models\PegawaiJabatan;
 use App\Models\PegawaiPangkat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Month;
 use PhpOffice\PhpWord\TemplateProcessor;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -60,6 +61,14 @@ class LaporanRekonController extends Controller
         return view('umum.asset.laporan.rekon.create', compact('assets', 'pegawais', 'no_surat', 'kode_surat'));
     }
 
+    public function getPegawai(Request $request)
+    {
+        $pegawai = Pegawai::where('nip', $request->nip)->get();
+        if (count($pegawai) > 0) {
+            return response()->json($pegawai);
+        }
+    }
+
     public function getPangkat(Request $request)
     {
         $pangkat = PegawaiPangkat::where('pegawai_id', $request->pegawai_id)->orderByDesc('tmt_pangkat')->take(1)->get();
@@ -70,52 +79,18 @@ class LaporanRekonController extends Controller
 
     public function getJabatan(Request $request)
     {
-        $jabatan = Jabatan::where('pegawai_id', $request->pegawai_id)->orderByDesc('tmt_jabatan')->take(1)->get();
+        $jabatan = PegawaiJabatan::where('pegawai_id', $request->pegawai_id)->orderByDesc('tmt_jabatan')->take(1)->get();
         if (count($jabatan) > 0) {
             return response()->json($jabatan);
         }
     }
 
-    public function store(Request $request)
+    public function store(LaporanRekonStoreRequest $request)
     {
-        LaporanRekon::create([
-            'asset_umum_id' => $request->asset_umum_id,
-            'pegawai_id' => $request->pegawai_id,
-            'no_surat' => $request->no_surat,
-            'kode_surat' => $request->kode_surat,
-        ]);
+        $input = $request->validated();
+        LaporanRekon::create($input);
         Alert::success('Success', 'Create laporan rekon has been successfully');
-
         return redirect()->route('laporan-rekon.index');
-    }
-
-    public function show($id)
-    {
-        $laporan = LaporanRekon::findOrFail($id);
-
-        $hari = Carbon::parse(now())->isoFormat('dddd');
-        $tgl = Carbon::parse(now())->isoFormat('DD');
-        $bulan = Carbon::parse(now())->isoFormat('MMMM');
-        $tahun = Carbon::parse(now())->isoFormat('Y');
-        // dd();
-
-        if ($laporan->pegawai->pangkat->count() > 0) {
-            foreach ($laporan->pegawai->pangkat->sortByDesc('tgl_sk')->take(1) as  $item) {
-                $pangkat = $item->nama_pangkat;
-            }
-        } else {
-            $pangkat = '-';
-        }
-        // dd($pangkat);
-        if ($laporan->pegawai->jabatan->count() > 0) {
-            foreach ($laporan->pegawai->jabatan->sortByDesc('tmt_jabatan')->take(1) as  $j) {
-                $jabatan = $j->nama_jabatan;
-            }
-        } else {
-            $jabatan = '-';
-        }
-        // dd($jabatan);
-        return view('umum.asset.laporan.rekon.show', compact('laporan', 'pangkat', 'jabatan', 'hari', 'tgl', 'bulan', 'tahun'));
     }
 
     public function edit($id)
@@ -124,16 +99,16 @@ class LaporanRekonController extends Controller
         $assets = AssetUmum::orderBy('kategori', 'asc')->get();
         $pegawais = Pegawai::orderBy('nama', 'asc')->get();
 
-        if ($laporan->pegawai->pangkat->count() > 0) {
-            foreach ($laporan->pegawai->pangkat->sortByDesc('tgl_sk')->take(1) as  $item) {
+        if ($laporan->pegawai->pegawaiPangkat->count() > 0) {
+            foreach ($laporan->pegawai->pegawaiPangkat->sortByDesc('tgl_sk')->take(1) as  $item) {
                 $pangkat = $item->nama_pangkat;
             }
         } else {
             $pangkat = '-';
         }
         // dd($pangkat);
-        if ($laporan->pegawai->jabatan->count() > 0) {
-            foreach ($laporan->pegawai->jabatan->sortByDesc('tmt_jabatan')->take(1) as  $j) {
+        if ($laporan->pegawai->pegawaiJabatan->count() > 0) {
+            foreach ($laporan->pegawai->pegawaiJabatan->sortByDesc('tmt_jabatan')->take(1) as  $j) {
                 $jabatan = $j->nama_jabatan;
             }
         } else {
@@ -143,13 +118,11 @@ class LaporanRekonController extends Controller
         return view('umum.asset.laporan.rekon.edit', compact('laporan', 'assets', 'pegawais', 'pangkat', 'jabatan'));
     }
 
-    public function update(Request $request, $id)
+    public function update(LaporanRekonUpdateRequest $request, $id)
     {
         $laporan = LaporanRekon::findOrFail($id);
-        $laporan->update([
-            'asset_umum_id' => $request->asset_umum_id,
-            'pegawai_id' => $request->pegawai_id,
-        ]);
+        $input = $request->validated();
+        $laporan->update($input);
         Alert::success('Success', 'Update laporan rekon has been successfully');
 
         return redirect()->route('laporan-rekon.index');
@@ -168,17 +141,17 @@ class LaporanRekonController extends Controller
         $tahun = Carbon::parse(now())->isoFormat('Y');
 
         // Pangkat
-        if ($laporan->pegawai->pangkat->count() > 0) {
-            foreach ($laporan->pegawai->pangkat->sortByDesc('tgl_sk')->take(1) as  $item) {
+        if ($laporan->pegawai->pegawaiPangkat->count() > 0) {
+            foreach ($laporan->pegawai->pegawaiPangkat->sortByDesc('tgl_sk')->take(1) as  $item) {
                 $pangkat = $item->nama_pangkat;
             }
         } else {
             $pangkat = '-';
         }
-
+        // dd($pangkat);
         // Jabatan
-        if ($laporan->pegawai->jabatan->count() > 0) {
-            foreach ($laporan->pegawai->jabatan->sortByDesc('tmt_jabatan')->take(1) as  $j) {
+        if ($laporan->pegawai->pegawaiJabatan->count() > 0) {
+            foreach ($laporan->pegawai->pegawaiJabatan->sortByDesc('tmt_jabatan')->take(1) as  $j) {
                 $jabatan = $j->nama_jabatan;
             }
         } else {
@@ -192,16 +165,28 @@ class LaporanRekonController extends Controller
         $templateProcessor->setValue('tgl', $tgl);
         $templateProcessor->setValue('bulan', $bulan);
         $templateProcessor->setValue('tahun', $tahun);
-        $templateProcessor->setValue('nama', $laporan->pegawai->nama);
-        $templateProcessor->setValue('nip', $laporan->pegawai->nip);
-        $templateProcessor->setValue('pangkat', $pangkat);
-        $templateProcessor->setValue('jabatan', $jabatan);
-        $templateProcessor->setValue('idBrg', $laporan->assetUmum->id_brg);
-        $templateProcessor->setValue('kodeBrg', $laporan->assetUmum->kode_brg);
-        $templateProcessor->setValue('namaBrg', $laporan->assetUmum->nama_brg);
-        $templateProcessor->setValue('keterangan', $laporan->assetUmum->keterangan);
-        $templateProcessor->setValue('tglPerolehan', $laporan->assetUmum->tgl_perolehan);
-        $templateProcessor->setValue('nilaiBrg', $laporan->assetUmum->nilai_brg);
+
+        $templateProcessor->setValue('namaPengurus', $laporan->pegawai->nama);
+        $templateProcessor->setValue('nipPengurus', $laporan->pegawai->nip);
+        $templateProcessor->setValue('pangkatPengurus', $pangkat);
+        $templateProcessor->setValue('jabatanPengurus', $jabatan);
+        $templateProcessor->setValue('namaKasubagUmum', $laporan->kasubag_nama);
+        $templateProcessor->setValue('nipKasubagUmum', $laporan->kasubag_nip);
+        $templateProcessor->setValue('namaSKPD', $laporan->nama_skpd);
+        $templateProcessor->setValue('nipSKPD', $laporan->nip_skpd);
+        $templateProcessor->setValue('pangkatSKPD', $laporan->pangkat_skpd);
+        $templateProcessor->setValue('jabatanSKPD', $laporan->jabatan_skpd);
+        $templateProcessor->setValue('namaKSKPD', $laporan->nama_kepala_skpd);
+        $templateProcessor->setValue('nipKSKPD', $laporan->nip_kepala_skpd);
+
+        $templateProcessor->setValue('kodeBrg', $laporan->assetUmum->mappingAsset->kode_brg);
+        $templateProcessor->setValue('namaBrg', $laporan->assetUmum->mappingAsset->nama_brg);
+        $templateProcessor->setValue('keterangan', $laporan->assetUmum->mappingAsset->keterangan);
+        $templateProcessor->setValue('tglPerolehan', Carbon::parse($laporan->assetUmum->tgl_perolehan)->isoFormat('DD MMMM Y'));
+        $templateProcessor->setValue('nilaiBrg', number_format($laporan->assetUmum->nilai_brg));
+        $templateProcessor->setValue('kodeBelanja', $laporan->kode_belanja);
+        $templateProcessor->setValue('namaPenyedia', $laporan->nama_penyedia);
+        $templateProcessor->setValue('uraianBelanja', $laporan->uraian_belanja);
         $fileName = $laporan->pegawai->nama;
         $templateProcessor->saveAs('Laporan Rekon ' . $fileName . '.docx');
         return response()->download('Laporan Rekon ' . $fileName . '.docx')->deleteFileAfterSend(true);

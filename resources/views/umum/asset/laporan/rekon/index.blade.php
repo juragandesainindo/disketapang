@@ -62,7 +62,8 @@
                                 <th>#</th>
                                 <th>No Surat</th>
                                 <th>Asset (Id/Kode/Barang)</th>
-                                <th>Pegawai/NIP</th>
+                                <th>KasubagUmum/NIP</th>
+                                <th>Pengurus Barang/NIP</th>
                                 <th>Kategori</th>
                                 <th>Action</th>
                             </tr>
@@ -72,11 +73,16 @@
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>{{ $item->kode_surat }}</td>
-                                <td>{{ $item->assetUmum->id_brg }}<br>{{ $item->assetUmum->mappingAsset->kode_brg
+                                <td>{{ $item->assetUmum->mappingAsset->kode_brg
                                     }}<br>{{
-                                    $item->assetUmum->nama_brg }}</td>
-                                <td>{{ $item->pegawai->nama }}<br>
-                                    <p class="text-xs">{{ $item->pegawai->nip }}</p>
+                                    $item->assetUmum->mappingAsset->nama_brg }}</td>
+                                <td>
+                                    {{ $item->kasubag_nama }} <br>
+                                    <span class="text-small">{{ $item->kasubag_nip }}</span>
+                                </td>
+                                <td>
+                                    {{ $item->pegawai->nama }} <br>
+                                    {{ $item->pegawai->nip }}
                                 </td>
                                 <td>{{ $item->assetUmum->kategori }}</td>
                                 <td class="text-center">
@@ -115,7 +121,6 @@
                 <div class="modal-body">
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
-                        ID barang : <strong>{{ $item->id_brg }}</strong> <br>
                         Kode barang : <strong>{{ $item->kode_brg }}</strong> <br>
                         Nama Barang : <strong>{{ $item->nama_brg }}</strong> <br>
                         Keterangan : <strong>{{ $item->keterangan }}</strong> <br>

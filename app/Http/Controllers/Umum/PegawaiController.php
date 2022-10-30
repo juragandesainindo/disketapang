@@ -240,422 +240,66 @@ class PegawaiController extends Controller
             }
             $item->delete();
         }
+        foreach ($pegawai->pegawaiJabatan as $item) {
+            if (File::exists("umum/pegawai/jabatan/" . $item->foto)) {
+                File::delete("umum/pegawai/jabatan/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pendidikanUmum as $item) {
+            if (File::exists("umum/pegawai/pendidikan-umum/" . $item->foto)) {
+                File::delete("umum/pegawai/pendidikan-umum/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pelatihanKepemimpinan as $item) {
+            if (File::exists("umum/pegawai/pelatihan-kepemimpinan/" . $item->foto)) {
+                File::delete("umum/pegawai/pelatihan-kepemimpinan/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pelatihanTeknis as $item) {
+            if (File::exists("umum/pegawai/pelatihan-teknis/" . $item->foto)) {
+                File::delete("umum/pegawai/pelatihan-teknis/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pegawaiOrganisasi as $item) {
+            if (File::exists("umum/pegawai/organisasi/" . $item->foto)) {
+                File::delete("umum/pegawai/organisasi/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pegawaiPenghargaan as $item) {
+            if (File::exists("umum/pegawai/penghargaan/" . $item->foto)) {
+                File::delete("umum/pegawai/penghargaan/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pegawaiPasangan as $item) {
+            if (File::exists("umum/pegawai/pasangan/" . $item->foto)) {
+                File::delete("umum/pegawai/pasangan/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pegawaiAnak as $item) {
+            if (File::exists("umum/pegawai/anak/" . $item->foto)) {
+                File::delete("umum/pegawai/anak/" . $item->foto);
+            }
+            $item->delete();
+        }
+        foreach ($pegawai->pegawaiOrtu as $item) {
+            if (File::exists("umum/pegawai/ortu/" . $item->foto)) {
+                File::delete("umum/pegawai/ortu/" . $item->foto);
+            }
+            $item->delete();
+        }
+
         $pegawai->delete();
 
         Alert::error('Delete', 'Delete pegawai has been successfully');
 
         return redirect()->route('pegawais.index');
-    }
-
-    public function storePelatihanTeknis(Request $request)
-    {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pelatihan-teknis'), $imageName);
-
-            $data = new PelatihanTeknis([
-                'nama_diklat'   => $request->nama_diklat,
-                'angkatan'      => $request->angkatan,
-                'tahun'         => $request->tahun,
-                'tempat'        => $request->tempat,
-                'panitia'       => $request->panitia,
-                'foto'          => $imageName,
-                'pegawai_id'    => $request->pegawai_id
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create pelatihan teknis successfully');
-    }
-
-    public function updatePelatihanTeknis(Request $request, $id)
-    {
-        $data = PelatihanTeknis::findOrFail($id);
-
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/pelatihan-teknis/' . $data->foto)) {
-                File::delete('umum/pegawai/pelatihan-teknis/' . $data->foto);
-            }
-
-            $file = $request->file('foto');
-            $data->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pelatihan-teknis'), $data->foto);
-            $request['pelatihan_teknis'] = $data->foto;
-        }
-
-        $data->update([
-            'nama_diklat'   => $request->nama_diklat,
-            'angkatan'      => $request->angkatan,
-            'tahun'         => $request->tahun,
-            'tempat'        => $request->tempat,
-            'panitia'       => $request->panitia,
-            'foto'          => $data->foto,
-        ]);
-
-        return back()->with('success', 'Edit pelatihan teknis successfully.');
-    }
-
-    public function destroyPelatihanTeknis($id)
-    {
-        $data = PelatihanTeknis::findOrFail($id);
-
-        if (File::exists('umum/pegawai/pelatihan-teknis/' . $data->foto)) {
-            File::delete('umum/pegawai/pelatihan-teknis/' . $data->foto);
-        }
-        PelatihanTeknis::find($id)->delete();
-        return back()->with('success', 'Delete pelatihan teknis successfully.');
-    }
-
-    public function storeOrganisasi(Request $request)
-    {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/organisasi'), $imageName);
-
-            $data = new Organisasi([
-                'nama_organisasi'   => $request->nama_organisasi,
-                'kedudukan'         => $request->kedudukan,
-                'tempat'            => $request->tempat,
-                'nama_pimpinan'     => $request->nama_pimpinan,
-                'foto'              => $imageName,
-                'pegawai_id'        => $request->pegawai_id
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create organisasi successfully.');
-    }
-
-    public function updateOrganisasi(Request $request, $id)
-    {
-        $data = Organisasi::findOrFail($id);
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/organisasi/' . $data->foto)) {
-                File::delete('umum/pegawai/organisasi/' . $data->foto);
-            }
-
-            $file = $request->file('foto');
-            $data->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/organisasi'), $data->foto);
-            $request['organisasi'] = $data->foto;
-        }
-
-        $data->update([
-            'nama_organisasi'   => $request->nama_organisasi,
-            'kedudukan'         => $request->kedudukan,
-            'tempat'            => $request->tempat,
-            'nama_pimpinan'     => $request->nama_pimpinan,
-            'foto'              => $data->foto
-        ]);
-
-        return back()->with('success', 'Update organisasi successfully');
-    }
-
-    public function destroyOrganisasi($id)
-    {
-        $data = Organisasi::findOrFail($id);
-
-        if (File::exists('umum/pegawai/organisasi/' . $data->foto)) {
-            File::delete('umum/pegawai/organisasi/' . $data->foto);
-        }
-        Organisasi::find($id)->delete();
-        return back()->with('success', 'Delete organisasi successfully');
-    }
-
-    public function storePenghargaan(Request $request)
-    {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/penghargaan'), $imageName);
-
-            $data = new Penghargaan([
-                'penghargaan'   => $request->penghargaan,
-                'tahun'         => $request->tahun,
-                'asal_perolehan'    => $request->asal_perolehan,
-                'foto'          => $imageName,
-                'pegawai_id'    => $request->pegawai_id
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create penghargaan successfully');
-    }
-
-    public function updatePenghargaan(Request $request, $id)
-    {
-        $data = Penghargaan::findOrFail($id);
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/penghargaan/' . $data->foto)) {
-                File::delete('umum/pegawai/penghargaan/' . $data->foto);
-            }
-
-            $file = $request->file('foto');
-            $data->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/penghargaan'), $data->foto);
-            $request['pegawai_penghargaan'] = $data->foto;
-        }
-
-        $data->update([
-            'penghargaan'    => $request->penghargaan,
-            'tahun'          => $request->tahun,
-            'asal_perolehan' => $request->asal_perolehan,
-            'foto'           => $data->foto
-        ]);
-
-        return back()->with('success', 'Update penghargaan successfully');
-    }
-
-    public function destroyPenghargaan($id)
-    {
-        $data = Penghargaan::findOrFail($id);
-        if (File::exists('umum/pegawai/penghargaan/' . $data->foto)) {
-            File::delete('umum/pegawai/penghargaan/' . $data->foto);
-        }
-        Penghargaan::find($id)->delete();
-        return back()->with('success', 'Delete penghargaan successfully');
-    }
-
-    public function storePasangan(Request $request)
-    {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pasangan'), $imageName);
-
-            $data = new Pasangan([
-                'nama_pasangan' => $request->nama_pasangan,
-                'tempat_lahir' => $request->tempat_lahir,
-                'tgl_lahir' => $request->tgl_lahir,
-                'tgl_nikah' => $request->tgl_nikah,
-                'pekerjaan' => $request->pekerjaan,
-                'foto'      => $imageName,
-                'pegawai_id' => $request->pegawai_id,
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create pasangan successfully');
-    }
-
-    public function updatePasangan(Request $request, $id)
-    {
-        $data = Pasangan::findOrFail($id);
-
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/pasangan/' . $data->foto)) {
-                File::delete('umum/pegawai/pasangan/' . $data->foto);
-            }
-
-            $file = $request->file('foto');
-            $data->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/pasangan'), $data->foto);
-            $request['pegawai_pasangan'] = $data->foto;
-        }
-
-        $data->update([
-            'nama_pasangan' => $request->nama_pasangan,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'tgl_nikah' => $request->tgl_nikah,
-            'foto'      => $data->foto,
-            'pekerjaan' => $request->pekerjaan,
-        ]);
-        return back()->with('success', 'Update pasangan successfully');
-    }
-
-    public function destroyPasangan($id)
-    {
-        $data = Pasangan::findOrFail($id);
-
-        if (File::exists('umum/pegawai/pasangan/' . $data->foto)) {
-            File::delete('umum/pegawai/pasangan/' . $data->foto);
-        }
-        Pasangan::find($id)->delete();
-        return back()->with('success', 'Delete pasangan successfully');
-    }
-
-    public function storeAnak(Request $request)
-    {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/anak'), $imageName);
-
-            $data = new Anak([
-                'nama_anak'     => $request->nama_anak,
-                'tempat_lahir'  => $request->tempat_lahir,
-                'tgl_lahir'     => $request->tgl_lahir,
-                'status_anak'   => $request->status_anak,
-                'pekerjaan'     => $request->pekerjaan,
-                'foto'          => $imageName,
-                'pegawai_id'    => $request->pegawai_id,
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create anak successfully');
-    }
-
-    public function updateAnak(Request $request, $id)
-    {
-        $data = Anak::findOrFail($id);
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/anak/' . $data->foto)) {
-                File::delete('umum/pegawai/anank/' . $data->foto);
-            }
-            $file = $request->file('foto');
-            $data->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/anak'), $data->foto);
-            $request['pegawai_anak'] = $data->foto;
-        }
-
-        $data->update([
-            'nama_anak'     => $request->nama_anak,
-            'tempat_lahir'  => $request->tempat_lahir,
-            'tgl_lahir'     => $request->tgl_lahir,
-            'status_anak'   => $request->status_anak,
-            'pekerjaan'     => $request->pekerjaan,
-            'foto'          => $data->foto
-        ]);
-
-        return back()->with('success', 'Update anak successfully');
-    }
-
-    public function destroyAnak($id)
-    {
-        $data = Anak::findOrFail($id);
-        if (File::exists('umum/pegawai/anak/' . $data->foto)) {
-            File::delete('umum/pegawai/anak/' . $data->foto);
-        }
-        Anak::find($id)->delete();
-        return back()->with('success', 'Delete anak successfully');
-    }
-
-    public function storeOrtu(Request $request)
-    {
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/ortu'), $imageName);
-
-            $ortu = new Ortu([
-                'nama_ortu' => $request->nama_ortu,
-                'tempat_lahir' => $request->tempat_lahir,
-                'tgl_lahir' => $request->tgl_lahir,
-                'status_ortu' => $request->status_ortu,
-                'pekerjaan' => $request->pekerjaan,
-                'foto'      => $imageName,
-                'pegawai_id' => $request->pegawai_id,
-            ]);
-
-            $ortu->save();
-        }
-
-
-        return back()->with('success', 'Create orang tua successfully');
-    }
-
-    public function updateOrtu(Request $request, $id)
-    {
-        $data = Ortu::findOrFail($id);
-        if ($request->hasFile('foto')) {
-            if (File::exists('umum/pegawai/ortu/' . $data->foto)) {
-                File::delete('umum/pegawai/ortu/' . $data->foto);
-            }
-
-            $file = $request->file('foto');
-            $data->foto = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/ortu'), $data->foto);
-            $request['pegawai_ortu'] = $data->foto;
-        }
-
-        $data->update([
-            'nama_ortu' => $request->nama_ortu,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'status_ortu' => $request->status_ortu,
-            'pekerjaan' => $request->pekerjaan,
-            'foto'      => $data->foto,
-        ]);
-
-        return back()->with('success', 'Update orang tua successfully');
-    }
-
-    public function destroyOrtu($id)
-    {
-        $data = Ortu::findOrFail($id);
-        if (File::exists('umum/pegawai/ortu/' . $data->foto)) {
-            File::delete('umum/pegawai/ortu/' . $data->foto);
-        }
-        Ortu::find($id)->delete();
-        return back()->with('success', 'Delete orang tua successfully');
-    }
-
-    public function exportExcel()
-    {
-        return Excel::download(new PegawaiDukExport, 'pegawai.xlsx');
-    }
-
-    public function storeDokumenPegawai(Request $request)
-    {
-        if ($request->hasFile('image_pegawai')) {
-            $file = $request->file('image_pegawai');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/dokumen'), $imageName);
-
-            $data = new PegawaiImage([
-                'keterangan'    => $request->keterangan,
-                'image_pegawai' => $imageName,
-                'pegawai_id'    => $request->pegawai_id,
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create Dokumen successfully');
-    }
-
-    public function updateDokumenPegawai(Request $request, $id)
-    {
-        $data = PegawaiImage::findOrFail($id);
-
-        if ($request->hasFile('image_pegawai')) {
-            if (File::exists('umum/pegawai/dokumen/' . $data->image_pegawai)) {
-                File::delete('umum/pegawai/dokumen/' . $data->image_pegawai);
-            }
-            $file = $request->file('image_pegawai');
-            $data->image_pegawai = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('umum/pegawai/dokumen'), $data->image_pegawai);
-            $request['pegawai_image'] = $data->image_pegawai;
-        }
-
-        $data->update([
-            'keterangan'    => $request->keterangan,
-            'image_pegawai' => $data->image_pegawai,
-        ]);
-
-        return back()->with('success', 'Update Dokumen successfully');
-    }
-
-    public function destroyDokumenPegawai($id)
-    {
-        $data = PegawaiImage::findOrFail($id);
-
-        if (File::exists('umum/pegawai/dokumen/' . $data->image_pegawai)) {
-            File::delete('umum/pegawai/dokumen/' . $data->image_pegawai);
-        }
-
-        PegawaiImage::find($id)->delete();
-
-        return back()->with('success', 'Delete Dokumen successfully');
     }
 
     public function excel()

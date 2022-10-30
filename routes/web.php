@@ -59,10 +59,16 @@ use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibDController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibEController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibFController;
 use App\Http\Controllers\umum\manyToMany\ArtikelHadiahController;
+use App\Http\Controllers\umum\PegawaiAnakController;
 use App\Http\Controllers\umum\PegawaiJabatanController;
+use App\Http\Controllers\umum\PegawaiOrganisasiController;
+use App\Http\Controllers\umum\PegawaiOrtuController;
 use App\Http\Controllers\Umum\PegawaiPangkatController;
+use App\Http\Controllers\umum\PegawaiPasanganController;
 use App\Http\Controllers\umum\PegawaiPelatihanKepemimpinanController;
+use App\Http\Controllers\umum\PegawaiPelatihanTeknisController;
 use App\Http\Controllers\umum\PegawaiPendidikanUmumController;
+use App\Http\Controllers\umum\PegawaiPenghargaanController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -147,33 +153,29 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('pegawai-pelatihan-kepemimpinan/{id}', [PegawaiPelatihanKepemimpinanController::class, 'update'])->name('pegawai-pelatihan-kepemimpinan.update');
     Route::delete('pegawai-pelatihan-kepemimpinan/{id}', [PegawaiPelatihanKepemimpinanController::class, 'destroy'])->name('pegawai-pelatihan-kepemimpinan.destroy');
 
-    Route::post('pegawai-pelatihan-teknis', [PegawaiController::class, 'storePelatihanTeknis'])->name('pegawai-pelatihan-teknis.store');
-    Route::put('pegawai-pelatihan-teknis/{id}', [PegawaiController::class, 'updatePelatihanTeknis'])->name('pegawai-pelatihan-teknis.update');
-    Route::delete('pegawai-pelatihan-teknis/{id}', [PegawaiController::class, 'destroyPelatihanTeknis'])->name('pegawai-pelatihan-teknis.destroy');
+    Route::post('pegawai-pelatihan-teknis', [PegawaiPelatihanTeknisController::class, 'store'])->name('pegawai-pelatihan-teknis.store');
+    Route::put('pegawai-pelatihan-teknis/{id}', [PegawaiPelatihanTeknisController::class, 'update'])->name('pegawai-pelatihan-teknis.update');
+    Route::delete('pegawai-pelatihan-teknis/{id}', [PegawaiPelatihanTeknisController::class, 'destroy'])->name('pegawai-pelatihan-teknis.destroy');
 
-    Route::post('pegawai-organisasi', [PegawaiController::class, 'storeOrganisasi'])->name('pegawai-organisasi.store');
-    Route::put('pegawai-organisasi/{id}', [PegawaiController::class, 'updateOrganisasi'])->name('pegawai-organisasi.update');
-    Route::delete('pegawai-organisasi/{id}', [PegawaiController::class, 'destroyOrganisasi'])->name('pegawai-organisasi.destroy');
+    Route::post('pegawai-organisasi', [PegawaiOrganisasiController::class, 'store'])->name('pegawai-organisasi.store');
+    Route::put('pegawai-organisasi/{id}', [PegawaiOrganisasiController::class, 'update'])->name('pegawai-organisasi.update');
+    Route::delete('pegawai-organisasi/{id}', [PegawaiOrganisasiController::class, 'destroy'])->name('pegawai-organisasi.destroy');
 
-    Route::post('pegawai-penghargaan', [PegawaiController::class, 'storePenghargaan'])->name('pegawai-penghargaan.store');
-    Route::put('pegawai-penghargaan/{id}', [PegawaiController::class, 'updatePenghargaan'])->name('pegawai-penghargaan.update');
-    Route::delete('pegawai-penghargaan/{id}', [PegawaiController::class, 'destroyPenghargaan'])->name('pegawai-penghargaan.destroy');
+    Route::post('pegawai-penghargaan', [PegawaiPenghargaanController::class, 'store'])->name('pegawai-penghargaan.store');
+    Route::put('pegawai-penghargaan/{id}', [PegawaiPenghargaanController::class, 'update'])->name('pegawai-penghargaan.update');
+    Route::delete('pegawai-penghargaan/{id}', [PegawaiPenghargaanController::class, 'destroy'])->name('pegawai-penghargaan.destroy');
 
-    Route::post('pegawai-pasangan', [PegawaiController::class, 'storePasangan'])->name('pegawai-pasangan.store');
-    Route::put('pegawai-pasangan/{id}', [PegawaiController::class, 'updatePasangan'])->name('pegawai-pasangan.update');
-    Route::delete('pegawai-pasangan/{id}', [PegawaiController::class, 'destroyPasangan'])->name('pegawai-pasangan.destroy');
+    Route::post('pegawai-pasangan', [PegawaiPasanganController::class, 'store'])->name('pegawai-pasangan.store');
+    Route::put('pegawai-pasangan/{id}', [PegawaiPasanganController::class, 'update'])->name('pegawai-pasangan.update');
+    Route::delete('pegawai-pasangan/{id}', [PegawaiPasanganController::class, 'destroy'])->name('pegawai-pasangan.destroy');
 
-    Route::post('pegawai-anak', [PegawaiController::class, 'storeAnak'])->name('pegawai-anak.store');
-    Route::put('pegawai-anak/{id}', [PegawaiController::class, 'updateAnak'])->name('pegawai-anak.update');
-    Route::delete('pegawai-anak/{id}', [PegawaiController::class, 'destroyAnak'])->name('pegawai-anak.destroy');
+    Route::post('pegawai-anak', [PegawaiAnakController::class, 'store'])->name('pegawai-anak.store');
+    Route::put('pegawai-anak/{id}', [PegawaiAnakController::class, 'update'])->name('pegawai-anak.update');
+    Route::delete('pegawai-anak/{id}', [PegawaiAnakController::class, 'destroy'])->name('pegawai-anak.destroy');
 
-    Route::post('pegawai-ortu', [PegawaiController::class, 'storeOrtu'])->name('pegawai-ortu.store');
-    Route::put('pegawai-ortu/{id}', [PegawaiController::class, 'updateOrtu'])->name('pegawai-ortu.update');
-    Route::delete('pegawai-ortu/{id}', [PegawaiController::class, 'destroyOrtu'])->name('pegawai-ortu.destroy');
-
-    Route::post('pegawai-dokumen-pegawai', [PegawaiController::class, 'storeDokumenPegawai'])->name('pegawai-dokumen-pegawai.store');
-    Route::put('pegawai-dokumen-pegawai/{id}', [PegawaiController::class, 'updateDokumenPegawai'])->name('pegawai-dokumen-pegawai.update');
-    Route::delete('pegawai-dokumen-pegawai/{id}', [PegawaiController::class, 'destroyDokumenPegawai'])->name('pegawai-dokumen-pegawai.destroy');
+    Route::post('pegawai-ortu', [PegawaiOrtuController::class, 'store'])->name('pegawai-ortu.store');
+    Route::put('pegawai-ortu/{id}', [PegawaiOrtuController::class, 'update'])->name('pegawai-ortu.update');
+    Route::delete('pegawai-ortu/{id}', [PegawaiOrtuController::class, 'destroy'])->name('pegawai-ortu.destroy');
 
     Route::post('pegawai-gaji-berkala', [PegawaiController::class, 'storeGajiBerkala'])->name('pegawai-gaji-berkala.store');
     Route::put('pegawai-gaji-berkala/{id}', [PegawaiController::class, 'updateGajiBerkala'])->name('pegawai-gaji-berkala.update');
@@ -469,6 +471,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('perawatan-asset-tak-berwujud', PerawatanAtbController::class);
 
     Route::resource('laporan-rekon', LaporanRekonController::class);
+    Route::get('get-pegawai', [LaporanRekonController::class, 'getPegawai'])->name('getPegawai');
     Route::get('get-pangkat', [LaporanRekonController::class, 'getPangkat'])->name('getPangkat');
     Route::get('get-jabatan', [LaporanRekonController::class, 'getJabatan'])->name('getJabatan');
     Route::get('laporan-rekon/export-rekon/{id}', [LaporanRekonController::class, 'exportRekon'])->name('laporan-rekon-export-rekon');

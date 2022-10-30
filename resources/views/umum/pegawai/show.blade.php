@@ -174,6 +174,24 @@
 			$('#pelatihanKepemimpinan').DataTable({
 			scrollX:true,
 			});
+			$('#pelatihanTeknis').DataTable({
+			scrollX:true,
+			});
+			$('#organisasi').DataTable({
+			scrollX:true,
+			});
+			$('#pegawaiPenghargaan').DataTable({
+			scrollX:true,
+			});
+			$('#pegawaiPasangan').DataTable({
+			scrollX:true,
+			});
+			$('#pegawaiAnak').DataTable({
+			scrollX:true,
+			});
+			$('#pegawaiOrtu').DataTable({
+			scrollX:true,
+			});
 		});
 </script>
 @endpush
