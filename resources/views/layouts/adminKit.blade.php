@@ -41,7 +41,7 @@
 
                 <ul class="sidebar-nav pb-5">
                     <li class="sidebar-item {{ request()->is('home*') ? 'active' : '' }}">
-                        <a class="sidebar-link href=" {{ route('home') }}">
+                        <a class="sidebar-link" href=" {{ route('home') }}">
                             <i class="align-middle" data-feather="sliders"></i> <span
                                 class="align-middle">Dashboard</span>
                         </a>
