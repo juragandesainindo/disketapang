@@ -13,7 +13,7 @@ class CreatePetaJabatanTable extends Migration
      */
     public function up()
     {
-        Schema::create('peta_jabatan', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('peta_jabatan', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('file');
@@ -28,6 +28,6 @@ class CreatePetaJabatanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('peta_jabatan');
+        Schema::connection('mysql2')->dropIfExists('peta_jabatan');
     }
 }

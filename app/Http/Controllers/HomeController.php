@@ -63,36 +63,8 @@ class HomeController extends Controller
 
             return view('umum.home', compact('pegawai', 'sop', 'peta', 'kendaraan', 'kibA', 'kibB', 'kibC', 'kibD', 'kibE', 'kibF', 'Atb'));
         } else {
-            $pegawai = Pegawai::count();
-            $sop = Sop::count();
-            $peta = PetaJabatan::count();
-            $kendaraan = Kendaraan::count();
 
-            $nilaiBrg = AssetUmum::all();
-            $date = date(now()->isoFormat('Y'));
-
-            if ($nilaiBrg) {
-                $kibA = AssetUmum::where('kategori', 'KibA')->whereYear('tgl_perolehan', $date)->sum('nilai_brg');
-            }
-            if ($nilaiBrg) {
-                $kibB = AssetUmum::where('kategori', 'KibB')->whereYear('tgl_perolehan', $date)->sum('nilai_brg');
-            }
-            if ($nilaiBrg) {
-                $kibC = AssetUmum::where('kategori', 'KibC')->whereYear('tgl_perolehan', $date)->sum('nilai_brg');
-            }
-            if ($nilaiBrg) {
-                $kibD = AssetUmum::where('kategori', 'KibD')->whereYear('tgl_perolehan', $date)->sum('nilai_brg');
-            }
-            if ($nilaiBrg) {
-                $kibE = AssetUmum::where('kategori', 'KibE')->whereYear('tgl_perolehan', $date)->sum('nilai_brg');
-            }
-            if ($nilaiBrg) {
-                $kibF = AssetUmum::where('kategori', 'KibF')->whereYear('tgl_perolehan', $date)->sum('nilai_brg');
-            }
-            if ($nilaiBrg) {
-                $Atb = AssetUmum::where('kategori', 'Atb')->whereYear('tgl_perolehan', $date)->sum('nilai_brg');
-            }
-            return view('umum.home', compact('pegawai', 'sop', 'peta', 'kendaraan', 'kibA', 'kibB', 'kibC', 'kibD', 'kibE', 'kibF', 'Atb'));
+            return view('home');
         }
     }
 }

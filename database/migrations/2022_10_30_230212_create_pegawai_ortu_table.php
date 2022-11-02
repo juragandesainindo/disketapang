@@ -13,7 +13,7 @@ class CreatePegawaiOrtuTable extends Migration
      */
     public function up()
     {
-        Schema::create('pegawai_ortu', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('pegawai_ortu', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('pegawai_id')->unsigned();
             $table->string('nama_ortu');
@@ -34,6 +34,6 @@ class CreatePegawaiOrtuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pegawai_ortu');
+        Schema::connection('mysql2')->dropIfExists('pegawai_ortu');
     }
 }

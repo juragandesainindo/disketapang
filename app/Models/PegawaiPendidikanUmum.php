@@ -9,6 +9,8 @@ class PegawaiPendidikanUmum extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql2';
+
     protected $table = 'pegawai_pendidikan_umum';
 
     protected $fillable = [

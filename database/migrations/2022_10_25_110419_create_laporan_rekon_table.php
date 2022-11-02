@@ -13,7 +13,7 @@ class CreateLaporanRekonTable extends Migration
      */
     public function up()
     {
-        Schema::create('laporan_rekon', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('laporan_rekon', function (Blueprint $table) {
             $table->id();
             $table->integer('no_surat');
             $table->string('kode_surat');
@@ -43,6 +43,6 @@ class CreateLaporanRekonTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('laporan_rekon');
+        Schema::connection('mysql2')->dropIfExists('laporan_rekon');
     }
 }

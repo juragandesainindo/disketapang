@@ -38,7 +38,7 @@
                 <a class="sidebar-brand" href="">
                     <span class="align-middle">Sitangan Disketapang</span>
                 </a>
-
+                @if (Auth::user()->role_name === 'Kasub Bagian Umum' || Auth::user()->role_name === 'Super Admin')
                 <ul class="sidebar-nav pb-5">
                     <li class="sidebar-item {{ request()->is('home*') ? 'active' : '' }}">
                         <a class="sidebar-link" href=" {{ route('home') }}">
@@ -46,6 +46,18 @@
                                 class="align-middle">Dashboard</span>
                         </a>
                     </li>
+                    {{-- <li class="sidebar-item {{ request()->is('data-user*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href=" {{ url('data-user') }}">
+                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Data
+                                User</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->is('background-image*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href=" {{ url('background-image') }}">
+                            <i class="align-middle" data-feather="image"></i>
+                            <span class="align-middle">Background Image 500x625</span>
+                        </a>
+                    </li> --}}
                     <li class="sidebar-header">
                         Sub Bagian Umum
                     </li>
@@ -208,23 +220,8 @@
                             <span class="align-middle">Laporan</span>
                         </a>
                     </li>
-
-                    <li class="sidebar-header">
-                        Sub Bagian Keuangan
-                    </li>
-                    <li class="sidebar-item {{ request()->is('referensi-tufoksi*') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ url('referensi-tufoksi') }}">
-                            <i class="align-middle" data-feather="file"></i>
-                            <span class="align-middle">Referensi Tufoksi</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item {{ request()->is('evaluasi-renstra*') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ url('evaluasi-renstra') }}">
-                            <i class="align-middle" data-feather="file"></i>
-                            <span class="align-middle">Evaluasi Renstra</span>
-                        </a>
-                    </li>
                 </ul>
+                @endif
             </div>
         </nav>
 
@@ -320,7 +317,7 @@
         $(document).ready(function(){
             $('.kode').mask('0.0.0.0.0.000');
             $('.rupiah').mask('000000000000000', {reverse:true});
-            $('.hp').mask('0000-0000-0000');
+            $('.hp').mask('0000-0000-00000');
         });
     </script>
     @stack('js')

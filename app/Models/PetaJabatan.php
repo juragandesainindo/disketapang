@@ -9,8 +9,9 @@ class PetaJabatan extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql2';
     protected $table = 'peta_jabatan';
     protected $fillable = [
-    	'title','file'
+        'title', 'file'
     ];
 }

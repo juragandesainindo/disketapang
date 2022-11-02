@@ -13,7 +13,7 @@ class CreateSopTable extends Migration
      */
     public function up()
     {
-        Schema::create('sop', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('sop', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('file');
@@ -28,6 +28,6 @@ class CreateSopTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sop');
+        Schema::connection('mysql2')->dropIfExists('sop');
     }
 }

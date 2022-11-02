@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisterController extends Controller
 {
@@ -73,5 +74,12 @@ class RegisterController extends Controller
             'telepon' => $data['telepon'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    protected function registered()
+    {
+        $this->guard()->logout();
+        Alert::success('Success', 'Registrasi akun berhasil, silahkan verifikasi email dan aktifkan status oleh admin');
+        return redirect()->route('login');
     }
 }

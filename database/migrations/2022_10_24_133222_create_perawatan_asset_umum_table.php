@@ -13,7 +13,7 @@ class CreatePerawatanAssetUmumTable extends Migration
      */
     public function up()
     {
-        Schema::create('perawatan_asset_umum', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('perawatan_asset_umum', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('asset_umum_id')->unsigned();
             $table->date('tgl');
@@ -32,6 +32,6 @@ class CreatePerawatanAssetUmumTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('perawatan_asset_umum');
+        Schema::connection('mysql2')->dropIfExists('perawatan_asset_umum');
     }
 }

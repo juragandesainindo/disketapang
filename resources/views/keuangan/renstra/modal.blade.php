@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-lg-9">
                                 <select name="indikator" class="form-control" required>
-                                    <option disable selected>Pilih salah satu</option>
+                                    <option value="">Pilih salah satu</option>
                                     <option value="Nilai Indeks Kepuasan Masyarakat (IKM)">Nilai Indeks Kepuasan
                                         Masyarakat (IKM)</option>
                                     <option value="Nilai Akuntabilitas Kinerja Instansi Pemerintahan (AKIP)">Nilai

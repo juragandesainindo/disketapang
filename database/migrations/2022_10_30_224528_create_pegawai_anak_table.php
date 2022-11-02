@@ -13,7 +13,7 @@ class CreatePegawaiAnakTable extends Migration
      */
     public function up()
     {
-        Schema::create('pegawai_anak', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('pegawai_anak', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('pegawai_id')->unsigned();
             $table->string('nama_anak');
@@ -34,6 +34,6 @@ class CreatePegawaiAnakTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pegawai_anak');
+        Schema::connection('mysql2')->dropIfExists('pegawai_anak');
     }
 }

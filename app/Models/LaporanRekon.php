@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class LaporanRekon extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql2';
     protected $table = 'laporan_rekon';
     protected $guarded = [];
 

@@ -9,6 +9,8 @@ class Sop extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql2';
+
     protected $table = 'sop';
-    protected $fillable = ['title','file'];
+    protected $fillable = ['title', 'file'];
 }

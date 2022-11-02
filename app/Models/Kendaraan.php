@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 class Kendaraan extends Model
 {
     use HasFactory;
-
+    protected $connection = 'mysql2';
     protected $table = 'kendaraan';
     protected $fillable = [
         'registrasi',

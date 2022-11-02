@@ -137,34 +137,9 @@
                                     Daftar Penerima Manfaat
                                 </a>
                             </li>
-                            <li class="{{ (request()->is('proposal-kamapan')) ? 'active' : '' }}">
-                                <a href="{{ url('proposal-kamapan') }}">
-                                    Proposal
-                                </a>
-                            </li>
-                            <li class="{{ (request()->is('proposal-kamapan')) ? 'active' : '' }}">
-                                <a href="{{ url('spt-cpcl') }}">
-                                    SPT CP/CL
-                                </a>
-                            </li>
-                            <li class="{{ (request()->is('verifikasi-cpcl')) ? 'active' : '' }}">
-                                <a href="{{ url('verifikasi-cpcl') }}">
-                                    Verifikasi CP/CL
-                                </a>
-                            </li>
                             <li class="{{ request()->is('sk-penerima-manfaat') ? 'active' : '' }}">
                                 <a href="{{ url('sk-penerima-manfaat') }}">
                                     SK Penerima Manfaat
-                                </a>
-                            </li>
-                            <li class="{{ request()->is('berita-acaran') ? 'active' : '' }}">
-                                <a href="{{ url('berita-acara') }}">
-                                    Berita Acara
-                                </a>
-                            </li>
-                            <li class="{{ request()->is('monev-kamapan') ? 'active' : '' }}">
-                                <a href="{{ url('monev-kamapan') }}">
-                                    Monev
                                 </a>
                             </li>
                         </ul>
@@ -380,34 +355,9 @@
                                             Daftar Penerima Manfaat
                                         </a>
                                     </li>
-                                    <li class="{{ (request()->is('proposal-kamapan')) ? 'active' : '' }}">
-                                        <a href="{{ url('proposal-kamapan') }}">
-                                            Proposal
-                                        </a>
-                                    </li>
-                                    <li class="{{ (request()->is('proposal-kamapan')) ? 'active' : '' }}">
-                                        <a href="{{ url('spt-cpcl') }}">
-                                            SPT CP/CL
-                                        </a>
-                                    </li>
-                                    <li class="{{ (request()->is('verifikasi-cpcl')) ? 'active' : '' }}">
-                                        <a href="{{ url('verifikasi-cpcl') }}">
-                                            Verifikasi CP/CL
-                                        </a>
-                                    </li>
                                     <li class="{{ request()->is('sk-penerima-manfaat') ? 'active' : '' }}">
                                         <a href="{{ url('sk-penerima-manfaat') }}">
                                             SK Penerima Manfaat
-                                        </a>
-                                    </li>
-                                    <li class="{{ request()->is('berita-acaran') ? 'active' : '' }}">
-                                        <a href="{{ url('berita-acara') }}">
-                                            Berita Acara
-                                        </a>
-                                    </li>
-                                    <li class="{{ request()->is('monev-kamapan') ? 'active' : '' }}">
-                                        <a href="{{ url('monev-kamapan') }}">
-                                            Monev
                                         </a>
                                     </li>
                                 </ul>
@@ -612,34 +562,9 @@
                                     Daftar Penerima Manfaat
                                 </a>
                             </li>
-                            <li class="{{ (request()->is('proposal-kamapan')) ? 'active' : '' }}">
-                                <a href="{{ url('proposal-kamapan') }}">
-                                    Proposal
-                                </a>
-                            </li>
-                            <li class="{{ (request()->is('proposal-kamapan')) ? 'active' : '' }}">
-                                <a href="{{ url('spt-cpcl') }}">
-                                    SPT CP/CL
-                                </a>
-                            </li>
-                            <li class="{{ (request()->is('verifikasi-cpcl')) ? 'active' : '' }}">
-                                <a href="{{ url('verifikasi-cpcl') }}">
-                                    Verifikasi CP/CL
-                                </a>
-                            </li>
                             <li class="{{ request()->is('sk-penerima-manfaat') ? 'active' : '' }}">
                                 <a href="{{ url('sk-penerima-manfaat') }}">
                                     SK Penerima Manfaat
-                                </a>
-                            </li>
-                            <li class="{{ request()->is('berita-acaran') ? 'active' : '' }}">
-                                <a href="{{ url('berita-acara') }}">
-                                    Berita Acara
-                                </a>
-                            </li>
-                            <li class="{{ request()->is('monev-kamapan') ? 'active' : '' }}">
-                                <a href="{{ url('monev-kamapan') }}">
-                                    Monev
                                 </a>
                             </li>
                         </ul>

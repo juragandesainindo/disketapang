@@ -10,6 +10,8 @@ class Pegawai extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql2';
+
     protected $table = 'pegawai';
     protected $fillable = [
         'nip',
@@ -84,8 +86,8 @@ class Pegawai extends Model
         return $this->hasMany(PegawaiGaji::class);
     }
 
-    public function assetUmum()
-    {
-        return $this->belongsToMany(AssetUmum::class);
-    }
+    // public function assetUmum()
+    // {
+    //     return $this->belongsToMany(AssetUmum::class);
+    // }
 }

@@ -13,7 +13,7 @@ class CreateKendaraanTable extends Migration
      */
     public function up()
     {
-        Schema::create('kendaraan', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('kendaraan', function (Blueprint $table) {
             $table->id();
             $table->string('registrasi');
             $table->string('nama');
@@ -47,6 +47,6 @@ class CreateKendaraanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kendaraan');
+        Schema::connection('mysql2')->dropIfExists('kendaraan');
     }
 }

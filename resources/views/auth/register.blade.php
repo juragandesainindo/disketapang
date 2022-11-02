@@ -44,7 +44,7 @@
 
                         <div class="form-group">
                             <input type="number" class="form-control" name="telepon" value="{{ old('telepon') }}"
-                                placeholder="Enter Your Phone Number" required>
+                                placeholder="Enter Your Phone Number">
                         </div>
 
                         <div class="form-group">

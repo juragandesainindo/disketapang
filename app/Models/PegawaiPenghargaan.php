@@ -9,6 +9,8 @@ class PegawaiPenghargaan extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql2';
+
     protected $table = 'pegawai_penghargaan';
     protected $fillable = ['penghargaan', 'tahun', 'asal_perolehan', 'foto', 'pegawai_id'];
 }

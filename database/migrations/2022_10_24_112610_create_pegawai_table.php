@@ -13,9 +13,8 @@ class CreatePegawaiTable extends Migration
      */
     public function up()
     {
-        Schema::create('pegawai', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('pegawai', function (Blueprint $table) {
             $table->id();
-            // 'nip', 'nama', 'npwp', 'jk', 'tempat_lahir', 'tgl_lahir', 'agama', 'alamat', 'bpjs', 'telepon', 'email', 'foto'
             $table->string('nip');
             $table->string('nama');
             $table->string('jk');
@@ -42,6 +41,6 @@ class CreatePegawaiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pegawai');
+        Schema::connection('mysql2')->dropIfExists('pegawai');
     }
 }

@@ -25,7 +25,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background-image: url("{{ asset('assets/bg-login.jpg') }}");
+            background-image: linear-gradient(to right, #EC9F05, #FF4E00);
             overflow: hidden;
         }
 
@@ -36,7 +36,7 @@
             transform: translate(-50%, -50%);
             top: 50%;
             left: 50%;
-            /* overflow-y: hidden; */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
 
         .flyer {
@@ -51,13 +51,6 @@
             display: block;
             margin: 0 auto 30px auto;
 
-        }
-
-        .license {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            font-size: 10px;
         }
 
         @media (max-width: 991.98px) {
@@ -83,7 +76,7 @@
             }
 
             .login-page {
-                margin-top: 40px;
+                margin-top: 120px;
                 width: 90%;
             }
         }
@@ -91,45 +84,8 @@
 </head>
 
 <body>
-    <!-- partial:index.partial.html -->
-    {{-- <div class="box-form">
-        <div class="left">
-            <img src="{{ asset('assets/login-flyer.jpg') }}" alt="">
 
-        </div>
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="right">
-                <img src="{{ asset('assets/logo-sitangan.png') }}" width="100%" alt="">
-                <div class="inputs">
-                    <input id="email" type="email" class="form-control email @error('email') is-invalid @enderror"
-                        name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email"
-                        autofocus>
-
-                    @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                    <br>
-                    <input id="password" type="password"
-                        class="form-control form-password @error('password') is-invalid @enderror" name="password"
-                        required autocomplete="current-password" placeholder="Password">
-                    @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong style="color: black;">{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                <br><br>
-
-                <br>
-                <button type="submit">Login</button>
-            </div>
-        </form>
-    </div> --}}
-    <!-- partial -->
+    @include('sweetalert::alert')
 
     <div class="login">
         <div class="container">
@@ -196,9 +152,6 @@
                                 </form>
                             </div>
                         </div>
-                        <a href="https://www.vecteezy.com/free-vector/login-background" target="_blank" class="license">
-                            Background Vectors by
-                            Vecteezy</a>
                     </div>
                 </div>
             </div>

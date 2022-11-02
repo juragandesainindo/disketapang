@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AssetUmum extends Model
 {
     use HasFactory;
-
+    protected $connection = 'mysql2';
     protected $table = 'asset_umum';
     protected $fillable = [
         'mapping_asset_id',

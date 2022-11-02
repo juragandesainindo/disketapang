@@ -35,7 +35,7 @@
 
 <main class="content">
     <div class="container-fluid p-0">
-        <h1 class="h3 mb-3">Dashboard <strong>Asset</strong></h1>
+        <h1 class="h3 mb-3">Dashboard</h1>
         <div class="row">
             <div class="col-xl-12 col-xxl-5 d-flex">
                 <div class="w-100">

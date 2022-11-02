@@ -13,7 +13,7 @@ class CreateMappingAssetTable extends Migration
      */
     public function up()
     {
-        Schema::create('mapping_asset', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('mapping_asset', function (Blueprint $table) {
             $table->id();
             $table->string('kode_brg', 50);
             $table->string('nama_brg', 100);
@@ -29,6 +29,6 @@ class CreateMappingAssetTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mapping_asset');
+        Schema::connection('mysql2')->dropIfExists('mapping_asset');
     }
 }

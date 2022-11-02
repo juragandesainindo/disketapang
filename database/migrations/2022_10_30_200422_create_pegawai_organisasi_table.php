@@ -13,7 +13,7 @@ class CreatePegawaiOrganisasiTable extends Migration
      */
     public function up()
     {
-        Schema::create('pegawai_organisasi', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('pegawai_organisasi', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('pegawai_id')->unsigned();
             $table->string('nama_organisasi');
@@ -33,6 +33,6 @@ class CreatePegawaiOrganisasiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pegawai_organisasi');
+        Schema::connection('mysql2')->dropIfExists('pegawai_organisasi');
     }
 }

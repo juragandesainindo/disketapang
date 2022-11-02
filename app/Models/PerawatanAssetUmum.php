@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PerawatanAssetUmum extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql2';
     protected $table = 'perawatan_asset_umum';
     protected $guarded = [];
 

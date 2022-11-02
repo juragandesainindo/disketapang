@@ -37,7 +37,7 @@ class ReferensiTufoksiController extends Controller
 
         Alert::success('Success', 'Create referensi tufoksi has been successfully');
 
-        return redirect()->route('referensi-tufoksi.index');
+        return back();
     }
 
     public function edit($id)

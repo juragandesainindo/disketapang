@@ -298,61 +298,6 @@ class KendaraanController extends Controller
         return redirect()->route('kendaraans.index')->with('success', 'Delete kendaraan dinas successfully.');
     }
 
-    public function storeImage(Request $request)
-    {
-        if ($request->hasFile('image_kendaraan')) {
-            $file = $request->file('image_kendaraan');
-            $imageName = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('kendaraan/all'), $imageName);
-
-            $data = new KendaraanImage([
-                'title_image'   => $request->title_image,
-                'image_kendaraan'   => $imageName,
-                'kendaraan_id'      => $request->kendaraan_id
-            ]);
-
-            $data->save();
-        }
-
-        return back()->with('success', 'Create image kendaraan successfully');
-    }
-
-    public function updateImage(Request $request, $id)
-    {
-        $data = KendaraanImage::findOrFail($id);
-
-        if ($request->hasFile('image_kendaraan')) {
-            if (File::exists('kendaraan/all/' . $data->image_kendaraan)) {
-                File::delete('kendaraan/all/' . $data->image_kendaraan);
-            }
-
-            $file = $request->file('image_kendaraan');
-            $data->image_kendaraan = time() . '_' . $file->getClientOriginalName();
-            $file->move(\public_path('kendaraan/all'), $data->image_kendaraan);
-            $request['kendaraan_image'] = $data->image_kendaraan;
-
-            $data->update([
-                'title_image'   => $request->title_image,
-                'image_kendaraan'   => $data->image_kendaraan,
-            ]);
-        }
-
-        return back()->with('success', 'Update image kendaraan successfully');
-    }
-
-    public function destroyImage($id)
-    {
-        $data = KendaraanImage::findOrFail($id);
-
-        if (File::exists('kendaraan/all/' . $data->image_kendaraan)) {
-            File::delete('kendaraan/all/' . $data->image_kendaraan);
-        }
-
-        KendaraanImage::find($id)->delete();
-
-        return back()->with('success', 'Delete image kendaraan successfully');
-    }
-
     public function export()
     {
         return Excel::download(new KendaraanExport(), 'kendaraan.xlsx');

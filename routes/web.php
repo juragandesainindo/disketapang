@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\PanduanAplikasiController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\InformasiAplikasiController;
 
 use App\Http\Controllers\Distribusi\CadanganBulogController;
 use App\Http\Controllers\Distribusi\CadanganPanganController;
@@ -14,7 +16,7 @@ use App\Http\Controllers\Distribusi\PasarController;
 use App\Http\Controllers\Distribusi\UnitDistributorController;
 use App\Http\Controllers\Distribusi\DaftarGudangController;
 use App\Http\Controllers\Distribusi\DataKampungPanganController;
-use App\Http\Controllers\HomeController;
+
 use App\Http\Controllers\Umum\PegawaiController;
 use App\Http\Controllers\Umum\PetaJabatanController;
 use App\Http\Controllers\Umum\SopController;
@@ -40,9 +42,7 @@ use App\Http\Controllers\Keamanan\KeamananPanganController;
 use App\Http\Controllers\Keamanan\PengusulSertifikasiController;
 use App\Http\Controllers\Keamanan\DataPanganLokalController;
 use App\Http\Controllers\Keamanan\KonsumsiPanganController;
-use App\Http\Controllers\keuangan\EvaluasiRenstraController;
 use App\Http\Controllers\Umum\Asset\AtbController;
-use App\Http\Controllers\umum\asset\DropdownDependentController;
 use App\Http\Controllers\Umum\Asset\KibAController;
 use App\Http\Controllers\Umum\Asset\KibBController;
 use App\Http\Controllers\Umum\Asset\KibCController;
@@ -58,7 +58,6 @@ use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibCController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibDController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibEController;
 use App\Http\Controllers\Umum\Asset\Perawatan\PerawatanKibFController;
-use App\Http\Controllers\umum\manyToMany\ArtikelHadiahController;
 use App\Http\Controllers\umum\PegawaiAnakController;
 use App\Http\Controllers\umum\PegawaiJabatanController;
 use App\Http\Controllers\umum\PegawaiOrganisasiController;
@@ -85,24 +84,12 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::name('panduan.')->prefix('buku-panduan')->group(function () {
-
-    Route::get('pegawai', function () {
-        return view('buku-panduan.umum.pegawai');
-    })->name('pegawai');
-    Route::get('sop', function () {
-        return view('buku-panduan.umum.sop');
-    })->name('sop');
-    Route::get('peta-jabatan', function () {
-        return view('buku-panduan.umum.peta-jabatan');
-    })->name('peta-jabatan');
-});
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -126,9 +113,10 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // ----------------------------- Sub Umum ------------------------------//
-
+    //Route::get('informasi-aplikasi', [InformasiAplikasiController::class, 'index']);
     //Route::put('image-dashboard', [InformasiAplikasiController::class, 'updateImageDashboard'])->name('image-dashboard');
     //Route::get('berita', [InformasiAplikasiController::class, 'indexBerita']);
+
 
     // ----------------------------- Sub Umum ------------------------------//
     Route::resource('pegawais', PegawaiController::class);
@@ -184,17 +172,48 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('sop', SopController::class);
     Route::resource('peta-jabatan', PetaJabatanController::class);
     Route::resource('kendaraans', KendaraanController::class);
-    Route::post('kendaraan-image', [KendaraanController::class, 'storeImage'])->name('kendaraan-image.store');
-    Route::put('kendaraan-image/{id}', [KendaraanController::class, 'updateImage'])->name('kendaraan-image.update');
-    Route::delete('kendaraan-image/{id}', [KendaraanController::class, 'destroyImage'])->name('kendaraan-image.destroy');
     Route::get('kendaraan-export', [KendaraanController::class, 'export'])->name('kendaraan-export');
+
+    Route::get('mapping-asset', [MappingAssetController::class, 'index'])->name('mapping-asset.index');
+    Route::post('mapping-asset', [MappingAssetController::class, 'store'])->name('mapping-asset.store');
+    Route::put('mapping-asset/{id}', [MappingAssetController::class, 'update'])->name('mapping-asset.update');
+    Route::delete('mapping-asset/{id}', [MappingAssetController::class, 'destroy'])->name('mapping-asset.destroy');
+
+    Route::resource('kib-a', KibAController::class);
+    Route::resource('kib-b', KibBController::class);
+    Route::put('asset-umum-pegawai/{id}', [KibBController::class, 'updatePegawai'])->name('asset-umum-pegawai.update');
+    Route::delete('asset-umum-pegawai/{id}', [KibBController::class, 'deletePegawai'])->name('asset-umum-pegawai');
+    Route::resource('kib-c', KibCController::class);
+    Route::resource('kib-d', KibDController::class);
+    Route::resource('kib-e', KibEController::class);
+    Route::resource('kib-f', KibFController::class);
+    Route::resource('asset-tak-berwujud', AtbController::class);
+    Route::resource('perawatan-asset-kib-a', PerawatanKibAController::class);
+    Route::resource('perawatan-asset-kib-b', PerawatanKibBController::class);
+    Route::resource('perawatan-asset-kib-c', PerawatanKibCController::class);
+    Route::resource('perawatan-asset-kib-d', PerawatanKibDController::class);
+    Route::resource('perawatan-asset-kib-e', PerawatanKibEController::class);
+    Route::resource('perawatan-asset-kib-f', PerawatanKibFController::class);
+    Route::resource('perawatan-asset-tak-berwujud', PerawatanAtbController::class);
+
+    Route::resource('laporan-rekon', LaporanRekonController::class);
+    Route::get('get-pegawai', [LaporanRekonController::class, 'getPegawai'])->name('getPegawai');
+    Route::get('get-pangkat', [LaporanRekonController::class, 'getPangkat'])->name('getPangkat');
+    Route::get('get-jabatan', [LaporanRekonController::class, 'getJabatan'])->name('getJabatan');
+    Route::get('laporan-rekon/export-rekon/{id}', [LaporanRekonController::class, 'exportRekon'])->name('laporan-rekon-export-rekon');
 
     // Sub Keuangan
     Route::resource('referensi-tufoksi', ReferensiTufoksiController::class);
+    // Route::get('referensi-tufoksi', [ReferensiTufoksiController::class, 'index']);
+    // Route::post('referensi-tufoksi', [ReferensiTufoksiController::class, 'store'])->name('referensi-tufoksi.store');
+    // Route::put('referensi-tufoksi/{id}', [ReferensiTufoksiController::class, 'update'])->name('referensi-tufoksi.update');
+    // Route::delete('referensi-tufoksi/{id}', [ReferensiTufoksiController::class, 'destroy'])->name('referensi-tufoksi.destroy');
 
-    Route::resource('evaluasi-renstra', EvaluasiRenstraController::class);
-    Route::get('evaluasi-renstra-export', [EvaluasiRenstraController::class, 'index'])->name('evaluasi-renstra-export');
-    // Route::post('evaluasi-renstra', [RenstraController::class, 'index'])->name('evaluasi-renstra-search');
+    Route::get('evaluasi-renstra', [RenstraController::class, 'index']);
+    Route::post('evaluasi-renstra-store', [RenstraController::class, 'store'])->name('evaluasi-renstra-store');
+    Route::put('evaluasi-renstra/{id}', [RenstraController::class, 'update'])->name('evaluasi-renstra.update');
+    Route::delete('evaluasi-renstra/{id}', [RenstraController::class, 'destroy'])->name('evaluasi-renstra.destroy');
+    Route::post('evaluasi-renstra', [RenstraController::class, 'index'])->name('evaluasi-renstra-search');
     Route::get('renstra-excel', [RenstraController::class, 'exportRenstra']);
 
     Route::get('laporan-realisasi', [LaporanRealisasiController::class, 'index'])->name('laporan-realisasi');
@@ -446,43 +465,4 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('kwt-monev', [BantuanKWTController::class, 'indexMonev']);
     Route::get('kwt-monev/{id}', [BantuanKWTController::class, 'excelMonev'])->name('kwt-monev.excel');
-
-
-    Route::get('mapping-asset', [MappingAssetController::class, 'index'])->name('mapping-asset.index');
-    Route::post('mapping-asset', [MappingAssetController::class, 'store'])->name('mapping-asset.store');
-    Route::put('mapping-asset/{id}', [MappingAssetController::class, 'update'])->name('mapping-asset.update');
-    Route::delete('mapping-asset/{id}', [MappingAssetController::class, 'destroy'])->name('mapping-asset.destroy');
-
-    Route::resource('kib-a', KibAController::class);
-    Route::resource('kib-b', KibBController::class);
-    Route::put('asset-umum-pegawai/{id}', [KibBController::class, 'updatePegawai'])->name('asset-umum-pegawai.update');
-    Route::delete('asset-umum-pegawai/{id}', [KibBController::class, 'deletePegawai'])->name('asset-umum-pegawai');
-    Route::resource('kib-c', KibCController::class);
-    Route::resource('kib-d', KibDController::class);
-    Route::resource('kib-e', KibEController::class);
-    Route::resource('kib-f', KibFController::class);
-    Route::resource('asset-tak-berwujud', AtbController::class);
-    Route::resource('perawatan-asset-kib-a', PerawatanKibAController::class);
-    Route::resource('perawatan-asset-kib-b', PerawatanKibBController::class);
-    Route::resource('perawatan-asset-kib-c', PerawatanKibCController::class);
-    Route::resource('perawatan-asset-kib-d', PerawatanKibDController::class);
-    Route::resource('perawatan-asset-kib-e', PerawatanKibEController::class);
-    Route::resource('perawatan-asset-kib-f', PerawatanKibFController::class);
-    Route::resource('perawatan-asset-tak-berwujud', PerawatanAtbController::class);
-
-    Route::resource('laporan-rekon', LaporanRekonController::class);
-    Route::get('get-pegawai', [LaporanRekonController::class, 'getPegawai'])->name('getPegawai');
-    Route::get('get-pangkat', [LaporanRekonController::class, 'getPangkat'])->name('getPangkat');
-    Route::get('get-jabatan', [LaporanRekonController::class, 'getJabatan'])->name('getJabatan');
-    Route::get('laporan-rekon/export-rekon/{id}', [LaporanRekonController::class, 'exportRekon'])->name('laporan-rekon-export-rekon');
-
-    // Route::get('dropdown-dependent', [DropdownDependentController::class, 'index'])->name('dropdown-dependent');
-    // Route::get('get-pangkat', [DropdownDependentController::class, 'getPangkat'])->name('getPangkat');
-    // Route::get('get-jabatan', [DropdownDependentController::class, 'getJabatan'])->name('getJabatan');
-
-
-    // Many to many
-    Route::get('artikel-hadiah', [ArtikelHadiahController::class, 'hadiah']);
-    Route::post('artikel-hadiah', [ArtikelHadiahController::class, 'storeHadiah'])->name('store.hadiah');
-    Route::post('artikel-hadiah-artikel', [ArtikelHadiahController::class, 'storeArtikel'])->name('store.artikel');
 });
