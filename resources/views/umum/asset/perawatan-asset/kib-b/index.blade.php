@@ -2,45 +2,33 @@
 @section('title','Perawatan Asset Kib B')
 
 @section('content')
-<!-- Modal -->
-<div class="modal fade" id="search" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form action="{{ route('perawatan-asset-kib-b.index') }}" method="GET">
-                    <div class="input-group">
-                        <select name="search" class="form-control form-select" required>
-                            <option value="">Pilih Penanggung Jawab</option>
-                            <option value="Kadis">Kadis</option>
-                            <option value="Sekretariat">Sekretariat</option>
-                            <option value="Ketersediaan & Kerawanan">Ketersediaan & Kerawanan</option>
-                            <option value="Distribusi & Cadangan">Distribusi & Cadangan</option>
-                            <option value="Keamanan & Konsumsi">Keamanan & Konsumsi</option>
-                        </select>
-                        <button type="submit" class="btn btn-primary">Pilih</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <main class="content">
     <div class="container-fluid p-0">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="h3">@yield('title')</h1>
             <div>
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#search">
-                    <i data-feather="search"></i>&nbsp;
-                    search
-                </button>
-
                 <a href="{{ route('perawatan-asset-kib-b.create') }}" class="btn btn-primary">
                     <i data-feather="folder-plus"></i>&nbsp;
                     Create
                 </a>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 col-lg-4">
+                <form action="{{ route('perawatan-asset-kib-b.index') }}" method="GET">
+                    <div class="form-group input-group">
+                        <select name="search" class="form-control js-example-basic-single" required>
+                            <option value="">Cari pemakai</option>
+                            @foreach ($pegawai as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="bg-primary border-0 text-white px-3">
+                            Cari</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -52,24 +40,27 @@
                         <thead>
                             <tr>
                                 <th>Kode</th>
-                                <th>Barang</th>
+                                <th>Pemakai</th>
+                                <th>Jenis</th>
+                                <th>Type/Merk</th>
                                 <th>Tgl</th>
                                 <th>Uraian</th>
                                 <th>Nilai</th>
                                 <th>Keterangan</th>
                                 <th>Img</th>
-                                <th>Penanggung Jawab</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($kibs as $item)
                             <tr>
-                                <td>{{ $item->assetUmum->mappingAsset->kode_brg }}</td>
-                                <td>{{ $item->assetUmum->mappingAsset->nama_brg }}</td>
+                                <td>{{ $kodeBrg }}</td>
+                                <td>{{ $item->assetUmumPegawai->pegawai->nama }}</td>
+                                <td>{{ $item->assetUmumPegawai->jenis_barang }}</td>
+                                <td>{{ $item->assetUmumPegawai->merk_type }}</td>
                                 <td>{{ $item->tgl }}</td>
                                 <td>{{ $item->uraian }}</td>
-                                <td>{{ $item->nilai }}</td>
+                                <td>{{ number_format($item->nilai) }}</td>
                                 <td>{{ $item->keterangan }}</td>
                                 <td>
                                     @if ($item->foto === NULL)
@@ -81,19 +72,18 @@
                                     </a>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    <span class="badge bg-primary">
-                                        {{ $item->assetUmum->penanggung_jawab }}
-                                    </span>
-                                </td>
                                 <td>
-                                    <a class="btn btn-warning btn-sm"
-                                        href="{{ route('perawatan-asset-kib-b.edit',$item->id) }}">
-                                        <i data-feather="edit"></i>
+                                    <a class="btn btn-info btn-sm mb-1" title="Expot PDF" target="_blank"
+                                        href="{{ route('perawatan-asset-kib-b.show',$item->id) }}">
+                                        <i data-feather="download-cloud"></i> Export&nbsp;PDF
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                    <a class="btn btn-warning btn-sm mb-1"
+                                        href="{{ route('perawatan-asset-kib-b.edit',$item->id) }}">
+                                        <i data-feather="edit"></i> Edit
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm mb-1" data-bs-toggle="modal"
                                         data-bs-target="#delete-{{ $item->id }}">
-                                        <i data-feather="trash"></i>
+                                        <i data-feather="trash"></i> Delete
                                     </button>
                                 </td>
                             </tr>
@@ -122,10 +112,9 @@
                 <div class="modal-body">
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
-                        Kode barang : <strong>{{ $item->assetUmum->mappingAsset->kode_brg }}</strong> <br>
-                        Nama Barang : <strong>{{ $item->assetUmum->mappingAsset->nama_brg }}</strong> <br>
-                        Keterangan : <strong>{{ $item->keterangan }}</strong> <br>
-                        Penanggung Jawab : <strong>{{ $item->assetUmum->penanggung_jawab }}</strong> <br>
+                        Pemakai : <strong>{{ $item->assetUmumPegawai->pegawai->nama }}</strong> <br>
+                        Jenis : <strong>{{ $item->assetUmumPegawai->jenis_barang }}</strong> <br>
+                        Merk/Type : <strong>{{ $item->assetUmumPegawai->merk_type }}</strong> <br>
                     </p>
                 </div>
                 <div class="modal-footer">

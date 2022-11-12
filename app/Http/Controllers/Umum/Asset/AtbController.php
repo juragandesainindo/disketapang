@@ -25,7 +25,12 @@ class AtbController extends Controller
         } else {
             $atbs = AssetUmum::where('kategori', 'Atb')->orderByDesc('id')->get();
         }
-        return view('umum.asset.atb.index', compact('atbs'));
+
+        $totalNilaiBrg = $atbs->sum('nilai_brg');
+        $totalNilaiTotal = $atbs->sum('nilai_perolehan');
+        $totalNilaiSurut = $atbs->sum('nilai_surut');
+
+        return view('umum.asset.atb.index', compact('atbs', 'totalNilaiBrg', 'totalNilaiTotal', 'totalNilaiSurut'));
     }
 
     /**

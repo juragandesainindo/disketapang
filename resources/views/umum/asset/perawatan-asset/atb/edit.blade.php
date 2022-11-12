@@ -33,10 +33,13 @@
                                                 old('asset_umum_id') ??
                                                 $kib->assetUmum->mappingAsset->kode_brg .' - '.
                                                 $kib->assetUmum->mappingAsset->nama_brg }}
+                                                ( {{ $kib->assetUmum->instansi_developer }} - {{
+                                                $kib->assetUmum->nama_developer }} )
                                             </option>
                                             @foreach ($modelKib as $item)
                                             <option value="{{ $item->id }}">{{ $item->mappingAsset->kode_brg }} - {{
                                                 $item->mappingAsset->nama_brg }}
+                                                ( {{ $item->instansi_developer }} - {{ $item->nama_developer }} )
                                             </option>
                                             @endforeach
                                         </select>

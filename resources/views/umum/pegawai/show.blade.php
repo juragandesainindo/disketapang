@@ -1,6 +1,17 @@
 @extends('layouts.adminKit')
 @section('title','Detail Pegawai')
 @section('content')
+<style>
+	.zoom {
+		transition: transform .2s;
+		margin: 0 auto;
+	}
+
+	.zoom:hover {
+		transform: scale(5.5);
+		z-index: 1000;
+	}
+</style>
 <main class="content">
 	<div class="container-fluid p-0">
 
@@ -26,6 +37,24 @@
 						style="height: 200px;object-fit: cover;">
 					<div class="card-header">
 						<h5 class="card-title mb-0">Foto Diri</h5>
+					</div>
+					<div class="d-flex justify-content-between">
+						@if ($pegawai->kk > 0)
+						<img src="{{ asset('umum/pegawai/'.$pegawai->foto_diri) }}" width="30" height="30"
+							class="rounded-circle zoom me-2">
+						@elseif ($pegawai->ktp > 0)
+						<img src="{{ asset('umum/pegawai/'.$pegawai->ktp) }}" width="30" height="30"
+							class="rounded-circle zoom me-2">
+						@elseif ($pegawai->akte > 0)
+						<img src="{{ asset('umum/pegawai/'.$pegawai->akte) }}" width="30" height="30"
+							class="rounded-circle zoom me-2">
+						@elseif ($pegawai->npwp > 0)
+						<img src="{{ asset('umum/pegawai/'.$pegawai->npwp) }}" width="30" height="30"
+							class="rounded-circle zoom me-2">
+						@elseif ($pegawai->bpjs > 0)
+						<img src="{{ asset('umum/pegawai/'.$pegawai->bpjs) }}" width="30" height="30"
+							class="rounded-circle zoom me-2">
+						@endif
 					</div>
 				</div>
 			</div>

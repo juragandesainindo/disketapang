@@ -33,8 +33,8 @@
                                             @foreach ($kibs as $item)
                                             <option value="{{ $item->id }}">{{
                                                 $item->mappingAsset->kode_brg }} - {{
-                                                $item->mappingAsset->nama_brg
-                                                }}
+                                                $item->mappingAsset->nama_brg }}
+                                                ( {{ $item->kdp }} / {{ $item->tgl_dokumen }} )
                                             </option>
                                             @endforeach
                                         </select>

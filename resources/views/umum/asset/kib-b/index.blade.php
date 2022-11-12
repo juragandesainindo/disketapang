@@ -31,7 +31,9 @@
     <div class="container-fluid p-0">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h3">@yield('title')</h1>
+            <div>
+                <h1 class="h3">@yield('title')</h1>
+            </div>
             <div>
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#search">
                     <i data-feather="search"></i>&nbsp;
@@ -46,6 +48,39 @@
         </div>
 
         <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="alert alert-primary" role="alert">
+                    Total Nilai Barang <br>
+                    <strong>Rp. {{ number_format($totalNilaiBrg) }}</strong>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="alert alert-warning" role="alert">
+                    Total Nilai Penyusutan <br>
+                    <strong>Rp. {{ number_format($totalNilaiSurut) }}</strong>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="alert alert-success" role="alert">
+                    Total Nilai Perolehan (Total) <br>
+
+                    <strong>Rp. {{ number_format($totalNilaiTotal)
+                        }}</strong>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-lg-4 col-12">
+                <a href="{{ route('preview-sk-asset-umum-bast') }}" class="btn btn-info w-100">
+                    <i data-feather="eye"></i>&nbsp;
+                    Preview SK Pemakai Barang
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12 col-lg-12">
                 <div class="card flex-fill px-3 pb-3 pt-3">
 
@@ -54,12 +89,14 @@
                             <tr>
                                 <th>Kode</th>
                                 <th>Barang</th>
-                                <th>Nilai (Rp)</th>
+                                <th>Nilai&nbsp;Barang&nbsp;(Rp)</th>
+                                <th>Nilai&nbsp;Penyusutan</th>
+                                <th>Nilai&nbsp;Perolehan&nbsp;(Total)</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
                                 <th>Keterangan</th>
                                 <th>Img</th>
-                                <th>Penanggung Jawab</th>
+                                <th>Penanggung&nbsp;Jawab</th>
                                 <th>Pemakai</th>
                                 <th>Action</th>
                             </tr>
@@ -70,9 +107,11 @@
                                 <td class="text-center">{{ $kib->mappingAsset->kode_brg }}</td>
                                 <td>{{ $kib->mappingAsset->nama_brg }}</td>
                                 <td>{{ number_format($kib->nilai_brg) }}</td>
+                                <td>{{ number_format($kib->nilai_surut) }}</td>
+                                <td>{{ number_format($kib->nilai_perolehan) }}</td>
                                 <td>{{ $kib->tgl_perolehan }}</td>
                                 <td>{{ $kib->penggunaan }}</td>
-                                <td>{{ $kib->keterangan }}</td>
+                                <td>{!! $kib->keterangan !!}</td>
                                 <td>
                                     @if ($kib->foto === NULL)
                                     <span class="text-secondary">Null</span>
@@ -89,20 +128,28 @@
                                     </span>
                                 </td>
                                 <td>
+                                    <span class="badge bg-info">
+                                        {{ $kib->assetUmumPegawai->count() }} pegawai
+                                    </span>
+                                    <br>
                                     @foreach ($kib->pegawai as $item)
-
                                     <span class="badge bg-primary">
                                         {{ $item->nama }}
                                     </span>
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a class="btn btn-warning btn-sm" href="{{ route('kib-b.edit',$kib->id) }}">
-                                        <i data-feather="edit"></i>
+                                    <a class="btn btn-info btn-sm mb-1" href="{{ route('kib-b.show',$kib->id) }}"
+                                        title="Berita Acara Serah Terima Barang">
+                                        BAST
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#delete-{{ $kib->id }}">
-                                        <i data-feather="trash"></i>
+                                    <a class="btn btn-warning btn-sm mb-1" href="{{ route('kib-b.edit',$kib->id) }}"
+                                        title="Edit">
+                                        <i data-feather="edit"></i> Edit
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm mb-1" data-bs-toggle="modal"
+                                        data-bs-target="#delete-{{ $kib->id }}" title="Delete">
+                                        <i data-feather="trash"></i> Delete
                                     </button>
                                 </td>
                             </tr>

@@ -22,7 +22,12 @@ class KibAController extends Controller
         } else {
             $kibs = AssetUmum::where('kategori', '=', 'KibA')->orderBy('created_at', 'desc')->get();
         }
-        return view('umum.asset.kib-a.index', compact('kibs'));
+
+        $totalNilaiBrg = $kibs->sum('nilai_brg');
+        $totalNilaiTotal = $kibs->sum('nilai_perolehan');
+        $totalNilaiSurut = $kibs->sum('nilai_surut');
+
+        return view('umum.asset.kib-a.index', compact('kibs', 'totalNilaiBrg', 'totalNilaiTotal', 'totalNilaiSurut'));
     }
 
     public function create()

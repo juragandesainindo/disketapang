@@ -50,7 +50,8 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label>Nilai Barang &nbsp;<sup class="text-danger">(wajib diisi)</sup></label>
-                                        <input name="nilai_brg" value="{{ old('nilai_brg') ?? $kib->nilai_brg }}"
+                                        <input name="nilai_brg" id="nilaiBrg"
+                                            value="{{ old('nilai_brg') ?? $kib->nilai_brg }}"
                                             class="form-control rupiah @error('nilai_brg') is-invalid @enderror"
                                             type="text">
                                         @error('nilai_brg')
@@ -59,19 +60,15 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label>Nilai Perolehan (Total)</label>
-                                        <input name="nilai_perolehan"
-                                            value="{{ old('nilai_perolehan') ?? $kib->nilai_perolehan }}"
-                                            class="form-control rupiah @error('nilai_perolehan') is-invalid @enderror"
-                                            type="text">
-                                        @error('nilai_perolehan')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <input name="nilai_perolehan" value="{{ $totalNilaiTotal }}" id="nilaiTotal"
+                                            class="form-control rupiah" type="text" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group mb-3">
                                         <label>Nilai Surut</label>
-                                        <input name="nilai_surut" value="{{ old('nilai_surut') ?? $kib->nilai_surut }}"
+                                        <input name="nilai_surut" id="nilaiSurut"
+                                            value="{{ old('nilai_surut') ?? $kib->nilai_surut }}"
                                             class="form-control rupiah @error('nilai_surut') is-invalid @enderror"
                                             type="text">
                                         @error('nilai_surut')
@@ -246,3 +243,22 @@
     </div>
 </main>
 @endsection
+
+@push('js')
+<script>
+    $(document).ready(function(){   
+            $("#nilaiBrg, #nilaiSurut").keyup(function(){
+                var nilaiBrg = $("#nilaiBrg").val();
+                var nilaiTotal = parseInt(nilaiBrg) * 1;
+                var nilaiSurut = $("#nilaiSurut").val();
+                if (nilaiSurut !== '') {
+                var nilaiTotal = parseInt(nilaiBrg) * 1 - parseInt(nilaiSurut);
+                } else {
+                var nilaiTotal = parseInt(nilaiBrg) * 1
+                }
+                $("#nilaiTotal").val(nilaiTotal);
+            });
+        });
+        
+</script>
+@endpush

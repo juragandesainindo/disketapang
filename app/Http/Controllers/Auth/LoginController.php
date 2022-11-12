@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\BackgroundImage;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -115,5 +116,11 @@ class LoginController extends Controller
         Auth::logout();
         // Toastr::success('Logout successfully :)','Success');
         return redirect('/');
+    }
+
+    public function showLoginForm()
+    {
+        $background = BackgroundImage::orderByDesc('updated_at')->first();
+        return view('auth.login', compact('background'));
     }
 }

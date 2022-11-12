@@ -32,10 +32,15 @@
                                                 old('asset_umum_id') ??
                                                 $kib->assetUmum->mappingAsset->kode_brg .' - '.
                                                 $kib->assetUmum->mappingAsset->nama_brg }}
+                                                ( {{ $kib->assetUmum->tgl_perolehan }} / {{ $kib->assetUmum->luas }} M2
+                                                / {{ $kib->assetUmum->imb
+                                                }})
                                             </option>
                                             @foreach ($modelKib as $item)
                                             <option value="{{ $item->id }}">{{ $item->mappingAsset->kode_brg }} - {{
-                                                $item->mappingAsset->nama_brg }}
+                                                $item->mappingAsset->nama_brg }} ( {{ $item->tgl_perolehan }} / {{
+                                                $item->luas }} M2 / {{ $item->imb
+                                                }})
                                             </option>
                                             @endforeach
                                         </select>

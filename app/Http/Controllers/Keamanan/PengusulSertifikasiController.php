@@ -16,10 +16,8 @@ class PengusulSertifikasiController extends Controller
      */
     public function index()
     {
-        $edit = 1;
-        $dkt = DktKelompok::all();
         $data = PengusulSertifikasi::with('DktKelompok')->get();
-        return view('keamanan.pengusul-sertifikasi.index', compact('data','dkt','edit'));
+        return view('keamanan.pengusul-sertifikasi.index', compact('data'));
     }
 
     /**
@@ -29,7 +27,8 @@ class PengusulSertifikasiController extends Controller
      */
     public function create()
     {
-        //
+        $dkt = DktKelompok::all();
+        return view('keamanan.pengusul-sertifikasi.create', compact('dkt'));
     }
 
     /**
@@ -42,10 +41,10 @@ class PengusulSertifikasiController extends Controller
     {
         $data = new PengusulSertifikasi([
             'dkt_kelompok_id'   => $request->dkt_kelompok_id
-            ]);
-            
+        ]);
+
         $data->save();
-        return back()->with('success', 'Create pengusul sertifikasi successfully');
+        return redirect()->route('pengusul-sertifikasi.index')->with('success', 'Create pengusul sertifikasi successfully');
     }
 
     /**
@@ -67,7 +66,9 @@ class PengusulSertifikasiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = PengusulSertifikasi::findOrFail($id);
+        $dkt = DktKelompok::all();
+        return view('keamanan.pengusul-sertifikasi.edit', compact('data', 'dkt'));
     }
 
     /**
@@ -82,9 +83,9 @@ class PengusulSertifikasiController extends Controller
         $data = PengusulSertifikasi::findOrFail($id);
         $data->update([
             'dkt_kelompok_id'   => $request->dkt_kelompok_id
-            ]);
-            
-        return back()->with('success', 'Update pengusul sertifikasi successfully');
+        ]);
+
+        return redirect()->route('pengusul-sertifikasi.index')->with('success', 'Update pengusul sertifikasi successfully');
     }
 
     /**

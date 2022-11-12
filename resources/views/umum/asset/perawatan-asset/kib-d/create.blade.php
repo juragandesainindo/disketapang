@@ -34,7 +34,7 @@
                                             <option value="{{ $item->id }}">{{
                                                 $item->mappingAsset->kode_brg }} - {{
                                                 $item->mappingAsset->nama_brg
-                                                }}
+                                                }} ( {{ $item->tgl_perolehan }} / {{ $item->luas }} M2 )
                                             </option>
                                             @endforeach
                                         </select>

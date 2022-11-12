@@ -52,13 +52,13 @@
                         <thead>
                             <tr>
                                 <th>Kode</th>
-                                <th>Barang</th>
+                                <th>Barang&nbsp;/&nbsp;Sertifikat&nbsp;/&nbsp;Jenis</th>
                                 <th>Tgl</th>
                                 <th>Uraian</th>
-                                <th>Nilai (Rp)</th>
+                                <th>Nilai&nbsp;(Rp)</th>
                                 <th>Keterangan</th>
                                 <th>Img</th>
-                                <th>Penanggung Jawab</th>
+                                <th>Penanggung&nbsp;Jawab</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -66,7 +66,9 @@
                             @foreach ($kibs as $item)
                             <tr>
                                 <td>{{ $item->assetUmum->mappingAsset->kode_brg }}</td>
-                                <td>{{ $item->assetUmum->mappingAsset->nama_brg }}</td>
+                                <td class="text-center">{{ $item->assetUmum->mappingAsset->nama_brg }} / {{
+                                    $item->assetUmum->sertifikat }} / {{ $item->assetUmum->jenis_sertifikat }}
+                                </td>
                                 <td>{{ $item->tgl }}</td>
                                 <td>{{ $item->uraian }}</td>
                                 <td>{{ number_format($item->nilai) }}</td>
@@ -87,13 +89,17 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a class="btn btn-warning btn-sm"
-                                        href="{{ route('perawatan-asset-kib-a.edit',$item->id) }}">
-                                        <i data-feather="edit"></i>
+                                    <a class="btn btn-info btn-sm mb-1" title="Expot PDF" target="_blank"
+                                        href="{{ route('perawatan-asset-kib-a.show',$item->id) }}">
+                                        <i data-feather="download-cloud"></i> Export&nbsp;PDF
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                    <a class="btn btn-warning btn-sm mb-1"
+                                        href="{{ route('perawatan-asset-kib-a.edit',$item->id) }}">
+                                        <i data-feather="edit"></i> Edit
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm mb-1" data-bs-toggle="modal"
                                         data-bs-target="#delete-{{ $item->id }}">
-                                        <i data-feather="trash"></i>
+                                        <i data-feather="trash"></i> Delete
                                     </button>
                                 </td>
                             </tr>
@@ -123,7 +129,9 @@
                     <p>
                         Apakah yakin ingin menghapus data ini? <br>
                         Kode barang : <strong>{{ $item->assetUmum->mappingAsset->kode_brg }}</strong> <br>
-                        Nama Barang : <strong>{{ $item->assetUmum->mappingAsset->nama_brg }}</strong> <br>
+                        Nama Barang : <strong>{{ $item->assetUmum->mappingAsset->nama_brg }}
+                            ( {{ $item->assetUmum->sertifikat }} / {{ $item->assetUmum->jenis_sertifikat }} )
+                        </strong> <br>
                         Keterangan : <strong>{{ $item->keterangan }}</strong> <br>
                         Penanggung Jawab : <strong>{{ $item->assetUmum->penanggung_jawab }}</strong> <br>
                     </p>

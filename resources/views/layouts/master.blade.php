@@ -33,6 +33,7 @@
     <link href="{{ asset('assets/css/lib/sidebar.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/lib/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/lib/sweetalert/sweetalert.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('adminKit/vendor/select2/select2.min.css') }}" />
     <link href="{{ asset('assets/css/lib/simdahs.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/simple-datatables/style.css') }}">
@@ -238,9 +239,15 @@
                         </a>
                     </li>
 
-                    <li class="{{ request()->is('user-management') ? 'active' : '' }}">
-                        <a href="{{ url('user-management') }}">
-                            <i class="ti-user"></i> Users
+                    <li class="{{ request()->is('data-user*') ? 'active' : '' }}">
+                        <a href="{{ url('data-user') }}">
+                            <i class="ti-user"></i> Data User
+                        </a>
+                    </li>
+
+                    <li class="{{ request()->is('background-image*') ? 'active' : '' }}">
+                        <a href="{{ url('background-image') }}">
+                            <i class="ti-image"></i> Background Image Login
                         </a>
                     </li>
 
@@ -264,18 +271,6 @@
                             margin-left: 20px;
                         }
                     </style>
-
-                    <li class="{{ request()->is('user-management') ? 'active' : '' }}">
-                        <a class="link" href="{{ url(' user-management') }}">
-                            <svg class="suchicon" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 24 24"
-                                width="30px" fill="#FACC2E">
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-                            </svg>
-                            <span class='name' itemprop='name'>Contact</span>
-                        </a>
-                    </li>
 
                     <li>
                         <a class="sidebar-sub-toggle">
@@ -1013,11 +1008,7 @@
 
 
     <script src="{{ asset('assets/simple-datatables/simple-datatables.js') }}"></script>
-    <script>
-        // Simple Datatable
-    let table1 = document.querySelector('#table1');
-    let dataTable = new simpleDatatables.DataTable(table1);
-    </script>
+
 
     <!-- jquery vendor -->
     <script src="{{ asset('assets/js/lib/jquery.min.js') }}"></script>
@@ -1031,33 +1022,21 @@
     <!-- bootstrap -->
     <script src="{{ asset('assets/js/lib/bootstrap.min.js') }}"></script>
 
-    <script src="{{ asset('assets/js/lib/mmc-common.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/mmc-chat.js') }}"></script>
-    <!--  Chart js -->
-    <script src="{{ asset('assets/js/lib/chart-js/Chart.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/chart-js/chartjs-init.js') }}"></script>
-    <!-- // Chart js -->
-
-
-    <script src="{{ asset('assets/js/lib/sparklinechart/jquery.sparkline.min.js') }}"></script><!-- scripit init-->
-    <script src="{{ asset('assets/js/lib/sparklinechart/sparkline.init.js') }}"></script><!-- scripit init-->
-
-    <!--  Datamap -->
-    <script src="{{ asset('assets/js/lib/datamap/d3.min.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/datamap/topojson.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/datamap/datamaps.world.min.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/datamap/datamap-init.js') }}"></script>
-    <!-- // Datamap -->-->
-    <script src="{{ asset('assets/js/lib/weather/jquery.simpleWeather.min.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/weather/weather-init.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/owl-carousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('assets/js/lib/owl-carousel/owl.carousel-init.js') }}"></script>
+    <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/js/lib/sweetalert/sweetalert.min.js') }}"></script><!-- scripit init-->
     <script src="{{ asset('assets/js/lib/sweetalert/sweetalert.init.js') }}"></script><!-- scripit init-->
+    <script src="{{ asset('adminKit/vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('adminKit/js/select2.js') }}"></script>
+    <script src="{{ asset('adminKit/js/jquery.maskMoney.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.js') }}"></script><!-- scripit init-->
 
 
     <script src="{{ asset('assets/show-password/jquery-3.6.0.min.js') }}"></script>
+    <script>
+        // Simple Datatable
+        let table1 = document.querySelector('#table1');
+        let dataTable = new simpleDatatables.DataTable(table1);
+    </script>
     <script type="text/javascript">
         $(document).ready(function(){       
                     $('.form-checkbox').click(function(){
@@ -1075,6 +1054,8 @@
         $('select').selectpicker();
     });
     </script>
+
+    @stack('js')
 </body>
 
 </html>

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Umum\Asset\Perawatan;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\umum\asset\PerawatanAssetRequest;
+use App\Http\Requests\umum\asset\PerawatanAssetPegawaiRequest;
 use App\Models\AssetUmum;
+use App\Models\AssetUmumPegawai;
+use App\Models\Pegawai;
+use App\Models\PerawatanAssetPegawai;
 use App\Models\PerawatanAssetUmum;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -19,17 +23,23 @@ class PerawatanKibBController extends Controller
      */
     public function index(Request $request)
     {
+        $asset = AssetUmum::where('kategori', 'KibB')->get();
+        foreach ($asset as $value) {
+            $kodeBrg = $value->mappingAsset->kode_brg;
+        }
+        $pegawai = Pegawai::all();
         $filter = $request->get('search');
         if ($request->has('search')) {
-            $kibs = PerawatanAssetUmum::whereHas('assetUmum', function ($q) use ($filter) {
-                $q->where('kategori', 'KibB')->where('penanggung_jawab', '=', $filter);
-            })->orderByDesc('id')->get();
+            // $kibs = PerawatanAssetPegawai::whereHas('pegawai', function ($q) use ($filter) {
+            //     $q->where('id', '=', $filter);
+            // })->orderByDesc('id')->get();
+            $kibs = PerawatanAssetPegawai::whereHas('assetUmumPegawai', function ($q) use ($filter) {
+                $q->where('pegawai_id', '=', $filter);
+            })->get();
         } else {
-            $kibs = PerawatanAssetUmum::whereHas('assetUmum', function ($q) {
-                $q->where('kategori', 'KibB');
-            })->orderByDesc('id')->get();
+            $kibs = PerawatanAssetPegawai::all();
         }
-        return view('umum.asset.perawatan-asset.kib-b.index', compact('kibs'));
+        return view('umum.asset.perawatan-asset.kib-b.index', compact('kibs', 'kodeBrg', 'pegawai'));
     }
 
     /**
@@ -39,8 +49,8 @@ class PerawatanKibBController extends Controller
      */
     public function create()
     {
-        $kibs = AssetUmum::where('kategori', 'KibB')->get();
-        return view('umum.asset.perawatan-asset.kib-b.create', compact('kibs'));
+        $assetPegawai = AssetUmumPegawai::all();
+        return view('umum.asset.perawatan-asset.kib-b.create', compact('assetPegawai'));
     }
 
     /**
@@ -49,7 +59,7 @@ class PerawatanKibBController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PerawatanAssetRequest $request)
+    public function store(PerawatanAssetPegawaiRequest $request)
     {
         $input = $request->validated();
 
@@ -60,7 +70,7 @@ class PerawatanKibBController extends Controller
             $input['foto'] = $imageName;
         }
 
-        PerawatanAssetUmum::create($input);
+        PerawatanAssetPegawai::create($input);
 
         Alert::success('Success', 'Create Perawatan Asset Kib B has been successfully');
 
@@ -75,7 +85,31 @@ class PerawatanKibBController extends Controller
      */
     public function show($id)
     {
-        //
+        $asset = AssetUmum::where('kategori', 'KibB')->get();
+        foreach ($asset as $value) {
+            $kodeBrg = $value->mappingAsset->kode_brg;
+        }
+
+        $kib = PerawatanAssetPegawai::findOrFail($id);
+
+        $kasubUmum = Pegawai::all();
+        $namakasubUmum = "";
+        $nipkasubUmum = "";
+        foreach ($kasubUmum as $kad) {
+            foreach ($kad->pegawaiJabatan->where('nama_jabatan', 'Kasubbag Umum') as $val) {
+                if ($kad->pegawaiJabatan->count() > 0) {
+                    $namakasubUmum = $kad->nama;
+                    $nipkasubUmum = $kad->nip;
+                } else {
+                }
+            }
+        }
+        // dd($namakasubUmum);
+        // dd($kib);
+        $pdf = PDF::loadView('umum.asset.perawatan-asset.kib-b.pdf', compact('kib', 'namakasubUmum', 'nipkasubUmum', 'kodeBrg'))
+            ->setPaper('a4', 'landscape');
+        $fileName = date(now());
+        return $pdf->stream($fileName . ' Perawatan Asset KIB B.pdf');
     }
 
     /**
@@ -86,9 +120,9 @@ class PerawatanKibBController extends Controller
      */
     public function edit($id)
     {
-        $kib = PerawatanAssetUmum::findOrFail($id);
-        $modelKib = AssetUmum::where('kategori', 'KibB')->get();
-        return view('umum.asset.perawatan-asset.kib-b.edit', compact('kib', 'modelKib'));
+        $kib = PerawatanAssetPegawai::findOrFail($id);
+        $assetPegawai = AssetUmumPegawai::all();
+        return view('umum.asset.perawatan-asset.kib-b.edit', compact('kib', 'assetPegawai'));
     }
 
     /**
@@ -98,9 +132,10 @@ class PerawatanKibBController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PerawatanAssetRequest $request, $id)
+    public function update(PerawatanAssetPegawaiRequest $request, $id)
     {
-        $kib = PerawatanAssetUmum::findOrFail($id);
+        $kib = PerawatanAssetPegawai::findOrFail($id);
+        $input = $request->validated();
 
         if ($request->hasFile('foto')) {
             if (File::exists("umum/asset/perawatan/kib-b/" . $kib->foto)) {
@@ -109,17 +144,10 @@ class PerawatanKibBController extends Controller
             $file = $request->file('foto');
             $kib->foto = time() . '_' . $file->getClientOriginalName();
             $file->move(\public_path('umum/asset/perawatan/kib-b'), $kib->foto);
-            $request['foto'] = $kib->foto;
+            $input['foto'] = $kib->foto;
         }
 
-        $kib->update([
-            'asset_umum_id' => $request->asset_umum_id,
-            'tgl' => $request->tgl,
-            'uraian' => $request->uraian,
-            'nilai' => $request->nilai,
-            'keterangan' => $request->keterangan,
-            'foto' => $kib->foto,
-        ]);
+        $kib->update($input);
 
         Alert::success('Success', 'Update Perawatan Asset Kib B has been successfully');
 
@@ -134,12 +162,12 @@ class PerawatanKibBController extends Controller
      */
     public function destroy($id)
     {
-        $kib = PerawatanAssetUmum::findOrFail($id);
+        $kib = PerawatanAssetPegawai::findOrFail($id);
         if (File::exists("umum/asset/perawatan/kib-b/" . $kib->foto)) {
             File::delete("umum/asset/perawatan/kib-b/" . $kib->foto);
         }
 
-        PerawatanAssetUmum::find($id)->delete();
+        PerawatanAssetPegawai::find($id)->delete();
 
         Alert::error('Delete', 'Delete Perawatan Asset Kib B has been successfully');
 

@@ -28,19 +28,9 @@ class CreateAssetUmumTable extends Migration
             $table->string('jenis_sertifikat', 100)->nullable();
             $table->string('penanggung_jawab', 100)->nullable();
             $table->string('foto', 100)->nullable();
-            $table->string('merk_type', 100)->nullable();
-            $table->string('nopol', 100)->nullable();
             $table->string('status_asset', 100)->nullable();
             $table->string('masa_manfaat', 100)->nullable();
             $table->string('sisa_manfaat', 100)->nullable();
-            $table->string('ukuran', 100)->nullable();
-            $table->string('bahan_warna', 100)->nullable();
-            $table->string('spesifikasi', 100)->nullable();
-            $table->string('no_pabrik', 100)->nullable();
-            $table->string('no_rangka', 100)->nullable();
-            $table->string('no_mesin', 100)->nullable();
-            $table->string('bpkb', 100)->nullable();
-            $table->string('stnk', 100)->nullable();
             $table->string('kontruksi', 100)->nullable();
             $table->string('latitude', 100)->nullable();
             $table->string('longitude', 100)->nullable();
@@ -53,6 +43,7 @@ class CreateAssetUmumTable extends Migration
             $table->string('pencipta', 100)->nullable();
             $table->string('asal', 100)->nullable();
             $table->string('bahan', 100)->nullable();
+            $table->string('spesifikasi', 100)->nullable();
             $table->string('kdp', 100)->nullable();
             $table->string('dokumen', 100)->nullable();
             $table->date('tgl_dokumen')->nullable();

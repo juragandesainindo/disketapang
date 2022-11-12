@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Umum\Asset\Perawatan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\PerawatanAssetRequest;
 use App\Models\AssetUmum;
+use App\Models\Pegawai;
 use App\Models\PerawatanAssetUmum;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -75,7 +77,26 @@ class PerawatanKibAController extends Controller
      */
     public function show($id)
     {
-        //
+        $kib = PerawatanAssetUmum::findOrFail($id);
+
+        $kasubUmum = Pegawai::all();
+        $namakasubUmum = "";
+        $nipkasubUmum = "";
+        foreach ($kasubUmum as $kad) {
+            foreach ($kad->pegawaiJabatan->where('nama_jabatan', 'Kasubbag Umum') as $val) {
+                if ($kad->pegawaiJabatan->count() > 0) {
+                    $namakasubUmum = $kad->nama;
+                    $nipkasubUmum = $kad->nip;
+                } else {
+                }
+            }
+        }
+        // dd($namakasubUmum);
+        // dd($kib);
+        $pdf = PDF::loadView('umum.asset.perawatan-asset.kib-a.pdf', compact('kib', 'namakasubUmum', 'nipkasubUmum'))
+            ->setPaper('a4', 'landscape');
+        $fileName = date(now());
+        return $pdf->stream($fileName . ' Perawatan Asset KIB A.pdf');
     }
 
     /**

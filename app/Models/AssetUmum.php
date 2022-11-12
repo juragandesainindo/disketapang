@@ -73,4 +73,13 @@ class AssetUmum extends Model
     {
         return $this->hasMany(AssetUmumPegawai::class);
     }
+
+    public function assetUmumBast()
+    {
+        return $this->hasMany(AssetUmumBast::class);
+    }
+    public function perawatanAssetUmum()
+    {
+        return $this->hasMany(PerawatanAssetUmum::class);
+    }
 }

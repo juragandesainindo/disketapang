@@ -20,12 +20,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} | @yield('title')</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-
     <link rel="stylesheet" href="{{ asset('adminKit') }}/vendor/select2/select2.min.css" />
-
     <link href="{{ asset('adminKit') }}/css/app.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -93,7 +90,7 @@
                     </li>
 
                     <li
-                        class="sidebar-item {{ request()->is(['kib-a*','kib-b*','kib-c*','kib-d*','kib-e*','kib-f*','asset-tak-berwujud*']) ? 'active' : '' }}">
+                        class="sidebar-item {{ request()->is(['kib-a*','kib-b*','preview-sk-asset-umum-bast*','kib-c*','kib-d*','kib-e*','kib-f*','asset-tak-berwujud*']) ? 'active' : '' }}">
                         <a data-bs-target="#kumpulan-asset" data-bs-toggle="collapse" class="sidebar-link">
                             <span class="d-flex">
                                 <i class="align-middle" data-feather="box"></i>
@@ -106,7 +103,7 @@
 
 
                         <ul id="kumpulan-asset"
-                            class="sidebar-dropdown list-unstyled collapse {{ request()->is(['kib-a*','kib-b*','kib-c*','kib-d*','kib-e*','kib-f*','asset-tak-berwujud*']) ? 'show' : '' }}"
+                            class="sidebar-dropdown list-unstyled collapse {{ request()->is(['kib-a*','kib-b*','preview-sk-asset-umum-bast*','kib-c*','kib-d*','kib-e*','kib-f*','asset-tak-berwujud*']) ? 'show' : '' }}"
                             data-bs-parent="#sidebar">
                             <li class="sidebar-item {{ request()->is('kib-a*') ? 'active' : '' }}">
                                 <a class="sidebar-link" href="{{ url('kib-a') }}">
@@ -114,7 +111,8 @@
                                     <span class="align-middle">KibA</span>
                                 </a>
                             </li>
-                            <li class="sidebar-item {{ request()->is('kib-b*') ? 'active' : '' }}">
+                            <li
+                                class="sidebar-item {{ request()->is('kib-b*','preview-sk-asset-umum-bast*') ? 'active' : '' }}">
                                 <a class="sidebar-link" href="{{ url('kib-b') }}">
                                     <i class="align-middle" data-feather="circle"></i> <span
                                         class="align-middle">KibB</span>
@@ -214,10 +212,10 @@
                         </ul>
                     </li>
 
-                    <li class="sidebar-item {{ request()->is('laporan-rekon*') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ url('laporan-rekon') }}">
+                    <li class="sidebar-item {{ request()->is('laporan-asset*') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ url('laporan-asset') }}">
                             <i class="align-middle" data-feather="file"></i>
-                            <span class="align-middle">Laporan</span>
+                            <span class="align-middle">Laporan Asset</span>
                         </a>
                     </li>
                 </ul>
@@ -303,6 +301,7 @@
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 
     <script src="{{ asset('adminKit') }}/js/select2.js"></script>
+    <script src="{{ asset('adminKit') }}/js/jquery.maskMoney.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('adminKit') }}/js/app.js"></script>
@@ -315,8 +314,10 @@
         });
         
         $(document).ready(function(){
-            $('.kode').mask('0.0.0.0.0.000');
-            $('.rupiah').mask('000000000000000', {reverse:true});
+            $('.kode').mask('0.00');
+            $('.rupiah').maskMoney({thousands:'', decimal:',', precision:0});
+            // $('.rupiahValue').maskMoney({prefix: 'Rp. ', thousands:'.', decimal:',', precision:0});
+            // $('.rupiah').maskMoney('000000000000000', {reverse:true});
             $('.hp').mask('0000-0000-00000');
         });
     </script>

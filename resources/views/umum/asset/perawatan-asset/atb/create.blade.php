@@ -35,6 +35,7 @@
                                                 $item->mappingAsset->kode_brg }} - {{
                                                 $item->mappingAsset->nama_brg
                                                 }}
+                                                ( {{ $item->instansi_developer }} - {{ $item->nama_developer }} )
                                             </option>
                                             @endforeach
                                         </select>

@@ -95,7 +95,8 @@
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <label>Kode Barang</label>
-                        <input type="text" name="kode_brg" value="{{ old('kode_brg') }}" class="form-control" required>
+                        <input type="text" name="kode_brg" value="{{ old('kode_brg') }}" class="form-control kode"
+                            required>
                     </div>
                     <div class="form-group mb-3">
                         <label>Nama Barang</label>
@@ -141,7 +142,7 @@
                     <div class="form-group mb-3">
                         <label>Kode Barang</label>
                         <input type="text" name="kode_brg" value="{{ old('kode_brg') ?? $item->kode_brg }}"
-                            class="form-control" required>
+                            class="form-control kode" required>
                     </div>
                     <div class="form-group mb-3">
                         <label>Nama Barang</label>

@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AddMoreInputController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BackgroundImageLoginController;
+use App\Http\Controllers\DataUserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
@@ -42,8 +46,11 @@ use App\Http\Controllers\Keamanan\KeamananPanganController;
 use App\Http\Controllers\Keamanan\PengusulSertifikasiController;
 use App\Http\Controllers\Keamanan\DataPanganLokalController;
 use App\Http\Controllers\Keamanan\KonsumsiPanganController;
+use App\Http\Controllers\LaporanAssetController;
 use App\Http\Controllers\Umum\Asset\AtbController;
 use App\Http\Controllers\Umum\Asset\KibAController;
+use App\Http\Controllers\umum\asset\kibb\AssetUmumBastController;
+use App\Http\Controllers\umum\asset\KibB\AssetUmumSkBastController;
 use App\Http\Controllers\Umum\Asset\KibBController;
 use App\Http\Controllers\Umum\Asset\KibCController;
 use App\Http\Controllers\Umum\Asset\KibDController;
@@ -81,9 +88,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+
+Route::get('/', [LoginController::class, 'showLoginForm']);
 
 Auth::routes();
 
@@ -95,27 +104,24 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('panduan-aplikasi', [PanduanAplikasiController::class, 'index']);
 
-    // ----------------------------- User Management ------------------------------//
-    Route::get('user-management', [UserManagementController::class, 'index'])->name('userManagement');
-    Route::get('add-new-user', [UserManagementController::class, 'createUser'])->name('add-new-user');
-    Route::post('add-new-user', [UserManagementController::class, 'storeUser'])->name('add-new-user.store');
-    Route::get('add-new-user/{id}', [UserManagementController::class, 'editUser'])->name('add-new-user.edit');
-    Route::put('add-new-user/{id}', [UserManagementController::class, 'updateUser'])->name('add-new-user.update');
-    Route::delete('add-new-user/{id}', [UserManagementController::class, 'destroyUser'])->name('add-new-user.destroy');
-
-    // ----------------------------- Change Password ------------------------------//
-    Route::get('change-password', [UserManagementController::class, 'changePasswordView'])->name('change-password');
-    Route::post('change-password', [UserManagementController::class, 'changePasswordDB'])->name('change-password');
+    // ----------------------------- Data User Login ------------------------------//
+    Route::get('data-user', [DataUserController::class, 'index'])->name('data-user.index');
+    Route::get('data-user/create', [DataUserController::class, 'create'])->name('data-user.create');
+    Route::post('data-user', [DataUserController::class, 'store'])->name('data-user.store');
+    Route::get('data-user/{id}/edit', [DataUserController::class, 'edit'])->name('data-user.edit');
+    Route::put('data-user/{id}', [DataUserController::class, 'update'])->name('data-user.update');
+    Route::delete('data-user/{id}', [DataUserController::class, 'destroy'])->name('data-user.destroy');
+    Route::put('data-user-change-password/{id}', [DataUserController::class, 'changePassword'])->name('data-user.changePassword');
 
     // ----------------------------- Activity Log ------------------------------//
     Route::get('activity', [UserManagementController::class, 'activity']);
     Route::get('activity-export', [UserManagementController::class, 'activityExcel'])->name('activity-export');
 
-
-    // ----------------------------- Sub Umum ------------------------------//
-    //Route::get('informasi-aplikasi', [InformasiAplikasiController::class, 'index']);
-    //Route::put('image-dashboard', [InformasiAplikasiController::class, 'updateImageDashboard'])->name('image-dashboard');
-    //Route::get('berita', [InformasiAplikasiController::class, 'indexBerita']);
+    // ----------------------------- Background Image ------------------------------//
+    Route::get('background-image', [BackgroundImageLoginController::class, 'index'])->name('background-image.index');
+    Route::post('background-image', [BackgroundImageLoginController::class, 'store'])->name('background-image.store');
+    Route::put('background-image/{id}', [BackgroundImageLoginController::class, 'update'])->name('background-image.update');
+    Route::delete('background-image/{id}', [BackgroundImageLoginController::class, 'destroy'])->name('background-image.destroy');
 
 
     // ----------------------------- Sub Umum ------------------------------//
@@ -179,10 +185,28 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('mapping-asset/{id}', [MappingAssetController::class, 'update'])->name('mapping-asset.update');
     Route::delete('mapping-asset/{id}', [MappingAssetController::class, 'destroy'])->name('mapping-asset.destroy');
 
+    // Route::get('add-more-input', [AddMoreInputController::class, 'index']);
+    // Route::get('add-more-input/create', [AddMoreInputController::class, 'create'])->name('add-more-input.create');
+    // Route::post('add-more-input', [AddMoreInputController::class, 'store'])->name('add-more-input.store');
+
     Route::resource('kib-a', KibAController::class);
     Route::resource('kib-b', KibBController::class);
-    Route::put('asset-umum-pegawai/{id}', [KibBController::class, 'updatePegawai'])->name('asset-umum-pegawai.update');
-    Route::delete('asset-umum-pegawai/{id}', [KibBController::class, 'deletePegawai'])->name('asset-umum-pegawai');
+
+    Route::post('asset-umum-bast', [AssetUmumBastController::class, 'store'])->name('asset-umum-bast.store');
+    Route::put('asset-umum-bast/{id}', [AssetUmumBastController::class, 'update'])->name('asset-umum-bast.update');
+    Route::delete('asset-umum-bast/{id}', [AssetUmumBastController::class, 'destroy'])->name('asset-umum-bast.destroy');
+    Route::get('asset-umum-bast-pdf/{id}', [AssetUmumBastController::class, 'pdf'])->name('asset-umum-bast-pdf');
+
+    Route::get('preview-sk-asset-umum-bast', [AssetUmumSkBastController::class, 'preview'])->name('preview-sk-asset-umum-bast');
+    Route::post('preview-sk-asset-umum-bast', [AssetUmumSkBastController::class, 'store'])->name('preview-sk-asset-umum-bast.store');
+    Route::put('preview-sk-asset-umum-bast/{id}', [AssetUmumSkBastController::class, 'update'])->name('preview-sk-asset-umum-bast.update');
+    Route::delete('preview-sk-asset-umum-bast/{id}', [AssetUmumSkBastController::class, 'destroy'])->name('preview-sk-asset-umum-bast.destroy');
+    Route::get('preview-sk-asset-umum-bast-pdf-kendaraan', [AssetUmumSkBastController::class, 'pdfKendaraan'])->name('preview-sk-asset-umum-bast.pdf-kendaraan');
+    Route::get('preview-sk-asset-umum-bast-pdf-lainnya', [AssetUmumSkBastController::class, 'pdfLainnya'])->name('preview-sk-asset-umum-bast.pdf-lainnya');
+
+    Route::put('asset-umum-pegawai/{id}', [KibBController::class, 'updatePemakai'])->name('asset-umum-pegawai.update');
+    Route::delete('asset-umum-pegawai/{id}', [KibBController::class, 'deletePemakai'])->name('asset-umum-pegawai.destroy');
+
     Route::resource('kib-c', KibCController::class);
     Route::resource('kib-d', KibDController::class);
     Route::resource('kib-e', KibEController::class);
@@ -196,11 +220,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('perawatan-asset-kib-f', PerawatanKibFController::class);
     Route::resource('perawatan-asset-tak-berwujud', PerawatanAtbController::class);
 
-    Route::resource('laporan-rekon', LaporanRekonController::class);
+    Route::get('laporan-asset', [LaporanAssetController::class, 'index'])->name('laporan-asset.index');
+    Route::get('laporan-asset-pdf', [LaporanAssetController::class, 'pdf'])->name('laporan-asset.pdf');
     Route::get('get-pegawai', [LaporanRekonController::class, 'getPegawai'])->name('getPegawai');
-    Route::get('get-pangkat', [LaporanRekonController::class, 'getPangkat'])->name('getPangkat');
-    Route::get('get-jabatan', [LaporanRekonController::class, 'getJabatan'])->name('getJabatan');
-    Route::get('laporan-rekon/export-rekon/{id}', [LaporanRekonController::class, 'exportRekon'])->name('laporan-rekon-export-rekon');
+    // Route::get('get-pangkat', [LaporanRekonController::class, 'getPangkat'])->name('getPangkat');
+    // Route::get('get-jabatan', [LaporanRekonController::class, 'getJabatan'])->name('getJabatan');
+    // Route::get('laporan-rekon/export-rekon/{id}', [LaporanRekonController::class, 'exportRekon'])->name('laporan-rekon-export-rekon');
 
     // Sub Keuangan
     Route::resource('referensi-tufoksi', ReferensiTufoksiController::class);

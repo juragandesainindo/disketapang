@@ -43,8 +43,8 @@ class DataUserController extends Controller
         $input = $request->validated();
         $input['password'] = Hash::make($request['password']);
         User::create($input);
-        Alert::success('Success', 'Create user has been successfully');
-        return redirect()->route('data-user.index');
+        // Alert::success('Success', 'Create user has been successfully');
+        return redirect()->route('data-user.index')->with('success', 'Create user has been successfully');
     }
 
     /**
@@ -83,8 +83,8 @@ class DataUserController extends Controller
         $input = $request->validated();
 
         $user->update($input);
-        Alert::success('Success', 'Update user has been successfully');
-        return redirect()->route('data-user.index');
+        // Alert::success('Success', 'Update user has been successfully');
+        return redirect()->route('data-user.index')->with('success', 'Update user has been successfully');
     }
 
     /**
@@ -97,8 +97,8 @@ class DataUserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        Alert::error('Delete', 'Delete user has been successfully');
-        return back();
+        // Alert::error('Delete', 'Delete user has been successfully');
+        return back()->with('success', 'Delete user has been successfully');
     }
 
     public function changePassword(Request $request, $id)
@@ -110,7 +110,7 @@ class DataUserController extends Controller
 
         $user->update(['password' => Hash::make($request->password)]);
 
-        Alert::success('Success', 'Change password has been successfully');
-        return redirect()->route('data-user.index');
+        // Alert::success('Success', 'Change password has been successfully');
+        return redirect()->route('data-user.index')->with('success', 'Change password has been successfully');
     }
 }

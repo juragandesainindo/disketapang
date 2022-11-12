@@ -1,18 +1,22 @@
-@extends('layouts.adminKit')
+@extends('layouts.master')
 @section('title','Edit User')
 @section('content')
+<div class="main">
+    <div class="container-fluid">
+        <div class="row">
 
-<main class="content">
-    <div class="container-fluid p-0">
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h3">@yield('title')</h1>
-            <a href="{{ route('data-user.index') }}" class="btn btn-secondary"><i
-                    data-feather="arrow-left-circle"></i>&nbsp;
-                Back
-            </a>
+            <div class="col-lg-12 p-0">
+                <div class="page-header">
+                    <div class="page-title" style="display: flex;justify-content: space-between;align-items: center;">
+                        <a href="{{ route('data-user.index') }}" class="btn btn-primary">
+                            <i data-feather="folder-plus"></i>&nbsp;
+                            Kembali
+                        </a>
+                        <h1 class="text-primary">@yield('title')</h1>
+                    </div>
+                </div>
+            </div>
         </div>
-
         <div class="row">
             <div class="col-12 col-lg-6">
                 <form action="{{ route('data-user.update',$user->id) }}" method="POST" enctype="multipart/form-data">
@@ -26,7 +30,7 @@
                             <div class="form-group mb-3">
                                 <label>Nama</label>
                                 <input type="text" name="name" class="form-control @error('name') is-invalid
-                                                                                    @enderror"
+                                                                                            @enderror"
                                     value="{{ old('name') ?? $user->name }}" autofocus>
                                 @error('name')
                                 <div class="invalid-feedback">
@@ -37,7 +41,7 @@
                             <div class="form-group mb-3">
                                 <label>HP</label>
                                 <input type="text" name="telepon" class="form-control hp @error('telepon') is-invalid
-                                                                                    @enderror"
+                                                                                            @enderror"
                                     value="{{ old('telepon') ?? $user->telepon }}" autofocus>
                                 @error('telepon')
                                 <div class="invalid-feedback">
@@ -48,7 +52,7 @@
                             <div class="form-group mb-3">
                                 <label>Role Name</label>
                                 <select name="role_name" class="form-control js-example-basic-single @error('role_name') is-invalid                                            
-                                        @enderror" width="100%">
+                                                @enderror" width="100%">
                                     <option value="{{ $user->role_name }}">{{ $user->role_name }}</option>
                                     <optgroup label="Pembina">
                                         <option value="Kadis">Kadis</option>
@@ -65,8 +69,8 @@
                                             Keamanan Pangan</option>
                                     </optgroup>
                                     <optgroup label="Sekretariat">
-                                        <option value="Kasub Umum">Kasub Umum</option>
-                                        <option value="Kasub Keuangan">Kasub Keuangan</option>
+                                        <option value="Kasub Bagian Umum">Kasub Bagian Umum</option>
+                                        <option value="Kasub Bagian Keuangan">Kasub Bagian Keuangan</option>
                                     </optgroup>
                                     <optgroup label="Bidang Ketersediaan dan Kerawanan Pangan">
                                         <option value="Kasi Ketersediaan Pangan">Kasi Ketersediaan Pangan
@@ -98,7 +102,7 @@
                                 <label>Status</label>
                                 <select name="status"
                                     class="form-control @error('status') is-invalid                                            
-                                                                                                                                                @enderror">
+                                                                                                                                                        @enderror">
                                     <option value="{{ $user->status }}">
                                         @if ($user->status === 1)
                                         Active
@@ -188,19 +192,19 @@
             </div>
         </div>
     </div>
-</main>
+</div>
 @endsection
 
 @push('js')
 <script type="text/javascript">
     $(document).ready(function(){       
-                            $('.form-checkbox').click(function(){
-                                if($(this).is(':checked')){
-                                    $('.form-password').attr('type','text');
-                                }else{
-                                    $('.form-password').attr('type','password');
-                                }
-                            });
-                        });
+        $('.form-checkbox').click(function(){
+            if($(this).is(':checked')){
+                $('.form-password').attr('type','text');
+            }else{
+                $('.form-password').attr('type','password');
+            }
+        });
+    });
 </script>
 @endpush

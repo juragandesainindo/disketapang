@@ -25,20 +25,20 @@
                                         <label>Perawatan Kib B &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="form-control js-example-basic-single @error('asset_umum_id') is-invalid @enderror"
-                                            name="asset_umum_id" style="width: 100%; height: 38px;">
-                                            <option value="{{ old('asset_umum_id') ?? '' }}">{{
-                                                old('asset_umum_id') ?? 'Pilih Perawatan Kib B' }}
+                                            class="form-control js-example-basic-single @error('asset_umum_pegawai_id') is-invalid @enderror"
+                                            name="asset_umum_pegawai_id" style="width: 100%; height: 38px;">
+                                            <option value="{{ old('asset_umum_pegawai_id') ?? '' }}">{{
+                                                old('asset_umum_pegawai_id') ?? 'Pilih Perawatan Kib B' }}
                                             </option>
-                                            @foreach ($kibs as $item)
-                                            <option value="{{ $item->id }}">{{
-                                                $item->mappingAsset->kode_brg }} - {{
-                                                $item->mappingAsset->nama_brg
-                                                }}
+                                            @foreach ($assetPegawai as $item)
+
+                                            <option value="{{ $item->id }}">{{ $item->pegawai->nama }} ( {{
+                                                $item->jenis_barang
+                                                }} - {{ $item->merk_type }} )
                                             </option>
                                             @endforeach
                                         </select>
-                                        @error('asset_umum_id')
+                                        @error('asset_umum_pegawai_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

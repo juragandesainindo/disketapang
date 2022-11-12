@@ -25,7 +25,12 @@ class KibDController extends Controller
         } else {
             $kibs = AssetUmum::where('kategori', 'KibD')->orderByDesc('id')->get();
         }
-        return view('umum.asset.kib-d.index', compact('kibs'));
+
+        $totalNilaiBrg = $kibs->sum('nilai_brg');
+        $totalNilaiSurut = $kibs->sum('nilai_surut');
+        $totalNilaiTotal = $kibs->sum('nilai_perolehan');
+
+        return view('umum.asset.kib-d.index', compact('kibs', 'totalNilaiBrg', 'totalNilaiTotal', 'totalNilaiSurut'));
     }
 
     /**
@@ -83,8 +88,9 @@ class KibDController extends Controller
     public function edit($id)
     {
         $kib = AssetUmum::findOrFail($id);
+        $totalNilaiTotal = $kib->nilai_brg - $kib->nilai_surut;
         $mapping = MappingAsset::where('kategori', 'KibD')->get();
-        return view('umum.asset.kib-d.edit', compact('kib', 'mapping'));
+        return view('umum.asset.kib-d.edit', compact('kib', 'mapping', 'totalNilaiTotal'));
     }
 
     /**

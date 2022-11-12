@@ -26,16 +26,18 @@
                                         <label>Perawatan Kib B &nbsp;<sup class="text-danger">(wajib
                                                 diisi)</sup></label>
                                         <select
-                                            class="form-control js-example-basic-single @error('asset_umum_id') is-invalid @enderror"
-                                            name="asset_umum_id" style="width: 100%; height: 38px;">
-                                            <option value="{{ old('asset_umum_id') ?? $kib->assetUmum->id }}">{{
-                                                old('asset_umum_id') ??
-                                                $kib->assetUmum->mappingAsset->kode_brg .' - '.
-                                                $kib->assetUmum->mappingAsset->nama_brg }}
+                                            class="form-control js-example-basic-single @error('asset_umum_pegawai_id') is-invalid @enderror"
+                                            name="asset_umum_pegawai_id" style="width: 100%; height: 38px;">
+                                            <option value="{{ old('asset_umum_pegawai_id') ?? '' }}">{{
+                                                old('asset_umum_pegawai_id') ?? $kib->assetUmumPegawai->pegawai->nama }}
+                                                ( {{ $kib->assetUmumPegawai->jenis_barang }} - {{
+                                                $kib->assetUmumPegawai->merk_type }} )
                                             </option>
-                                            @foreach ($modelKib as $item)
-                                            <option value="{{ $item->id }}">{{ $item->mappingAsset->kode_brg }} - {{
-                                                $item->mappingAsset->nama_brg }}
+                                            @foreach ($assetPegawai as $item)
+
+                                            <option value="{{ $item->id }}">{{ $item->pegawai->nama }} ( {{
+                                                $item->jenis_barang
+                                                }} - {{ $item->merk_type }} )
                                             </option>
                                             @endforeach
                                         </select>

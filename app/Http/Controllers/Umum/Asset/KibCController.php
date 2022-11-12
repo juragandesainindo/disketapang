@@ -25,7 +25,12 @@ class KibCController extends Controller
         } else {
             $kibs = AssetUmum::where('kategori', 'KibC')->orderByDesc('id')->get();
         }
-        return view('umum.asset.kib-c.index', compact('kibs'));
+
+        $totalNilaiBrg = $kibs->sum('nilai_brg');
+        $totalNilaiTotal = $kibs->sum('nilai_perolehan');
+        $totalNilaiSurut = $kibs->sum('nilai_surut');
+
+        return view('umum.asset.kib-c.index', compact('kibs', 'totalNilaiBrg', 'totalNilaiTotal', 'totalNilaiSurut'));
     }
 
     /**

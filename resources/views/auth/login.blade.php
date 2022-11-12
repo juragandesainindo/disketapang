@@ -92,7 +92,11 @@
             <div class="login-page">
                 <div class="row d-flex align-items-center">
                     <div class="col-lg-6 col-sm-12">
+                        @if ($background > 0)
+                        <img src="{{ asset('background-login/'.$background->foto) }}" class="flyer">
+                        @else
                         <img src="{{ asset('assets/login-flyer.jpg') }}" class="flyer">
+                        @endif
                     </div>
                     <div class="col-lg-6 col-sm-12">
                         <div class="card">

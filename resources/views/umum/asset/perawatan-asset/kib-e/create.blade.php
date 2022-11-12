@@ -34,7 +34,7 @@
                                             <option value="{{ $item->id }}">{{
                                                 $item->mappingAsset->kode_brg }} - {{
                                                 $item->mappingAsset->nama_brg
-                                                }}
+                                                }} ( {{ $item->judul }} / Penerbit: {{ $item->penerbit }} )
                                             </option>
                                             @endforeach
                                         </select>

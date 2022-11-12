@@ -45,6 +45,27 @@
         </div>
 
         <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="alert alert-primary" role="alert">
+                    Total Nilai Barang <br>
+                    <strong>Rp. {{ number_format($totalNilaiBrg) }}</strong>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="alert alert-warning" role="alert">
+                    Total Nilai Penyusutan <br>
+                    <strong>Rp. {{ number_format($totalNilaiSurut) }}</strong>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="alert alert-success" role="alert">
+                    Total Nilai Perolehan (Total) <br>
+                    <strong>Rp. {{ number_format($totalNilaiTotal) }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12 col-lg-12">
                 <div class="card flex-fill px-3 pb-3 pt-3">
 
@@ -53,7 +74,9 @@
                             <tr>
                                 <th>Kode</th>
                                 <th>Barang</th>
-                                <th>Nilai (Rp)</th>
+                                <th>Nilai Barang (Rp)</th>
+                                <th>Nilai Penyusutan</th>
+                                <th>Nilai Perolehan (Total)</th>
                                 <th>Tgl</th>
                                 <th>Penggunaan</th>
                                 <th>Keterangan</th>
@@ -68,6 +91,8 @@
                                 <td>{{ $kib->mappingAsset->kode_brg }}</td>
                                 <td>{{ $kib->mappingAsset->nama_brg }}</td>
                                 <td>{{ number_format($kib->nilai_brg) }}</td>
+                                <td>{{ number_format($kib->nilai_surut) }}</td>
+                                <td>{{ number_format($kib->nilai_perolehan) }}</td>
                                 <td>{{ $kib->tgl_perolehan }}</td>
                                 <td>{{ $kib->penggunaan }}</td>
                                 <td>{{ $kib->keterangan }}</td>
