@@ -248,6 +248,11 @@
                                 {{-- <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
                                         data-feather="user"></i> Profile</a>
                                 <div class="dropdown-divider"></div> --}}
+                                <a class="dropdown-item"
+                                    href="{{ asset('adminKit/panduan/panduan-aplikasi-tangan-sub-umum.pdf') }}"
+                                    target="_blank"><i class="align-middle me-1" data-feather="file"></i> Panduan
+                                    Aplikasi</a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log
                                     out</a>
@@ -315,10 +320,11 @@
         
         $(document).ready(function(){
             $('.kode').mask('0.00');
-            $('.rupiah').maskMoney({thousands:'', decimal:',', precision:0});
+            // $('.rupiah').maskMoney({thousands:'.', decimal:',', precision:0});
             // $('.rupiahValue').maskMoney({prefix: 'Rp. ', thousands:'.', decimal:',', precision:0});
-            // $('.rupiah').maskMoney('000000000000000', {reverse:true});
+            $('.rupiah').mask('000.000.000.000.000', {reverse:true});
             $('.hp').mask('0000-0000-00000');
+            $('.year').mask('0000');
         });
     </script>
     @stack('js')

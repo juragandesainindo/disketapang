@@ -220,19 +220,5 @@
 @endsection
 
 @push('js')
-<script>
-    $(document).ready(function(){   
-            $("#nilaiBrg, #nilaiSurut").keyup(function(){
-                var nilaiBrg = $("#nilaiBrg").val();
-                var nilaiSurut = $("#nilaiSurut").val();
-                if (nilaiSurut !== '') {
-                    var nilaiTotal = parseInt(nilaiBrg) * 1 - parseInt(nilaiSurut);
-                } else {
-                    var nilaiTotal = parseInt(nilaiBrg) * 1
-                }
-                $("#nilaiTotal").val(nilaiTotal);
-            });
-        });
-        
-</script>
+@include('umum.asset.jqueryFormatRupiah.create')
 @endpush

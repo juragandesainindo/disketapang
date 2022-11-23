@@ -48,8 +48,8 @@ class KibAController extends Controller
         }
 
 
+        require_once 'StoreFormatUang.php';
         AssetUmum::create($input);
-        // toast('Create Kib A has been successfully', 'error');
 
         Alert::success('Success', 'Create Kib A has been successfully');
 
@@ -83,6 +83,8 @@ class KibAController extends Controller
             $file->move(\public_path('umum/asset/kib-a'), $kib->foto);
             $request['foto'] = $kib->foto;
         }
+
+        require_once 'StoreFormatUang.php';
 
         $input['foto'] = $kib->foto;
         $kib->update($input);

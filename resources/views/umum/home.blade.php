@@ -35,7 +35,11 @@
 
 <main class="content">
     <div class="container-fluid p-0">
-        <h1 class="h3 mb-3">Dashboard</h1>
+        <h1 class="h3 mb-3 d-flex justify-content-between">Dashboard
+            <a href="{{ asset('adminKit/panduan/panduan-aplikasi-tangan-sub-umum.pdf') }}" target="_blank"
+                class="btn btn-primary btn-sm"><i data-feather="download-cloud"></i> &nbsp;&nbsp; Panduan
+                Lengkap</a>
+        </h1>
         <div class="row">
             <div class="col-xl-12 col-xxl-5 d-flex">
                 <div class="w-100">

@@ -63,7 +63,8 @@ class KibBController extends Controller
         foreach ($request->addmore as $key => $value) {
             $pegawai = ++$key;
         }
-        $input['nilai_perolehan'] = $request->nilai_brg * $pegawai - $request->nilai_surut;
+
+        require_once 'StoreFormatUangKibB.php';
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
@@ -147,13 +148,15 @@ class KibBController extends Controller
                 $pegawai2 = ++$key;
             }
             $pegawais = $pegawai + $pegawai2;
-            // dd($pegawais);
-            $input['nilai_perolehan'] = $request->nilai_brg * $pegawais - $request->nilai_surut;
+
+            include_once 'StoreFormatUangKibB.php';
+            // $input['nilai_perolehan'] = $request->nilai_brg * $pegawais - $request->nilai_surut;
         } else {
             foreach ($kib->assetUmumPegawai as $key => $value) {
                 $pegawai = ++$key;
             }
-            $input['nilai_perolehan'] = $request->nilai_brg * $pegawai - $request->nilai_surut;
+            include_once 'StoreFormatUangKibB.php';
+            // $input['nilai_perolehan'] = $request->nilai_brg * $pegawai - $request->nilai_surut;
         }
         // dd($pegawai);
 

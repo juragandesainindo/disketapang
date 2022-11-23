@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Umum\asset\laporan;
 
+use App\Http\Controllers\Controller;
 use App\Models\AssetUmum;
 use App\Models\Pegawai;
 use Barryvdh\DomPDF\Facade as PDF;

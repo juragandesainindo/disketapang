@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Umum\Asset\Perawatan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\umum\asset\PerawatanAssetRequest;
 use App\Models\AssetUmum;
-use App\Models\Pegawai;
 use App\Models\PerawatanAssetUmum;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -21,6 +20,7 @@ class PerawatanAtbController extends Controller
      */
     public function index(Request $request)
     {
+
         $filter = $request->get('search');
         if ($request->has('search')) {
             $kibs = PerawatanAssetUmum::whereHas('assetUmum', function ($q) use ($filter) {
@@ -54,7 +54,6 @@ class PerawatanAtbController extends Controller
     public function store(PerawatanAssetRequest $request)
     {
         $input = $request->validated();
-
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             $imageName = time() . '_' . $file->getClientOriginalName();
@@ -62,6 +61,7 @@ class PerawatanAtbController extends Controller
             $input['foto'] = $imageName;
         }
 
+        require_once 'StoreFormatUang.php';
         PerawatanAssetUmum::create($input);
 
         Alert::success('Success', 'Create Perawatan Asset Tak Berwujud has been successfully');
@@ -77,22 +77,8 @@ class PerawatanAtbController extends Controller
      */
     public function show($id)
     {
-        $kib = PerawatanAssetUmum::findOrFail($id);
+        require_once 'Show.php';
 
-        $kasubUmum = Pegawai::all();
-        $namakasubUmum = "";
-        $nipkasubUmum = "";
-        foreach ($kasubUmum as $kad) {
-            foreach ($kad->pegawaiJabatan->where('nama_jabatan', 'Kasubbag Umum') as $val) {
-                if ($kad->pegawaiJabatan->count() > 0) {
-                    $namakasubUmum = $kad->nama;
-                    $nipkasubUmum = $kad->nip;
-                } else {
-                }
-            }
-        }
-        // dd($namakasubUmum);
-        // dd($kib);
         $pdf = PDF::loadView('umum.asset.perawatan-asset.atb.pdf', compact('kib', 'namakasubUmum', 'nipkasubUmum'))
             ->setPaper('a4', 'landscape');
         $fileName = date(now());
@@ -135,6 +121,7 @@ class PerawatanAtbController extends Controller
         }
         $input['foto'] = $kib->foto;
 
+        require_once 'StoreFormatUang.php';
         $kib->update($input);
 
         Alert::success('Success', 'Update Perawatan Asset Tak Berwujud has been successfully');

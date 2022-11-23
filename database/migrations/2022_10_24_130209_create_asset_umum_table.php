@@ -19,7 +19,7 @@ class CreateAssetUmumTable extends Migration
             $table->date('tgl_perolehan');
             $table->string('nilai_brg', 100);
             $table->string('nilai_perolehan', 100)->nullable();
-            $table->string('nilai_surut', 100)->nullable();
+            $table->string('nilai_surut', 100)->nullable()->default(0);
             $table->string('sertifikat', 100)->nullable();
             $table->text('alamat')->nullable();
             $table->string('luas', 100)->nullable();

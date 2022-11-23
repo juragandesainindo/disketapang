@@ -70,6 +70,7 @@ class PerawatanKibBController extends Controller
             $input['foto'] = $imageName;
         }
 
+        require_once 'StoreFormatUang.php';
         PerawatanAssetPegawai::create($input);
 
         Alert::success('Success', 'Create Perawatan Asset Kib B has been successfully');
@@ -104,8 +105,7 @@ class PerawatanKibBController extends Controller
                 }
             }
         }
-        // dd($namakasubUmum);
-        // dd($kib);
+
         $pdf = PDF::loadView('umum.asset.perawatan-asset.kib-b.pdf', compact('kib', 'namakasubUmum', 'nipkasubUmum', 'kodeBrg'))
             ->setPaper('a4', 'landscape');
         $fileName = date(now());
@@ -147,6 +147,7 @@ class PerawatanKibBController extends Controller
             $input['foto'] = $kib->foto;
         }
 
+        require_once 'StoreFormatUang.php';
         $kib->update($input);
 
         Alert::success('Success', 'Update Perawatan Asset Kib B has been successfully');

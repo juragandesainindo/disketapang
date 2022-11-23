@@ -12,8 +12,7 @@ class BackgroundImageLoginController extends Controller
     public function index()
     {
         $images = BackgroundImage::orderByDesc('updated_at')->get();
-        $prev = BackgroundImage::orderBy('updated_at', 'desc')->first();
-        return view('background-image.index', compact('images', 'prev'));
+        return view('background-image.index', compact('images'));
     }
 
     public function store(Request $request)

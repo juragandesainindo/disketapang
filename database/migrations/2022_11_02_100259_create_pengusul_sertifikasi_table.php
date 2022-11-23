@@ -16,6 +16,8 @@ class CreatePengusulSertifikasiTable extends Migration
         Schema::create('pengusul_sertifikasi', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('dkt_kelompok_id')->unsigned();
+            $table->string('komoditi')->nullable();
+            $table->string('tahun')->nullable();
             $table->timestamps();
             $table->foreign('dkt_kelompok_id')->references('id')->on('dkt_kelompok')->onDelete('cascade');
         });

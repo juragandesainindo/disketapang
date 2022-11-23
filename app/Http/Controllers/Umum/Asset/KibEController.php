@@ -61,6 +61,7 @@ class KibEController extends Controller
             $input['foto'] = $imageName;
         }
 
+        require_once 'StoreFormatUang.php';
         AssetUmum::create($input);
 
         Alert::success('Success', 'Create Kib E has been successfully.');
@@ -114,6 +115,7 @@ class KibEController extends Controller
             $request['foto'] = $kib->foto;
         }
 
+        require_once 'StoreFormatUang.php';
         $input['foto'] = $kib->foto;
         $kib->update($input);
 

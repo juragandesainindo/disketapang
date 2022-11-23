@@ -42,34 +42,58 @@
             </div>
         </div>
 
+        <div class="row mb-3 mt-2">
+            <div class="col-lg-6 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-6 mb-1">
+                        <form action="{{ route('laporan-asset.index') }}" method="get">
+                            <button type="submit" name="ganjil" class="btn btn-outline-primary"
+                                style="width: 100%;">Semester
+                                Ganjil {{ date('Y') }}</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 col-6 mb-1">
+                        <form action="{{ route('laporan-asset.pdf') }}" method="get" target="_blank">
+                            <button type="submit" name="ganjil" class="btn btn-primary" style="width: 100%;">Export
+                                PDF Ganjil {{ date('Y') }}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-6 mb-1">
+                        <form action="{{ route('laporan-asset.index') }}" method="get">
+                            <button type="submit" name="genap" class="btn btn-outline-primary"
+                                style="width: 100%;">Semester
+                                Genap {{ date('Y') }}</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 col-6 mb-1">
+                        <form action="{{ route('laporan-asset.pdf') }}" method="get" target="_blank">
+                            <button type="submit" name="genap" class="btn btn-primary" style="width: 100%;">Export
+                                PDF Genap {{ date('Y') }}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row mb-3">
-            <div class="col-lg-4 col-md-6 btn-group">
+            <div class="col-lg-4 col-md-6 mb-1">
                 <form action="{{ route('laporan-asset.index') }}" method="get">
-                    <button type="submit" name="ganjil" class="btn btn-outline-primary w-100 mt-2">Semester
-                        Ganjil {{ date('Y') }}</button>
-                </form>
-                <form action="{{ route('laporan-asset.pdf') }}" method="get" target="_blank">
-                    <button type="submit" name="ganjil" class="btn btn-outline-primary w-100 mt-2">Export</button>
+                    <label for="">Pilih Tahun</label>
+                    <input type="number" name="year" class="form-control year" placeholder="Input tahun">
                 </form>
             </div>
-            <div class="col-lg-4 col-md-6 btn-group">
-                <form action="{{ route('laporan-asset.index') }}" method="get">
-                    <button type="submit" name="genap" class="btn btn-outline-primary w-100 mt-2">Semester
-                        Genap {{ date('Y') }}</button>
-                </form>
+            <div class="col-lg-4 col-md-6 mb-1">
                 <form action="{{ route('laporan-asset.pdf') }}" method="get" target="_blank">
-                    <button type="submit" name="genap" class="btn btn-outline-primary w-100 mt-2">Export</button>
+                    <label for="">Export Pdf Berdasarkan Tahun</label>
+                    <input type="number" name="year" class="form-control year" placeholder="Input tahun">
                 </form>
             </div>
-            <div class="col-lg-4 col-md-6 btn-group">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#showTahun"
-                    class="btn btn-outline-primary w-100 mt-2">
-                    <i data-feather="calendar"></i>&nbsp; Pilih Tahun
-                </a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#printTahun"
-                    class="btn btn-outline-primary w-100 mt-2">
-                    <i data-feather="download-cloud"></i>&nbsp; Print
-                </a>
+            <div class="col-lg-4 col-md-6 mb-1">
+                <label for=""></label>
+                <a href="{{ route('laporan-asset.index') }}" class="btn btn-secondary" style="width: 100%;">Refresh</a>
             </div>
         </div>
 
@@ -137,8 +161,7 @@
             </div>
             <form action="{{ route('laporan-asset.index') }}" method="GET">
                 <div class="modal-body">
-                    <select id="mySelect2" name="year" class="form-control js-example-basic-single" width="100%"
-                        required>
+                    <select id="mySelect2" name="year" class="show-tahun form-control" style="width: 100%;" required>
                         {{ $last= date('Y')-100 }}
                         {{ $now = date('Y') }}
                         <option value="">Pilih Tahun</option>
@@ -167,8 +190,7 @@
             </div>
             <form action="{{ route('laporan-asset.pdf') }}" method="GET" target="_blank">
                 <div class="modal-body">
-                    <select id="mySelect2" name="year" class="form-control js-example-basic-single" width="100%"
-                        required>
+                    <select id="mySelect2" name="year" class="form-control print-tahun" width="100%" required>
                         {{ $last= date('Y')-100 }}
                         {{ $now = date('Y') }}
                         <option value="">Pilih Tahun</option>
@@ -187,12 +209,3 @@
     </div>
 </div>
 @endsection
-
-@push('js')
-<script>
-    $('#mySelect2').select2({
-            dropdownParent: $('#showTahun'),
-            width: '100%'
-        });
-</script>
-@endpush

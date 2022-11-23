@@ -62,6 +62,8 @@ class KibCController extends Controller
             $input['foto'] = $imageName;
         }
 
+        require_once 'StoreFormatUang.php';
+
         AssetUmum::create($input);
 
         Alert::success('Success', 'Create Kib C has been successfully.');
@@ -114,6 +116,8 @@ class KibCController extends Controller
             $file->move(\public_path('umum/asset/kib-c'), $kib->foto);
             $request['foto'] = $kib->foto;
         }
+
+        require_once 'StoreFormatUang.php';
 
         $input['foto'] = $kib->foto;
 

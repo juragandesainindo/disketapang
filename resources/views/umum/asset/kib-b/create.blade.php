@@ -301,49 +301,5 @@
     $(document).on('click', '.remove-tr', function(){  
          $(this).parents('tr').remove();
     });  
-   
-
 </script>
-{{-- <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-</script> --}}
 @endpush
-
-{{-- @push('js')
-<script>
-    $(document).ready(function(){   
-        $("#nilaiBrg, #nilaiSurut").keyup(function(){
-            var nilaiBrg = $("#nilaiBrg").val();
-            var nilaiSurut = $("#nilaiSurut").val();
-            if (nilaiSurut !== '') {
-                var nilaiTotal = parseInt(nilaiBrg) * 1 - parseInt(nilaiSurut);
-            } else {
-                var nilaiTotal = parseInt(nilaiBrg) * 1
-            }
-            $("#nilaiTotal").val(nilaiTotal);
-        });
-    });
-</script>
-@endpush --}}
-
-{{-- $(".pemakai").change(function(){
-var count = 0;
-$.each($(".pemakai option:selected"), function(){
-++count;
-});
-var jumlahHasil = $("#hasil").val(+ count);
-});
-
-$("#nilaiBrg").keyup(function() {
-var jumlahHasil = $("#hasil").val();
-var nilaiBrg = $("#nilaiBrg").val();
-var nilaiTotal = parseInt(jumlahHasil) * parseInt(nilaiBrg);
-$("#nilaiTotal").val(function(){
-return nilaiTotal;
-});
-}); --}}

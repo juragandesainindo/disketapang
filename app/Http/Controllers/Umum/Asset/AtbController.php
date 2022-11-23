@@ -61,6 +61,7 @@ class AtbController extends Controller
             $input['foto'] = $imageName;
         }
 
+        require_once 'StoreFormatUang.php';
         AssetUmum::create($input);
 
         Alert::success('Success', 'Create Asset tak berwujud has been successfully.');
@@ -114,6 +115,7 @@ class AtbController extends Controller
             $request['foto'] = $atb->foto;
         }
 
+        require_once 'StoreFormatUang.php';
         $input['foto'] = $atb->foto;
         $atb->update($input);
 
